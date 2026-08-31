@@ -1,0 +1,448 @@
+/* Drag & Drop */
+
+.eas-drag-options{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;          /* space between words */
+    margin-top:15px;
+}
+
+.eas-draggable-word{
+    display:inline-block;
+    padding:6px 12px;
+    border:1px solid #bbb;
+    border-radius:4px;
+    background:#f8f8f8;
+    cursor:grab;
+    user-select:none;
+}
+
+.eas-drop-blank{
+    display:inline-block;
+    min-width:70px;
+    min-height:24px;
+    padding:2px 6px;
+    margin:0 2px;
+    border-bottom:2px solid #444;
+    text-align:center;
+}
+
+.eas-drop-blank.filled{
+    border-bottom:2px solid #0073aa;
+}
+/* TOEFL-style C-Test blanks */
+
+.eas-c-test-blank {
+    display: inline-flex;
+    gap: 3px;
+    vertical-align: middle;
+    margin: 0 3px;
+}
+
+
+.eas-letter-input {
+
+    width: 1.15em;
+    height: 1.4em;
+
+    padding: 0;
+
+    text-align: center;
+
+    font-family: inherit;
+    font-size: inherit;
+
+    background: rgba(0,0,0,0.08);
+
+    border: 1px solid rgba(0,0,0,0.25);
+
+    border-radius: 3px;
+
+}
+
+
+.eas-letter-input:focus {
+
+    background: rgba(0,120,255,0.12);
+
+    outline: 2px solid rgba(0,120,255,0.35);
+
+}
+.eas-letter-input {
+    color: #000 !important;
+    background: rgba(255,255,0,0.25) !important;
+    border: 1px solid #555 !important;
+}
+/* =========================================================
+   EAS C-Test / Fill-in-Blanks Letter Inputs
+   TOEFL-style single-letter blanks
+   ========================================================= */
+
+
+.eas-c-test-blank {
+
+    display: inline-flex;
+
+    gap: 3px;
+
+    vertical-align: middle;
+
+}
+
+
+
+.eas-letter-input {
+
+    /*
+     * Every letter has the same width.
+     * Width is based on "m" (approximately the widest
+     * alphabetic character), avoiding hints from letter shape.
+     */
+
+    width: 1.15em !important;
+
+    height: 1.8em !important;
+
+    min-height: 1.8em !important;
+
+
+    padding: 0 !important;
+
+    margin: 0 1px !important;
+
+
+    text-align: center !important;
+
+
+    /*
+     * Monospace ensures equal character spacing.
+     */
+
+    font-family: "Courier New", monospace !important;
+
+
+    font-size: 1em !important;
+
+    line-height: 1.8em !important;
+
+
+    /*
+     * Student-entered letters.
+     */
+
+    color: #000 !important;
+
+
+    /*
+     * Semi-transparent blank box.
+     */
+
+    background: rgba(0, 0, 0, 0.08) !important;
+
+
+    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+
+    border-radius: 3px !important;
+
+
+    /*
+     * Remove WordPress/theme input styling.
+     */
+
+    box-shadow: none !important;
+
+
+    opacity: 1 !important;
+
+    overflow: visible !important;
+
+
+    vertical-align: middle !important;
+
+}
+
+
+
+/*
+ * Active typing position
+ */
+
+.eas-letter-input:focus {
+
+    background: rgba(255, 220, 0, 0.35) !important;
+
+    border-color: #333 !important;
+
+    outline: none !important;
+
+}
+/* TOEFL-style split layout */
+
+.eas-split-layout{
+
+    display:flex;
+
+    gap:24px;
+
+    align-items:flex-start;
+
+}
+
+.eas-left-panel{
+
+    width:50%;
+
+    padding-right:20px;
+
+    border-right:1px solid #ddd;
+
+    box-sizing:border-box;
+
+}
+
+.eas-right-panel{
+
+    width:50%;
+
+    padding-left:20px;
+
+    box-sizing:border-box;
+
+}
+
+.eas-description-question{
+
+    height:100%;
+
+}
+
+@media (max-width:768px){
+
+    .eas-split-layout{
+
+        display:block;
+
+    }
+
+    .eas-left-panel,
+    .eas-right-panel{
+
+        width:100%;
+        padding:0;
+        border:none;
+
+    }
+
+}
+.eas-speaking-countdown {
+    width: 350px;
+    max-width: 90%;
+    margin: 20px auto;
+}
+
+
+.eas-progress-label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+
+.eas-progress-bar {
+
+    width: 100%;
+    height: 18px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+
+}
+
+
+.eas-progress-fill {
+
+    height: 100%;
+    width: 100%;
+    background: #2271b1;
+    transition: width 1s linear;
+
+}
+
+
+.eas-progress-time {
+
+    margin-top: 8px;
+    text-align: center;
+
+}
+/* EAS Essay response box */
+.eas-essay-response textarea.large-text {
+    width: 40% !important;
+    min-width: 450px;
+    height: 300px;
+    resize: vertical;
+}
+.eas-essay-toolbar {
+    margin-bottom: 5px;
+}
+
+.eas-essay-toolbar button {
+    padding: 3px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.eas-page-navigation {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.eas-page-navigation .button {
+    margin: 0;
+}
+/* =========================================================
+   EAS Quiz Header Toolbar
+   ========================================================= */
+
+.eas-quiz-header {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: stretch;
+
+    width: 100%;
+    min-height: 52px;
+
+    background: #066A6E;
+    color: #fff;
+
+    box-sizing: border-box;
+
+    margin: 0 0 25px 0;
+}
+
+
+/* ---------------------------------------------------------
+   Quiz Name
+   --------------------------------------------------------- */
+
+.eas-quiz-header-name {
+    display: flex;
+    align-items: center;
+
+    padding: 10px 20px;
+
+    color: #fff;
+    font-weight: 600;
+
+    box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------
+   Timer
+   --------------------------------------------------------- */
+
+.eas-quiz-header-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 20px;
+
+    color: #fff;
+
+    white-space: nowrap;
+
+    box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------
+   Navigation
+   --------------------------------------------------------- */
+
+.eas-quiz-header-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    padding: 10px 20px;
+
+    white-space: nowrap;
+
+    box-sizing: border-box;
+}
+
+
+/*
+ * WordPress buttons normally have their own colors.
+ * Keep them readable against the teal toolbar.
+ */
+
+.eas-quiz-header-navigation .button {
+    margin: 0;
+}
+
+
+/*
+ * Make the primary Next button fit the toolbar.
+ */
+
+.eas-quiz-header-navigation .button-primary {
+    margin: 0;
+}
+
+
+/* ---------------------------------------------------------
+   Empty fields
+   --------------------------------------------------------- */
+
+/*
+ * Empty timer/navigation fields remain as structural
+ * parts of the toolbar.
+ */
+
+.eas-quiz-header-time:empty,
+.eas-quiz-header-navigation:empty {
+    min-height: 52px;
+}
+
+
+/* ---------------------------------------------------------
+   Mobile
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .eas-quiz-header {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+
+    .eas-quiz-header-name {
+        justify-content: center;
+        text-align: center;
+
+        padding: 10px 12px;
+    }
+
+
+    .eas-quiz-header-time {
+        justify-content: center;
+        text-align: center;
+
+        padding: 8px 12px;
+    }
+
+
+    .eas-quiz-header-navigation {
+        justify-content: center;
+
+        padding: 8px 12px;
+    }
+
+}
