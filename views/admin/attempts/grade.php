@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 
 <p>
 
-Grades saved successfully.
+<?php esc_html_e('Grades saved successfully.', 'eas-quiz'); ?>
 
 </p>
 
@@ -23,16 +23,16 @@ Grades saved successfully.
 <p>
 
 <a class="button"
-href="<?php echo admin_url(
+href="<?php echo esc_url(admin_url(
     'admin.php?page=eas-attempts'
-); ?>">
+)); ?>">
 
-← Back to Attempts
+← <?php esc_html_e('Back to Attempts', 'eas-quiz'); ?>
 
 </a>
 
 </p><form method="post"
-      action="<?php echo admin_url('admin-post.php'); ?>">
+      action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
 
 <input type="hidden"
        name="action"
@@ -49,7 +49,7 @@ href="<?php echo admin_url(
 ); ?>
 
 <h1>
-Grade Attempt
+<?php esc_html_e('Grade Attempt', 'eas-quiz'); ?>
 </h1>
 
 
@@ -60,7 +60,7 @@ Grade Attempt
 
 
 <p>
-<strong>Quiz:</strong>
+<strong><?php esc_html_e('Quiz:', 'eas-quiz'); ?></strong>
 
 <?php echo esc_html($attempt['quiz_title']); ?>
 
@@ -68,7 +68,7 @@ Grade Attempt
 
 
 <p>
-<strong>Status:</strong>
+<strong><?php esc_html_e('Status:', 'eas-quiz'); ?></strong>
 
 <?php echo esc_html($attempt['status']); ?>
 
@@ -85,7 +85,7 @@ Grade Attempt
 
 
 <p>
-No responses found.
+<?php esc_html_e('No responses found.', 'eas-quiz'); ?>
 </p>
 
 
@@ -115,7 +115,7 @@ No responses found.
 <p>
 
 <strong>
-Type:
+<?php esc_html_e('Type:', 'eas-quiz'); ?>
 </strong>
 
 <?php echo esc_html(
@@ -133,7 +133,7 @@ Type:
 
 <p>
 <strong>
-Student recording:
+<?php esc_html_e('Student recording:', 'eas-quiz'); ?>
 </strong>
 </p>
 
@@ -160,7 +160,7 @@ type="audio/webm">
 <p>
 
 <strong>
-Student answer:
+<?php esc_html_e('Student answer:', 'eas-quiz'); ?>
 </strong>
 
 </p>
@@ -184,7 +184,7 @@ Student answer:
 <p>
 
 <strong>
-Points:
+<?php esc_html_e('Points:', 'eas-quiz'); ?>
 </strong>
 
 <input type="number"
@@ -218,7 +218,7 @@ Points:
 <p>
 
 <strong>
-Feedback:
+<?php esc_html_e('Feedback:', 'eas-quiz'); ?>
 </strong>
 
 </p>
@@ -252,7 +252,7 @@ style="width:100%;"
 
 <?php endif; ?>
 <?php submit_button(
-    'Save Grades'
+    __('Save Grades', 'eas-quiz')
 ); ?>
 
 
