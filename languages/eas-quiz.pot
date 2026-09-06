@@ -488,3 +488,263 @@ msgstr ""
 #: views/frontend/question/audio.php
 msgid "Get ready"
 msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Pages"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Quiz:"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Unknown quiz"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Back to Quizzes"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "No pages found."
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Page"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Page Time"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "%d sec"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Questions"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Points"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Actions"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Edit"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Delete this page and all of its questions permanently?"
+msgstr ""
+
+#: views/admin/pages/list.php
+msgid "Delete"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "No completed attempts found."
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "Attempts"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "All quizzes"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "All"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "Filter"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "Started"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "Duration"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "Action"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "Needs grading"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "Grade"
+msgstr ""
+
+#: views/admin/attempts/index.php
+msgid "Are you sure you want to permanently delete this student attempt? All answers and associated audio recordings will also be deleted."
+msgstr ""
+
+#: views/admin/attempts/grade.php
+msgid "Grades saved successfully."
+msgstr ""
+
+#: views/admin/attempts/grade.php
+msgid "Back to Attempts"
+msgstr ""
+
+#: views/admin/attempts/grade.php
+msgid "Grade Attempt"
+msgstr ""
+
+#: views/admin/attempts/grade.php
+msgid "Type:"
+msgstr ""
+
+#: views/admin/attempts/grade.php
+msgid "Student recording:"
+msgstr ""
+
+#: views/admin/attempts/grade.php
+msgid "Student answer:"
+msgstr ""
+
+#: views/admin/attempts/grade.php
+msgid "Feedback:"
+msgstr ""
+
+#: views/admin/attempts/grade.php
+msgid "Save Grades"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Edit Question"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Create New Question"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Question Bank"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "This question will be saved in the %s and will not be assigned to a page yet."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Question Type"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Multiple Choice"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Drag and Drop into Text"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Fill in the Blanks (C-Test)"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Audio Response"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "General Feedback"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Enter general feedback. HTML is allowed."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "General feedback shown after the question is answered. HTML is allowed."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Delay Before Recording"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Seconds after page load before preparation countdown begins."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Include page loading time + instruction audio length."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Preparation Countdown"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Seconds before recording starts."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Recording Duration"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Speaking time (12-60 seconds)."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "%s %d"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Option"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Correct"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Instructions"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Use placeholders in the question text to create drag-and-drop gaps."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Example:"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Distractor"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Minimum answer lines"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Minimum visible writing lines for students."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Enter the correct missing letters in square brackets."
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Update Question"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Save Question"
+msgstr ""
+
+#: views/admin/questions/form.php
+msgid "Cancel"
+msgstr ""
