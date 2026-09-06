@@ -59,17 +59,17 @@ if (!defined('ABSPATH')) {
 <div class="wrap">
 
 <h1>
-Pages
+<?php esc_html_e('Pages', 'eas-quiz'); ?>
 </h1>
 
 <p>
 
 <strong>
-Quiz:
+<?php esc_html_e('Quiz:', 'eas-quiz'); ?>
 </strong>
 
 <?php echo esc_html(
-    $quiz['title'] ?? 'Unknown quiz'
+    $quiz['title'] ?? __('Unknown quiz', 'eas-quiz')
 ); ?>
 
 </p>
@@ -81,7 +81,7 @@ href="<?php echo esc_url(
     admin_url('admin.php?page=eas-quizzes')
 ); ?>">
 
-← Back to Quizzes
+← <?php esc_html_e('Back to Quizzes', 'eas-quiz'); ?>
 
 </a>
 
@@ -96,7 +96,7 @@ href="<?php echo esc_url(
     )
 ); ?>">
 
-Add New Page
+<?php esc_html_e('Add New Page', 'eas-quiz'); ?>
 
 </a>
 
@@ -105,7 +105,7 @@ Add New Page
 <?php if (empty($pages)): ?>
 
 <p>
-No pages found.
+<?php esc_html_e('No pages found.', 'eas-quiz'); ?>
 </p>
 
 <?php else: ?>
@@ -121,23 +121,23 @@ No pages found.
 </th>
 
 <th>
-Page
+<?php esc_html_e('Page', 'eas-quiz'); ?>
 </th>
 
 <th>
-Page Time
+<?php esc_html_e('Page Time', 'eas-quiz'); ?>
 </th>
 
 <th>
-Questions
+<?php esc_html_e('Questions', 'eas-quiz'); ?>
 </th>
 
 <th>
-Points
+<?php esc_html_e('Points', 'eas-quiz'); ?>
 </th>
 
 <th>
-Actions
+<?php esc_html_e('Actions', 'eas-quiz'); ?>
 </th>
 
 </tr>
@@ -189,7 +189,10 @@ $page_time_limit = (int) ($page['page_time_limit'] ?? 0);
 
 if ($page_time_limit > 0) {
 
-    echo esc_html($page_time_limit . ' sec');
+    printf(
+        esc_html__('%d sec', 'eas-quiz'),
+        $page_time_limit
+    );
 
 } else {
 
@@ -211,7 +214,7 @@ if ($page_time_limit > 0) {
 <td>
 
 <?php echo esc_html(
-    number_format(
+    number_format_i18n(
         (float) ($page['page_points'] ?? 0),
         2
     )
@@ -230,7 +233,7 @@ if ($page_time_limit > 0) {
     )
 ); ?>">
 
-Edit
+<?php esc_html_e('Edit', 'eas-quiz'); ?>
 
 </a>
 
@@ -245,7 +248,7 @@ Edit
     )
 ); ?>">
 
-Questions
+<?php esc_html_e('Questions', 'eas-quiz'); ?>
 
 </a>
 
@@ -265,10 +268,10 @@ href="<?php echo esc_url(
         'eas_delete_page_' . $page_id
     )
 ); ?>"
-onclick="return confirm('Delete this page and all of its questions permanently?');"
+onclick="return confirm('<?php echo esc_js(__('Delete this page and all of its questions permanently?', 'eas-quiz')); ?>');"
 >
 
-Delete
+<?php esc_html_e('Delete', 'eas-quiz'); ?>
 
 </a>
 
