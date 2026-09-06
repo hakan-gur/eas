@@ -878,14 +878,6 @@ msgid "Invalid attempt."
 msgstr ""
 
 #: src/Admin/Quiz/QuizController.php
-msgid "Invalid quiz."
-msgstr ""
-
-#: src/Admin/Quiz/QuizController.php
-msgid "Quiz not found."
-msgstr ""
-
-#: src/Admin/Quiz/QuizController.php
 msgid "Quiz duplication failed."
 msgstr ""
 
@@ -902,10 +894,6 @@ msgid "Time Limit"
 msgstr ""
 
 #: src/Admin/QuizForm.php
-msgid "minutes"
-msgstr ""
-
-#: src/Admin/QuizForm.php
 msgid "Enter 0 for no time limit."
 msgstr ""
 
@@ -919,10 +907,6 @@ msgstr ""
 
 #: src/Frontend/QuizShortcode.php
 msgid "Quiz ID missing."
-msgstr ""
-
-#: src/Frontend/QuizRenderer.php
-msgid "Quiz not found."
 msgstr ""
 
 #: src/Frontend/ResultController.php
@@ -946,10 +930,6 @@ msgid "This quiz attempt has not been completed."
 msgstr ""
 
 #: src/Attempt/AttemptRenderer.php
-msgid "Attempt not found."
-msgstr ""
-
-#: src/Attempt/AttemptRenderer.php
 msgid "No pages found."
 msgstr ""
 
@@ -958,19 +938,11 @@ msgid "Please log in to view your quiz results."
 msgstr ""
 
 #: src/Result/ResultRenderer.php
-msgid "Attempt not found."
-msgstr ""
-
-#: src/Result/ResultRenderer.php
 msgid "Total Score:"
 msgstr ""
 
 #: src/Result/ResultRenderer.php
 msgid "Time Spent:"
-msgstr ""
-
-#: src/Result/ResultRenderer.php
-msgid "minutes"
 msgstr ""
 
 #: src/Result/ResultRenderer.php
@@ -1014,10 +986,6 @@ msgid "Add to Page"
 msgstr ""
 
 #: views/admin/questions/preview.php
-msgid "Question Preview"
-msgstr ""
-
-#: views/admin/questions/preview.php
 msgid "Answers"
 msgstr ""
 
@@ -1027,10 +995,6 @@ msgstr ""
 
 #: views/admin/questions/preview.php
 msgid "correct"
-msgstr ""
-
-#: views/admin/questions/preview.php
-msgid "Back to Questions"
 msgstr ""
 
 #: views/frontend/question/item.php
