@@ -18,11 +18,8 @@ if (!defined('ABSPATH')) {
        <?php
        if (
            $response
-           &&
-           isset($response['answer'])
-           &&
-           (string) $response['answer']
-           === (string) $option['id']
+           && isset($response['answer'])
+           && (string) $response['answer'] === (string) $option['id']
        ) {
            echo 'checked';
        }
@@ -40,7 +37,7 @@ if (!defined('ABSPATH')) {
 </div>
 <?php else: ?>
 <p>
-No answers found.
+<?php esc_html_e('No answers found.', 'eas-quiz'); ?>
 </p>
 <?php endif; ?>
 </div>
