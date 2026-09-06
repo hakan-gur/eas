@@ -64,7 +64,9 @@ $this->quizzes = new QuizRepository();
 
         if (!$attempt_id) {
 
-            wp_die('Invalid attempt.');
+            wp_die(
+                esc_html__('Invalid attempt.', 'eas-quiz')
+            );
 
         }
 
@@ -109,7 +111,7 @@ public function save(): void
     if (!$attempt_id) {
 
         wp_die(
-            'Invalid attempt.'
+            esc_html__('Invalid attempt.', 'eas-quiz')
         );
 
     }
