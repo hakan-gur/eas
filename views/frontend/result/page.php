@@ -5,20 +5,16 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="eas-result">
     <h2>
-        <?php echo esc_html(
-            $attempt['quiz_title']
-        ); ?>
+        <?php echo esc_html($attempt['quiz_title']); ?>
     </h2>
     <p>
-        <strong>Score:</strong>
-        <?php echo esc_html(
-            $attempt['score']
-        ); ?>
+        <strong><?php esc_html_e('Score:', 'eas-quiz'); ?></strong>
+        <?php echo esc_html($attempt['score']); ?>
     </p>
     <hr>
     <?php
-$review_question_number = 0;
-?>
+    $review_question_number = 0;
+    ?>
     <?php foreach ($page_responses as $page_index => $page_data): ?>
         <?php
         $page = $page_data['page'];
@@ -27,19 +23,20 @@ $review_question_number = 0;
         ?>
         <div class="eas-result-page">
             <h2 class="eas-result-page-title">
-                Page <?php echo esc_html(
+                <?php
+                printf(
+                    esc_html__('Page %d', 'eas-quiz'),
                     $page_index + 1
-                ); ?>
+                );
+                ?>
                 <?php if (!empty($page['title'])): ?>
                     :
-                    <?php echo esc_html(
-                        $page['title']
-                    ); ?>
+                    <?php echo esc_html($page['title']); ?>
                 <?php endif; ?>
             </h2>
             <?php if (empty($page_responses_list)): ?>
                 <p>
-                    No responses on this page.
+                    <?php esc_html_e('No responses on this page.', 'eas-quiz'); ?>
                 </p>
             <?php else: ?>
                 <?php foreach (
@@ -47,27 +44,23 @@ $review_question_number = 0;
                     as $index => $response
                 ): ?>
                 <?php
-$review_question_number++;
-?>
+                $review_question_number++;
+                ?>
                     <div class="eas-result-question">
                         <h3>
-    Question
-    <?php echo esc_html(
-        $review_question_number
-    ); ?>
-</h3>
+                            <?php
+                            printf(
+                                esc_html__('Question %d', 'eas-quiz'),
+                                $review_question_number
+                            );
+                            ?>
+                        </h3>
                         <div>
                             <?php echo wp_kses_post(
                                 $response['question_text']
                             ); ?>
                         </div>
                         <?php
-                        /*
-                         * Description questions:
-                         *
-                         * These are informational content only.
-                         * Do not display an answer or points.
-                         */
                         if (
                             ($response['type'] ?? '')
                             !== 'description'
@@ -75,203 +68,138 @@ $review_question_number++;
                         ?>
                             <p>
                                 <strong>
-                                    Your answer:
+                                    <?php esc_html_e('Your answer:', 'eas-quiz'); ?>
                                 </strong>
                                 <?php
                                 $answer =
                                     $response['answer']
                                     ?? '';
-/*
- * Fill-in-the-blank response
- *
- * ResultRenderer prepares the clean student answer
- * in $response['student_answer'].
- */
-if (
-    ($response['type'] ?? '') === 'fill_blank'
-) {
-    echo esc_html(
-        $response['student_answer'] ?? ''
-    );
-}
-/*
- * Audio response
- */
-elseif (
-    str_ends_with(
-        $answer,
-        '.webm'
-    )
-) {
-    $audio_url =
-        wp_upload_dir()['baseurl']
-        . '/eas-audio/'
-        . $answer;
-    ?>
-    <audio controls>
-        <source
-            src="<?php echo esc_url(
-                $audio_url
-            ); ?>"
-            type="audio/webm">
-    </audio>
-    <?php
-}
-/*
- * Drag-and-drop response
- */
-elseif (
-    ($response['type'] ?? '') === 'drag_drop_text'
-) {
-    echo esc_html(
-        $response['student_answer'] ?? ''
-    );
-}
-/*
- * Normal answers / Multiple Choice
- */
-else {
-    /*
-     * 1. Controller-provided answer text.
-     */
-    if (
-        !empty(
-            $response['answer_text']
-        )
-    ) {
-        echo esc_html(
-            $response['answer_text']
-        );
-    }
 
-    /*
-     * 2. Options attached to the response.
-     */
-    elseif (
-        is_numeric($answer)
-        &&
-        !empty($response['options'])
-        &&
-        is_array($response['options'])
-    ) {
-        $option_label = $answer;
+                                if (
+                                    ($response['type'] ?? '') === 'fill_blank'
+                                ) {
+                                    echo esc_html(
+                                        $response['student_answer'] ?? ''
+                                    );
+                                } elseif (
+                                    str_ends_with(
+                                        $answer,
+                                        '.webm'
+                                    )
+                                ) {
+                                    $audio_url =
+                                        wp_upload_dir()['baseurl']
+                                        . '/eas-audio/'
+                                        . $answer;
+                                    ?>
+                                    <audio controls>
+                                        <source
+                                            src="<?php echo esc_url($audio_url); ?>"
+                                            type="audio/webm">
+                                    </audio>
+                                    <?php
+                                } elseif (
+                                    ($response['type'] ?? '') === 'drag_drop_text'
+                                ) {
+                                    echo esc_html(
+                                        $response['student_answer'] ?? ''
+                                    );
+                                } else {
+                                    if (!empty($response['answer_text'])) {
+                                        echo esc_html(
+                                            $response['answer_text']
+                                        );
+                                    } elseif (
+                                        is_numeric($answer)
+                                        &&
+                                        !empty($response['options'])
+                                        &&
+                                        is_array($response['options'])
+                                    ) {
+                                        $option_label = $answer;
 
-        foreach (
-            $response['options']
-            as $opt
-        ) {
-            if (
-                isset($opt['id'])
-                &&
-                (int)$opt['id']
-                === (int)$answer
-            ) {
-                $option_label =
-                    $opt['option_text']
-                    ??
-                    $opt['text']
-                    ??
-                    $opt['label']
-                    ??
-                    $answer;
+                                        foreach (
+                                            $response['options']
+                                            as $opt
+                                        ) {
+                                            if (
+                                                isset($opt['id'])
+                                                &&
+                                                (int) $opt['id']
+                                                === (int) $answer
+                                            ) {
+                                                $option_label =
+                                                    $opt['option_text']
+                                                    ??
+                                                    $opt['text']
+                                                    ??
+                                                    $opt['label']
+                                                    ??
+                                                    $answer;
 
-                break;
-            }
-        }
+                                                break;
+                                            }
+                                        }
 
-        echo esc_html(
-            $option_label
-        );
-    }
+                                        echo esc_html(
+                                            $option_label
+                                        );
+                                    } elseif (is_numeric($answer)) {
+                                        global $wpdb;
 
-    /*
-     * 3. Database lookup fallback.
-     */
-    elseif (
-        is_numeric($answer)
-    ) {
-        global $wpdb;
+                                        $answer_text =
+                                            $wpdb->get_var(
+                                                $wpdb->prepare(
+                                                    "SELECT answer_text
+                                                     FROM {$wpdb->prefix}eas_answers
+                                                     WHERE id = %d",
+                                                    intval($answer)
+                                                )
+                                            );
 
-        $answer_text =
-            $wpdb->get_var(
-                $wpdb->prepare(
-                    "SELECT answer_text
-                     FROM {$wpdb->prefix}eas_answers
-                     WHERE id = %d",
-                    intval($answer)
-                )
-            );
-
-        echo esc_html(
-            !empty($answer_text)
-                ? $answer_text
-                : $answer
-        );
-    }
-
-    /*
-     * 4. Normal string answer.
-     */
-    else {
-        echo esc_html(
-            $answer
-        );
-    }
-}
+                                        echo esc_html(
+                                            !empty($answer_text)
+                                                ? $answer_text
+                                                : $answer
+                                        );
+                                    } else {
+                                        echo esc_html($answer);
+                                    }
+                                }
                                 ?>
                             </p>
-                            <?php if (
-    !empty(
-        $response['general_feedback']
-    )
-) : ?>
-    <p>
-        <strong>
-            General feedback:
-        </strong>
-        <?php echo wp_kses_post(
-            $response['general_feedback']
-        ); ?>
-    </p>
-<?php endif; ?>
 
-<p>
-    <strong>
-        Points:
-    </strong>
-    <?php echo esc_html(
-        $response[
-            'points_awarded'
-        ]
-    ); ?>
-    /
-    <?php echo esc_html(
-        $response[
-            'max_points'
-        ]
-    ); ?>
-</p>
-                        <?php endif; ?>
-                        <?php if (
-                            !empty(
-                                $response[
-                                    'teacher_feedback'
-                                ]
-                            )
-                        ) : ?>
+                            <?php if (!empty($response['general_feedback'])) : ?>
+                                <p>
+                                    <strong>
+                                        <?php esc_html_e('General feedback:', 'eas-quiz'); ?>
+                                    </strong>
+                                    <?php echo wp_kses_post(
+                                        $response['general_feedback']
+                                    ); ?>
+                                </p>
+                            <?php endif; ?>
+
                             <p>
                                 <strong>
-                                    Teacher feedback:
+                                    <?php esc_html_e('Points:', 'eas-quiz'); ?>
+                                </strong>
+                                <?php echo esc_html($response['points_awarded']); ?>
+                                /
+                                <?php echo esc_html($response['max_points']); ?>
+                            </p>
+                        <?php endif; ?>
+
+                        <?php if (!empty($response['teacher_feedback'])) : ?>
+                            <p>
+                                <strong>
+                                    <?php esc_html_e('Teacher feedback:', 'eas-quiz'); ?>
                                 </strong>
                             </p>
-                            <div
-                                class="eas-teacher-feedback"
-                            >
+                            <div class="eas-teacher-feedback">
                                 <?php echo nl2br(
                                     esc_html(
-                                        $response[
-                                            'teacher_feedback'
-                                        ]
+                                        $response['teacher_feedback']
                                     )
                                 ); ?>
                             </div>
