@@ -36,15 +36,15 @@ if (is_array($settings)) {
 <div class="eas-essay-toolbar">
 
     <button type="button" class="eas-cut">
-        Cut
+        <?php esc_html_e('Cut', 'eas-quiz'); ?>
     </button>
 
     <button type="button" class="eas-copy">
-        Copy
+        <?php esc_html_e('Copy', 'eas-quiz'); ?>
     </button>
 
     <button type="button" class="eas-paste">
-        Paste
+        <?php esc_html_e('Paste', 'eas-quiz'); ?>
     </button>
 
 </div>
@@ -54,7 +54,7 @@ if (is_array($settings)) {
     name="question_<?php echo esc_attr($question['id']); ?>"
     class="large-text eas-essay-box"
     style="height: <?php echo (int)$min_lines * 24; ?>px;"
-    placeholder="Type your answer here;"><?php
+    placeholder="<?php echo esc_attr__('Type your answer here;', 'eas-quiz'); ?>"><?php
 echo esc_textarea(
     $response['answer'] ?? ''
 );
@@ -62,7 +62,7 @@ echo esc_textarea(
 <div class="eas-word-count"
      style="text-align:center; margin-top:5px; color:#666;">
 
-    Words: <span>0</span>
+    <?php esc_html_e('Words:', 'eas-quiz'); ?> <span>0</span>
 <script>
 
 (function(){
@@ -144,7 +144,7 @@ echo esc_textarea(
             catch(error){
 
                 alert(
-                    'Paste is not allowed by your browser.'
+                    '<?php echo esc_js(__('Paste is not allowed by your browser.', 'eas-quiz')); ?>'
                 );
 
             }
