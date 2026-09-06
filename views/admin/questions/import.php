@@ -20,12 +20,9 @@ if (!defined('ABSPATH')) {
     <h2><?php esc_html_e('Moodle GIFT Import', 'eas-quiz'); ?></h2>
 
     <p>
-        <?php
-        printf(
-            esc_html__('Paste questions exported from Moodle in %s below.', 'eas-quiz'),
-            '<strong>' . esc_html__('GIFT format', 'eas-quiz') . '</strong>'
-        );
-        ?>
+        <?php esc_html_e('Paste questions exported from Moodle in', 'eas-quiz'); ?>
+        <strong><?php esc_html_e('GIFT format', 'eas-quiz'); ?></strong>
+        <?php esc_html_e('below.', 'eas-quiz'); ?>
     </p>
 
     <p><?php esc_html_e('EAS currently supports:', 'eas-quiz'); ?></p>
@@ -56,7 +53,8 @@ if (!defined('ABSPATH')) {
 ####on + <strong>street name</strong>}</pre>
 
     <p>
-        <?php esc_html_e('The number', 'eas-quiz'); ?> <code>000</code> <?php esc_html_e('is not displayed.', 'eas-quiz'); ?>
+        <?php esc_html_e('The number', 'eas-quiz'); ?> <code>000</code>
+        <?php esc_html_e('is not displayed.', 'eas-quiz'); ?>
         <?php esc_html_e('Other question numbers are retained at the beginning of the question text.', 'eas-quiz'); ?>
     </p>
 
@@ -69,10 +67,8 @@ if (!defined('ABSPATH')) {
     <hr>
 
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-
         <input type="hidden" name="action" value="eas_import_questions">
         <input type="hidden" name="quiz_id" value="<?php echo esc_attr($quiz_id); ?>">
-
         <?php wp_nonce_field('eas_import_questions'); ?>
 
         <table class="form-table">
@@ -99,7 +95,6 @@ if (!defined('ABSPATH')) {
         </table>
 
         <?php submit_button(__('Import GIFT Questions', 'eas-quiz')); ?>
-
     </form>
 
     <p>
