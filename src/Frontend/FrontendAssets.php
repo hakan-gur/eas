@@ -18,48 +18,49 @@ class FrontendAssets
         );
     }
 
-public function enqueue(): void
-{
+    public function enqueue(): void
+    {
+        wp_enqueue_style(
+            'eas-frontend',
+            EAS_PLUGIN_URL . 'assets/css/frontend.css',
+            array(),
+            EAS_VERSION
+        );
 
-    wp_enqueue_style(
-    'eas-frontend',
-    EAS_PLUGIN_URL . 'assets/css/frontend.css',
-    array(),
-    EAS_VERSION
-);
-	wp_enqueue_script(
-        'eas-audio-recorder',
-        EAS_PLUGIN_URL . 'assets/js/audio-recorder.js',
-        array(),
-        EAS_VERSION,
-        true
-    );
+        wp_enqueue_script(
+            'eas-audio-recorder',
+            EAS_PLUGIN_URL . 'assets/js/audio-recorder.js',
+            array(),
+            EAS_VERSION,
+            true
+        );
 
+        wp_enqueue_script(
+            'eas-frontend',
+            EAS_PLUGIN_URL . 'assets/js/frontend.js',
+            array(),
+            EAS_VERSION,
+            true
+        );
 
-    wp_enqueue_script(
-        'eas-frontend',
-        EAS_PLUGIN_URL . 'assets/js/frontend.js',
-        array(),
-        EAS_VERSION,
-        true
-    );
-
-
-    wp_localize_script(
-        'eas-audio-recorder',
-        'easAudio',
-        array(
-
-            'uploadUrl' => admin_url(
-                'admin-post.php'
-            ),
-
-            'nonce' => wp_create_nonce(
-                'eas_upload_audio'
+        wp_localize_script(
+            'eas-audio-recorder',
+            'easAudio',
+            array(
+                'uploadUrl' => admin_url(
+                    'admin-post.php'
+                ),
+                'nonce' => wp_create_nonce(
+                    'eas_upload_audio'
+                ),
+                'strings' => array(
+                    'recordingReady' => __('Recording ready.', 'eas-quiz'),
+                    'recordingUploaded' => __('Recording uploaded successfully.', 'eas-quiz'),
+                    'uploadFailed' => __('Upload failed.', 'eas-quiz'),
+                    'uploadError' => __('Upload error.', 'eas-quiz'),
+                    'recording' => __('Recording...', 'eas-quiz'),
+                ),
             )
-
-        )
-    );
-
-}
+        );
+    }
 }
