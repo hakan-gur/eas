@@ -53,7 +53,7 @@ class QuizRenderer
         if (!$quiz) {
 
 
-            return '<p>Quiz not found.</p>';
+            return '<p>' . esc_html__('Quiz not found.', 'eas-quiz') . '</p>';
 
 
         }
