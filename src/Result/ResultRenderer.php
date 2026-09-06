@@ -38,7 +38,7 @@ class ResultRenderer
         );
 
         if (!$attempt) {
-            return '<p>Attempt not found.</p>';
+            return '<p>' . esc_html__('Attempt not found.', 'eas-quiz') . '</p>';
         }
 
         $responses = $this->repository->get_responses(
@@ -373,7 +373,7 @@ class ResultRenderer
         );
 
         if (!$attempt) {
-            return '<p>Attempt not found.</p>';
+            return '<p>' . esc_html__('Attempt not found.', 'eas-quiz') . '</p>';
         }
 
         /*
@@ -387,7 +387,7 @@ class ResultRenderer
         );
 
         $quiz_title =
-            $quiz['title'] ?? 'Quiz';
+            $quiz['title'] ?? __('Quiz', 'eas-quiz');
 
         /*
          * Calculate maximum possible points.
@@ -480,7 +480,7 @@ class ResultRenderer
         $html .= '</h2>';
 
         $html .= '<div class="eas-summary-score">';
-        $html .= '<strong>Total Score:</strong> ';
+        $html .= '<strong>' . esc_html__('Total Score:', 'eas-quiz') . '</strong> ';
 
         $html .= esc_html(
             number_format(
@@ -501,13 +501,13 @@ class ResultRenderer
         $html .= '</div>';
 
         $html .= '<div class="eas-summary-time">';
-        $html .= '<strong>Time Spent:</strong> ';
+        $html .= '<strong>' . esc_html__('Time Spent:', 'eas-quiz') . '</strong> ';
 
         $html .= esc_html(
             $minutes
         );
 
-        $html .= ' minutes';
+        $html .= ' ' . esc_html__('minutes', 'eas-quiz');
 
         if ($seconds > 0) {
 
@@ -517,7 +517,7 @@ class ResultRenderer
                 $seconds
             );
 
-            $html .= ' seconds';
+            $html .= ' ' . esc_html__('seconds', 'eas-quiz');
         }
 
         $html .= '</div>';
@@ -541,7 +541,7 @@ class ResultRenderer
         $html .= esc_url($review_url);
         $html .= '">';
 
-        $html .= 'Review';
+        $html .= esc_html__('Review', 'eas-quiz');
 
         $html .= '</a>';
 
