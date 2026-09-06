@@ -28,14 +28,14 @@ $duration = (int) ($audio_settings['audio_duration_seconds'] ?? 45);
 ?>
 
         <p class="eas-speaking-message">
-            <!-- Listen carefully. Your response will start automatically. -->
+            <?php esc_html_e('Listen carefully. Your response will start automatically.', 'eas-quiz'); ?>
         </p>
 
             <div class="eas-speaking-countdown"
      style="display:none;">
 
     <div class="eas-progress-label">
-        Preparing...
+        <?php esc_html_e('Preparing...', 'eas-quiz'); ?>
     </div>
 
     <div class="eas-progress-bar">
@@ -45,7 +45,7 @@ $duration = (int) ($audio_settings['audio_duration_seconds'] ?? 45);
     </div>
 
     <div class="eas-progress-time">
-        0 second remaining
+        <?php esc_html_e('0 seconds remaining', 'eas-quiz'); ?>
     </div>
 
 </div>
@@ -54,7 +54,7 @@ $duration = (int) ($audio_settings['audio_duration_seconds'] ?? 45);
 
         <p class="eas-speaking-status">
 
-            <!-- Waiting... -->
+            <!-- Status is populated by JavaScript. -->
 
         </p>
 
@@ -135,7 +135,10 @@ function startCountdown(seconds, callback, label){
 
         time.textContent =
             remaining +
-            ' seconds remaining';
+            ' ' +
+            (remaining === 1
+                ? '<?php echo esc_js(__('second remaining', 'eas-quiz')); ?>'
+                : '<?php echo esc_js(__('seconds remaining', 'eas-quiz')); ?>');
 
     }
 
@@ -162,7 +165,7 @@ function startCountdown(seconds, callback, label){
 
 
             time.textContent =
-                '0 second remaining';
+                '0 <?php echo esc_js(__('seconds remaining', 'eas-quiz')); ?>';
 
 
             setTimeout(function(){
@@ -186,12 +189,12 @@ function startCountdown(seconds, callback, label){
         function(){
 
         },
-        "Recording"
+        "<?php echo esc_js(__('Recording', 'eas-quiz')); ?>"
     );
 
 
     status.textContent =
-        "Recording...";
+        "<?php echo esc_js(__('Recording...', 'eas-quiz')); ?>";
 
 
         navigator.mediaDevices.getUserMedia({
@@ -235,8 +238,9 @@ function startCountdown(seconds, callback, label){
                 );
 
 
+
                 status.textContent =
-                    "Uploading...";
+                    "<?php echo esc_js(__('Uploading...', 'eas-quiz')); ?>";
 
 
             }, <?php echo $duration * 1000; ?>);
@@ -253,12 +257,13 @@ function startCountdown(seconds, callback, label){
 
 
             status.textContent =
-                "Microphone permission denied.";
+                "<?php echo esc_js(__('Microphone permission denied.', 'eas-quiz')); ?>";
 
         });
 
 
     }
+
 
 
 
@@ -291,7 +296,7 @@ function startCountdown(seconds, callback, label){
         'response.webm'
     );
 
-    status.textContent = "Uploading...";
+    status.textContent = "<?php echo esc_js(__('Uploading...', 'eas-quiz')); ?>";
 
     fetch(
         '<?php echo admin_url("admin-post.php"); ?>',
@@ -347,7 +352,7 @@ function startCountdown(seconds, callback, label){
                 data.data.file;
 
             status.textContent =
-                "Recording saved.";
+                "<?php echo esc_js(__('Recording saved.', 'eas-quiz')); ?>";
 
             /*
              * Clear the chunks after successful upload.
@@ -363,7 +368,7 @@ function startCountdown(seconds, callback, label){
             );
 
             status.textContent =
-                "Upload failed.";
+                "<?php echo esc_js(__('Upload failed.', 'eas-quiz')); ?>";
 
         }
 
@@ -376,11 +381,12 @@ function startCountdown(seconds, callback, label){
         );
 
         status.textContent =
-            "Upload failed. Please try again.";
+            "<?php echo esc_js(__('Upload failed. Please try again.', 'eas-quiz')); ?>";
 
     });
 
 }
+
 
 
 
@@ -395,7 +401,7 @@ function startCountdown(seconds, callback, label){
             startRecording();
 
         },
-        "Get ready"
+        "<?php echo esc_js(__('Get ready', 'eas-quiz')); ?>"
 
     );
 
