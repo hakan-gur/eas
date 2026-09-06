@@ -4,10 +4,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+$type_labels = array(
+    'multiple_choice' => __('Multiple Choice', 'eas-quiz'),
+    'drag_drop_text' => __('Drag and Drop into Text', 'eas-quiz'),
+    'fill_blank' => __('Fill in the Blanks (C-Test)', 'eas-quiz'),
+    'description' => __('Description', 'eas-quiz'),
+    'essay' => __('Essay', 'eas-quiz'),
+    'audio_response' => __('Audio Response', 'eas-quiz'),
+);
+
 ?>
 
 <div class="wrap">
-
     <h1><?php esc_html_e('Question Bank', 'eas-quiz'); ?></h1>
 
     <p>
@@ -73,7 +81,13 @@ if (!defined('ABSPATH')) {
                         ?>
                     </td>
 
-                    <td><?php echo esc_html($question['type'] ?? ''); ?></td>
+                    <td>
+                        <?php
+                        $question_type = $question['type'] ?? '';
+                        echo esc_html($type_labels[$question_type] ?? $question_type);
+                        ?>
+                    </td>
+
                     <td><?php echo esc_html($question['points'] ?? 0); ?></td>
 
                     <td>
@@ -114,5 +128,4 @@ if (!defined('ABSPATH')) {
             </tbody>
         </table>
     <?php endif; ?>
-
 </div>
