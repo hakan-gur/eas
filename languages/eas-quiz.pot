@@ -748,3 +748,291 @@ msgstr ""
 #: views/admin/questions/form.php
 msgid "Cancel"
 msgstr ""
+
+#: src/Admin/AdminController.php
+msgid "EAS Quizzes"
+msgstr ""
+
+#: src/Admin/AdminController.php
+msgid "EAS Attempts"
+msgstr ""
+
+#: src/Admin/AdminController.php
+msgid "Attempts"
+msgstr ""
+
+#: src/Admin/AdminController.php
+msgid "Grade Attempt"
+msgstr ""
+
+#: src/Admin/Page/PageController.php
+msgid "EAS Pages"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Invalid quiz."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Quiz not found."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Invalid question."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question not found."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "This question does not belong to this quiz."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Page not found."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question not found in this quiz."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question could not be saved."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Invalid page."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Invalid page or question."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Invalid question or page."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question is not assigned to this page."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question Preview"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Close Preview"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "No questions were provided."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "No valid Moodle GIFT questions were found."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Description question %d could not be imported."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question %d has an invalid GIFT answer block."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question %d has no question text."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question %d contains no valid answer options."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question %d must contain at least two answer options."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Question %d must have exactly one correct answer. Found: %d."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Multiple-choice question %d could not be imported."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "Questions imported successfully."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php
+msgid "The GIFT export could not be started because output has already been sent."
+msgstr ""
+
+#: src/Admin/Attempt/AttemptController.php
+msgid "%1$d min %2$d sec"
+msgstr ""
+
+#: src/Admin/Attempt/GradeController.php
+msgid "Invalid attempt."
+msgstr ""
+
+#: src/Admin/Quiz/QuizController.php
+msgid "Invalid quiz."
+msgstr ""
+
+#: src/Admin/Quiz/QuizController.php
+msgid "Quiz not found."
+msgstr ""
+
+#: src/Admin/Quiz/QuizController.php
+msgid "Quiz duplication failed."
+msgstr ""
+
+#: src/Admin/QuizForm.php
+msgid "Quiz Name"
+msgstr ""
+
+#: src/Admin/QuizForm.php
+msgid "1 attempt"
+msgstr ""
+
+#: src/Admin/QuizForm.php
+msgid "Time Limit"
+msgstr ""
+
+#: src/Admin/QuizForm.php
+msgid "minutes"
+msgstr ""
+
+#: src/Admin/QuizForm.php
+msgid "Enter 0 for no time limit."
+msgstr ""
+
+#: src/Admin/QuizForm.php
+msgid "Permitted"
+msgstr ""
+
+#: src/Admin/QuizForm.php
+msgid "Not permitted"
+msgstr ""
+
+#: src/Frontend/QuizShortcode.php
+msgid "Quiz ID missing."
+msgstr ""
+
+#: src/Frontend/QuizRenderer.php
+msgid "Quiz not found."
+msgstr ""
+
+#: src/Frontend/ResultController.php
+msgid "Please log in to view your result."
+msgstr ""
+
+#: src/Frontend/ResultController.php
+msgid "No attempt selected."
+msgstr ""
+
+#: src/Frontend/ResultController.php
+msgid "Attempt not found."
+msgstr ""
+
+#: src/Frontend/ResultController.php
+msgid "You are not allowed to view this result."
+msgstr ""
+
+#: src/Frontend/ResultController.php
+msgid "This quiz attempt has not been completed."
+msgstr ""
+
+#: src/Attempt/AttemptRenderer.php
+msgid "Attempt not found."
+msgstr ""
+
+#: src/Attempt/AttemptRenderer.php
+msgid "No pages found."
+msgstr ""
+
+#: src/Frontend/MyResultsController.php
+msgid "Please log in to view your quiz results."
+msgstr ""
+
+#: src/Result/ResultRenderer.php
+msgid "Attempt not found."
+msgstr ""
+
+#: src/Result/ResultRenderer.php
+msgid "Total Score:"
+msgstr ""
+
+#: src/Result/ResultRenderer.php
+msgid "Time Spent:"
+msgstr ""
+
+#: src/Result/ResultRenderer.php
+msgid "minutes"
+msgstr ""
+
+#: src/Result/ResultRenderer.php
+msgid "seconds"
+msgstr ""
+
+#: views/admin/questions/bank.php
+msgid "Import Questions (GIFT)"
+msgstr ""
+
+#: views/admin/questions/bank.php
+msgid "Export Questions (GIFT)"
+msgstr ""
+
+#: views/admin/questions/bank.php
+msgid "This quiz does not have any questions in its question bank yet."
+msgstr ""
+
+#: views/admin/questions/bank.php
+msgid "Not assigned to a page"
+msgstr ""
+
+#: views/admin/questions/bank.php
+msgid "Are you sure you want to permanently delete this question?"
+msgstr ""
+
+#: views/admin/questions/add-existing.php
+msgid "Back to Questions"
+msgstr ""
+
+#: views/admin/questions/add-existing.php
+msgid "There are no existing questions in this quiz."
+msgstr ""
+
+#: views/admin/questions/add-existing.php
+msgid "Already on this page"
+msgstr ""
+
+#: views/admin/questions/add-existing.php
+msgid "Add to Page"
+msgstr ""
+
+#: views/admin/questions/preview.php
+msgid "Question Preview"
+msgstr ""
+
+#: views/admin/questions/preview.php
+msgid "Answers"
+msgstr ""
+
+#: views/admin/questions/preview.php
+msgid "No answers have been added."
+msgstr ""
+
+#: views/admin/questions/preview.php
+msgid "correct"
+msgstr ""
+
+#: views/admin/questions/preview.php
+msgid "Back to Questions"
+msgstr ""
+
+#: views/frontend/question/item.php
+msgid "No answers found."
+msgstr ""
