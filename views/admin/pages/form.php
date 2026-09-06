@@ -22,8 +22,8 @@ if ($page) {
 
 <h1>
 <?php echo $page_id > 0
-    ? 'Edit Page'
-    : 'Add New Page';
+    ? esc_html__('Edit Page', 'eas-quiz')
+    : esc_html__('Add New Page', 'eas-quiz');
 ?>
 </h1>
 
@@ -60,7 +60,7 @@ wp_nonce_field(
 
 <th>
 <label for="title">
-Page Title
+<?php esc_html_e('Page Title', 'eas-quiz'); ?>
 </label>
 </th>
 
@@ -82,7 +82,7 @@ Page Title
 
 <th>
 <label for="page_time_limit">
-Page Time Limit (seconds)
+<?php esc_html_e('Page Time Limit (seconds)', 'eas-quiz'); ?>
 </label>
 </th>
 
@@ -98,11 +98,11 @@ Page Time Limit (seconds)
        step="1">
 
 <p class="description">
-Enter the maximum time allowed for this page in seconds.
+<?php esc_html_e('Enter the maximum time allowed for this page in seconds.', 'eas-quiz'); ?>
 <br>
-For example: 5 = 5 seconds, 30 = 30 seconds, 60 = 1 minute.
+<?php esc_html_e('For example: 5 = 5 seconds, 30 = 30 seconds, 60 = 1 minute.', 'eas-quiz'); ?>
 <br>
-Leave as 0 for an unlimited page.
+<?php esc_html_e('Leave as 0 for an unlimited page.', 'eas-quiz'); ?>
 </p>
 
 </td>
@@ -113,7 +113,7 @@ Leave as 0 for an unlimited page.
 
 <th>
 <label for="content">
-Content
+<?php esc_html_e('Content', 'eas-quiz'); ?>
 </label>
 </th>
 
@@ -141,7 +141,7 @@ wp_editor(
 
 <button type="submit"
         class="button button-primary">
-Save Page
+<?php esc_html_e('Save Page', 'eas-quiz'); ?>
 </button>
 
 <a class="button"
@@ -151,7 +151,7 @@ Save Page
            $quiz_id
        )
    ); ?>">
-Cancel
+<?php esc_html_e('Cancel', 'eas-quiz'); ?>
 </a>
 
 </p>
