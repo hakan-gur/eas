@@ -16,15 +16,6 @@ if (!defined('ABSPATH')) {
        name="question_<?php echo esc_attr($question['id']); ?>"
        value="<?php echo esc_attr($option['id']); ?>"
        <?php
-       if (
-           $response
-           && isset($response['answer'])
-           && (string) $response['answer'] === (string) $option['id']
-       ) {
-           echo 'checked';
-       }
-       ?>
-       <?php
        checked(
            (string) ($response['answer'] ?? ''),
            (string) $option['id']
