@@ -88,9 +88,11 @@ class AttemptController
 
                 $remaining_seconds = $seconds % 60;
 
-                $attempt['duration'] =
-                    $minutes . ' min ' .
-                    $remaining_seconds . ' sec';
+                $attempt['duration'] = sprintf(
+                    esc_html__('%1$d min %2$d sec', 'eas-quiz'),
+                    $minutes,
+                    $remaining_seconds
+                );
 
             } else {
 
