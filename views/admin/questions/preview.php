@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 
 
 <h1>
-Question Preview
+<?php esc_html_e('Question Preview', 'eas-quiz'); ?>
 </h1>
 
 
@@ -22,7 +22,7 @@ Question Preview
 
 
 <h2>
-Question
+<?php esc_html_e('Question', 'eas-quiz'); ?>
 </h2>
 
 
@@ -48,7 +48,7 @@ echo wp_kses_post(
 
 
 <h2>
-Answers
+<?php esc_html_e('Answers', 'eas-quiz'); ?>
 </h2>
 
 
@@ -57,7 +57,7 @@ Answers
 
 
 <p>
-No answers have been added.
+<?php esc_html_e('No answers have been added.', 'eas-quiz'); ?>
 </p>
 
 
@@ -92,7 +92,7 @@ No answers have been added.
 
 <span style="color:green;">
 
-(correct)
+(<?php esc_html_e('correct', 'eas-quiz'); ?>)
 
 </span>
 
@@ -131,17 +131,17 @@ No answers have been added.
 
 <p>
 
-<a href="<?php echo admin_url(
+<a href="<?php echo esc_url(admin_url(
 
     'admin.php?page=eas-questions&page_id=' .
 
     $question['page_id']
 
-); ?>"
+)); ?>"
 
 class="button">
 
-Back to Questions
+<?php esc_html_e('Back to Questions', 'eas-quiz'); ?>
 
 </a>
 
