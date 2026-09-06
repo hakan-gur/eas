@@ -9,37 +9,37 @@ if (!defined('ABSPATH')) {
 <div class="wrap">
 
     <h1>
-        Add Existing Question
+        <?php esc_html_e('Add Existing Question', 'eas-quiz'); ?>
     </h1>
 
     <p>
-        <strong>Quiz:</strong>
+        <strong><?php esc_html_e('Quiz:', 'eas-quiz'); ?></strong>
         <?php echo esc_html($quiz_title); ?>
     </p>
 
     <p>
-        <strong>Page:</strong>
+        <strong><?php esc_html_e('Page:', 'eas-quiz'); ?></strong>
         <?php echo esc_html($page_title); ?>
     </p>
 
     <p>
         <a class="button"
-           href="<?php echo admin_url(
+           href="<?php echo esc_url(admin_url(
                'admin.php?page=eas-questions&page_id=' .
                $page_id
-           ); ?>">
+           )); ?>">
 
-            ← Back to Questions
+            ← <?php esc_html_e('Back to Questions', 'eas-quiz'); ?>
 
         </a>
         <a class="button button-primary"
-   href="<?php echo admin_url(
+   href="<?php echo esc_url(admin_url(
        'admin.php?page=eas-questions&page_id=' .
        $page_id .
        '&action=add'
-   ); ?>">
+   )); ?>">
 
-    Create New Question
+    <?php esc_html_e('Create New Question', 'eas-quiz'); ?>
 
 </a>
     </p>
@@ -49,18 +49,18 @@ if (!defined('ABSPATH')) {
     <?php if (empty($question_bank)): ?>
 
         <p>
-            There are no existing questions in this quiz.
+            <?php esc_html_e('There are no existing questions in this quiz.', 'eas-quiz'); ?>
         </p>
 
         <p>
             <a class="button button-primary"
-               href="<?php echo admin_url(
+               href="<?php echo esc_url(admin_url(
                    'admin.php?page=eas-questions&page_id=' .
                    $page_id .
                    '&action=add'
-               ); ?>">
+               )); ?>">
 
-                Add New Question
+                <?php esc_html_e('Add New Question', 'eas-quiz'); ?>
 
             </a>
         </p>
@@ -74,19 +74,19 @@ if (!defined('ABSPATH')) {
                 <tr>
 
                     <th>
-                        Question
+                        <?php esc_html_e('Question', 'eas-quiz'); ?>
                     </th>
 
                     <th style="width:120px;">
-                        Type
+                        <?php esc_html_e('Type', 'eas-quiz'); ?>
                     </th>
 
                     <th style="width:80px;">
-                        Points
+                        <?php esc_html_e('Points', 'eas-quiz'); ?>
                     </th>
 
                     <th style="width:180px;">
-                        Action
+                        <?php esc_html_e('Action', 'eas-quiz'); ?>
                     </th>
 
                 </tr>
@@ -117,8 +117,17 @@ if (!defined('ABSPATH')) {
 
                         <td>
                             <?php
+                            $type_labels = array(
+                                'multiple_choice' => __('Multiple Choice', 'eas-quiz'),
+                                'drag_drop_text' => __('Drag and Drop into Text', 'eas-quiz'),
+                                'fill_blank' => __('Fill in the Blanks (C-Test)', 'eas-quiz'),
+                                'description' => __('Description', 'eas-quiz'),
+                                'essay' => __('Essay', 'eas-quiz'),
+                                'audio_response' => __('Audio Response', 'eas-quiz'),
+                            );
+
                             echo esc_html(
-                                $question['type']
+                                $type_labels[$question['type']] ?? $question['type']
                             );
                             ?>
                         </td>
@@ -136,7 +145,7 @@ if (!defined('ABSPATH')) {
                             <?php if ($already_assigned): ?>
 
                                 <span>
-                                    ✓ Already on this page
+                                    ✓ <?php esc_html_e('Already on this page', 'eas-quiz'); ?>
                                 </span>
 
                             <?php else: ?>
@@ -180,7 +189,7 @@ if (!defined('ABSPATH')) {
                                         type="submit"
                                         class="button button-primary"
                                     >
-                                        Add to Page
+                                        <?php esc_html_e('Add to Page', 'eas-quiz'); ?>
                                     </button>
 
                                 </form>
