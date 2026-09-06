@@ -1,11 +1,11 @@
 <p>
 
 <a class="button"
-href="<?php echo admin_url(
+href="<?php echo esc_url(admin_url(
     'admin.php?page=eas-quizzes'
-); ?>">
+)); ?>">
 
-← Back to Quizzes
+← <?php esc_html_e('Back to Quizzes', 'eas-quiz'); ?>
 
 </a>
 
@@ -13,7 +13,7 @@ href="<?php echo admin_url(
 <?php if (empty($attempts)) : ?>
 
 <p>
-No completed attempts found.
+<?php esc_html_e('No completed attempts found.', 'eas-quiz'); ?>
 </p>
 
 
@@ -21,7 +21,7 @@ No completed attempts found.
 <div class="wrap">
 
 <h1>
-Attempts
+<?php esc_html_e('Attempts', 'eas-quiz'); ?>
 </h1>
 <form method="get">
 
@@ -31,14 +31,14 @@ Attempts
 
 
 <label>
-Quiz:
+<?php esc_html_e('Quiz:', 'eas-quiz'); ?>
 </label>
 
 
 <select name="quiz_id">
 
 <option value="0">
-All quizzes
+<?php esc_html_e('All quizzes', 'eas-quiz'); ?>
 </option>
 
 
@@ -63,7 +63,7 @@ All quizzes
 
 <label style="margin-left:20px;">
 
-Status:
+<?php esc_html_e('Status:', 'eas-quiz'); ?>
 
 </label>
 
@@ -71,7 +71,7 @@ Status:
 <select name="status">
 
 <option value="">
-All
+<?php esc_html_e('All', 'eas-quiz'); ?>
 </option>
 
 
@@ -81,7 +81,7 @@ All
     'completed'
 ); ?>>
 
-Completed
+<?php esc_html_e('Completed', 'eas-quiz'); ?>
 
 </option>
 
@@ -91,7 +91,7 @@ Completed
 
 
 <?php submit_button(
-    'Filter',
+    __('Filter', 'eas-quiz'),
     'secondary',
     '',
     false
@@ -109,14 +109,14 @@ Completed
 
 <tr>
 
-<th>Student</th>
-<th>Quiz</th>
-<th>Status</th>
-<th>Score</th>
-<th>Started</th>
-<th>Completed</th>
-<th>Duration</th>
-<th>Action</th>
+<th><?php esc_html_e('Student', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Quiz', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Status', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Score', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Started', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Completed', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Duration', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Action', 'eas-quiz'); ?></th>
 </tr>
 
 </thead>
@@ -156,7 +156,7 @@ border-radius:12px;
 font-weight:600;
 font-size:12px;
 ">
-🟡 Needs grading
+🟡 <?php esc_html_e('Needs grading', 'eas-quiz'); ?>
 </span>
 
 <?php else : ?>
@@ -171,7 +171,7 @@ border-radius:12px;
 font-weight:600;
 font-size:12px;
 ">
-🟢 Graded
+🟢 <?php esc_html_e('Graded', 'eas-quiz'); ?>
 </span>
 
 <?php endif; ?>
@@ -183,7 +183,7 @@ font-size:12px;
 
 <?php echo esc_html(
 
-number_format(
+number_format_i18n(
     (float) $attempt['score'],
     1
 )
@@ -194,7 +194,7 @@ number_format(
 
 <?php echo esc_html(
 
-number_format(
+number_format_i18n(
     (float) $attempt['max_points'],
     1
 )
@@ -211,7 +211,7 @@ if ((float) $attempt['max_points'] > 0) {
 
     echo esc_html(
 
-number_format(
+number_format_i18n(
     (
         (float) $attempt['score']
         /
@@ -258,17 +258,17 @@ number_format(
 <td>
 <?php if ($attempt['grading_status'] === 'Needs grading') : ?>
 <a class="button button-primary"
-   href="<?php echo admin_url(
+   href="<?php echo esc_url(admin_url(
 'admin.php?page=eas-attempt-grade&attempt_id=' . $attempt['id']
-); ?>">
-📝 Grade
+)); ?>">
+📝 <?php esc_html_e('Grade', 'eas-quiz'); ?>
 </a>
 <?php else : ?>
 <a class="button"
-   href="<?php echo admin_url(
+   href="<?php echo esc_url(admin_url(
 'admin.php?page=eas-attempt-grade&attempt_id=' . $attempt['id']
-); ?>">
-👁 Review
+)); ?>">
+👁 <?php esc_html_e('Review', 'eas-quiz'); ?>
 </a>
 <?php endif; ?>
 
@@ -285,10 +285,8 @@ $delete_url = wp_nonce_url(
 <a class="button"
    style="margin-left:5px;"
    href="<?php echo esc_url($delete_url); ?>"
-   onclick="return confirm(
-       'Are you sure you want to permanently delete this student attempt? All answers and associated audio recordings will also be deleted.'
-   );">
-    🗑 Delete
+   onclick="return confirm('<?php echo esc_js(__('Are you sure you want to permanently delete this student attempt? All answers and associated audio recordings will also be deleted.', 'eas-quiz')); ?>');">
+    🗑 <?php esc_html_e('Delete', 'eas-quiz'); ?>
 </a>
 
 </td>
