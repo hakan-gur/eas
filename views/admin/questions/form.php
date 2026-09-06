@@ -62,7 +62,7 @@ if ($question) {
         <p>
             <?php
             printf(
-                esc_html__('This question will be saved in the %s and will not be assigned to a page yet.', 'eas-quiz'),
+                wp_kses_post(__('This question will be saved in the %s and will not be assigned to a page yet.', 'eas-quiz')),
                 '<strong>' . esc_html__('Question Bank', 'eas-quiz') . '</strong>'
             );
             ?>
