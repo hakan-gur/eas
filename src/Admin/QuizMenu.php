@@ -48,9 +48,9 @@ class QuizMenu
 
         add_menu_page(
 
-            'EAS Quizzes',
+            __('EAS Quizzes', 'eas-quiz'),
 
-            'EAS Quiz',
+            __('EAS Quiz', 'eas-quiz'),
 
             'eas_manage_quizzes',
 
@@ -72,9 +72,9 @@ class QuizMenu
 
             'eas-quizzes',
 
-            'Quizzes',
+            __('Quizzes', 'eas-quiz'),
 
-            'Quizzes',
+            __('Quizzes', 'eas-quiz'),
 
             'eas_manage_quizzes',
 
@@ -161,12 +161,12 @@ class QuizMenu
         echo '<div class="wrap">';
 
 
-        echo '<h1>EAS Quizzes</h1>';
+        echo '<h1>' . esc_html__('EAS Quizzes', 'eas-quiz') . '</h1>';
 
 
 
         echo '<a href="?page=eas-quizzes&action=add" class="button button-primary">';
-        echo 'Add New Quiz';
+        echo esc_html__('Add New Quiz', 'eas-quiz');
         echo '</a>';
 
 
@@ -178,7 +178,7 @@ class QuizMenu
         if (empty($quizzes)) {
 
 
-            echo '<p>No quizzes found.</p>';
+            echo '<p>' . esc_html__('No quizzes found.', 'eas-quiz') . '</p>';
 
 
         } else {
@@ -191,11 +191,11 @@ class QuizMenu
             echo '<thead>';
             echo '<tr>';
 
-            echo '<th>ID</th>';
-            echo '<th>Title</th>';
-            echo '<th>Attempts</th>';
-            echo '<th>Time Limit</th>';
-            echo '<th>Actions</th>';
+            echo '<th>' . esc_html__('ID', 'eas-quiz') . '</th>';
+            echo '<th>' . esc_html__('Title', 'eas-quiz') . '</th>';
+            echo '<th>' . esc_html__('Attempts', 'eas-quiz') . '</th>';
+            echo '<th>' . esc_html__('Time Limit', 'eas-quiz') . '</th>';
+            echo '<th>' . esc_html__('Actions', 'eas-quiz') . '</th>';
 
             echo '</tr>';
             echo '</thead>';
@@ -227,7 +227,7 @@ class QuizMenu
                 echo '<td>';
 
                 echo ($quiz['attempts_allowed'] == 0)
-                    ? 'Unlimited'
+                    ? esc_html__('Unlimited', 'eas-quiz')
                     : esc_html($quiz['attempts_allowed']);
 
                 echo '</td>';
@@ -237,8 +237,8 @@ class QuizMenu
                 echo '<td>';
 
                 echo ($quiz['time_limit'] == 0)
-                    ? 'No limit'
-                    : esc_html($quiz['time_limit']) . ' minutes';
+                    ? esc_html__('No limit', 'eas-quiz')
+                    : esc_html($quiz['time_limit']) . ' ' . esc_html__('minutes', 'eas-quiz');
 
                 echo '</td>';
 
@@ -248,14 +248,18 @@ class QuizMenu
 
                 echo '<a href="?page=eas-quizzes&action=edit&id='
                     . esc_attr($quiz['id'])
-                    . '">Edit</a>';
+                    . '">' . esc_html__('Edit', 'eas-quiz') . '</a>';
 
                 echo ' | ';
 
 
                 echo '<a href="?page=eas-quizzes&action=delete&id='
                     . esc_attr($quiz['id'])
-                    . '" onclick="return confirm(\'Delete this quiz?\')">Delete</a>';
+                    . '" onclick="return confirm(\''
+                    . esc_js(__('Delete this quiz?', 'eas-quiz'))
+                    . '\')">'
+                    . esc_html__('Delete', 'eas-quiz')
+                    . '</a>';
 
 
                 echo '</td>';
