@@ -1,0 +1,490 @@
+# English Assessment Suite translation template.
+# Copyright (C) 2026
+# This file is distributed under the same license as the English Assessment Suite plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: English Assessment Suite\n"
+"Report-Msgid-Bugs-To: https://github.com/hakan-gur/EAS/issues\n"
+"POT-Creation-Date: 2026-09-06 00:00+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: eas-quiz\n"
+
+#: views/admin/dashboard.php
+msgid "English Assessment Suite"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Quizzes"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Questions"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Students"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Pending grading"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Quick Actions"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Manage Quizzes"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "View Attempts"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "System Information"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Version"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Status"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "System operational"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Recent Activity"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "No completed attempts yet."
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Student"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Quiz"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Score"
+msgstr ""
+
+#: views/admin/dashboard.php
+msgid "Completed"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Edit Quiz"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Add New Quiz"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Title"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Description"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Attempts Allowed"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Time Limit (minutes)"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Backward Navigation"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Allow moving back between pages"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Shuffle Options"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Shuffle multiple-choice options"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Update Quiz"
+msgstr ""
+
+#: views/admin/quizzes/form.php
+msgid "Save Quiz"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Add New Quiz"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "No quizzes found."
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Quiz Title"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Pages"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Points"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Shortcode"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Actions"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Edit"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Duplicate"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Delete"
+msgstr ""
+
+#: views/admin/quizzes/list.php
+msgid "Delete this quiz and ALL of its pages, questions, answers, attempts, and responses permanently?"
+msgstr ""
+
+#: views/frontend/quiz/start.php
+msgid "Time limit:"
+msgstr ""
+
+#: views/frontend/quiz/start.php
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/frontend/quiz/start.php
+msgid "Attempts allowed:"
+msgstr ""
+
+#: views/frontend/quiz/start.php
+msgid "Unlimited"
+msgstr ""
+
+#: views/frontend/quiz/start.php
+msgid "Completed attempts:"
+msgstr ""
+
+#: views/frontend/quiz/start.php
+msgid "Remaining attempts:"
+msgstr ""
+
+#: views/frontend/quiz/start.php
+msgid "Start Attempt"
+msgstr ""
+
+#: views/frontend/quiz/start.php
+msgid "You have reached the maximum number of attempts allowed for this quiz."
+msgstr ""
+
+#: views/frontend/my-results/page.php
+msgid "My Results"
+msgstr ""
+
+#: views/frontend/my-results/page.php
+msgid "You have not completed any quizzes yet."
+msgstr ""
+
+#: views/frontend/my-results/page.php
+msgid "Quiz Name"
+msgstr ""
+
+#: views/frontend/my-results/page.php
+msgid "Completed Time"
+msgstr ""
+
+#: views/frontend/my-results/page.php
+msgid "Status"
+msgstr ""
+
+#: views/frontend/my-results/page.php
+msgid "Review"
+msgstr ""
+
+#: views/frontend/my-results/page.php
+msgid "Pending Grading"
+msgstr ""
+
+#: views/frontend/my-results/page.php
+msgid "Graded"
+msgstr ""
+
+#: views/frontend/my-results/page.php
+msgid "Auto Graded"
+msgstr ""
+
+#: views/frontend/result/page.php
+msgid "Score:"
+msgstr ""
+
+#: views/frontend/result/page.php
+msgid "Page %d"
+msgstr ""
+
+#: views/frontend/result/page.php
+msgid "No responses on this page."
+msgstr ""
+
+#: views/frontend/result/page.php
+msgid "Question %d"
+msgstr ""
+
+#: views/frontend/result/page.php
+msgid "Your answer:"
+msgstr ""
+
+#: views/frontend/result/page.php
+msgid "General feedback:"
+msgstr ""
+
+#: views/frontend/result/page.php
+msgid "Points:"
+msgstr ""
+
+#: views/frontend/result/page.php
+msgid "Teacher feedback:"
+msgstr ""
+
+#: views/frontend/attempt/page.php
+msgid "Remaining Time:"
+msgstr ""
+
+#: views/frontend/attempt/page.php
+msgid "Previous Page"
+msgstr ""
+
+#: views/frontend/attempt/page.php
+msgid "Next Page"
+msgstr ""
+
+#: views/frontend/attempt/page.php
+msgid "Submit Quiz"
+msgstr ""
+
+#: views/frontend/attempt/page.php
+msgid "Are you sure you want to submit this quiz?"
+msgstr ""
+
+#: src/Frontend/FrontendAssets.php
+msgid "Recording ready."
+msgstr ""
+
+#: src/Frontend/FrontendAssets.php
+msgid "Recording uploaded successfully."
+msgstr ""
+
+#: src/Frontend/FrontendAssets.php
+msgid "Upload failed."
+msgstr ""
+
+#: src/Frontend/FrontendAssets.php
+msgid "Upload error."
+msgstr ""
+
+#: src/Frontend/FrontendAssets.php
+msgid "Recording..."
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "Edit Page"
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "Add New Page"
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "Page Title"
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "Page Time Limit (seconds)"
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "Enter the maximum time allowed for this page in seconds."
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "For example: 5 = 5 seconds, 30 = 30 seconds, 60 = 1 minute."
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "Leave as 0 for an unlimited page."
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "Content"
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "Save Page"
+msgstr ""
+
+#: views/admin/pages/form.php
+msgid "Cancel"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Warning: This question has no correct answer selected. It has been saved, but it cannot be graded correctly."
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Quiz:"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Page:"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Back to Pages"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Add New Question"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Add Existing Question"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "No questions found."
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Order"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Question"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Type"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Move question up"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Move question down"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Auto graded"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Manual grading"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Preview"
+msgstr ""
+
+#: views/admin/questions/list.php
+msgid "Delete this question permanently?"
+msgstr ""
+
+#: views/frontend/question/essay.php
+msgid "Cut"
+msgstr ""
+
+#: views/frontend/question/essay.php
+msgid "Copy"
+msgstr ""
+
+#: views/frontend/question/essay.php
+msgid "Paste"
+msgstr ""
+
+#: views/frontend/question/essay.php
+msgid "Type your answer here;"
+msgstr ""
+
+#: views/frontend/question/essay.php
+msgid "Words:"
+msgstr ""
+
+#: views/frontend/question/essay.php
+msgid "Paste is not allowed by your browser."
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "Listen carefully. Your response will start automatically."
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "Preparing..."
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "0 seconds remaining"
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "second remaining"
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "seconds remaining"
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "Recording"
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "Uploading..."
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "Microphone permission denied."
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "Recording saved."
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "Upload failed. Please try again."
+msgstr ""
+
+#: views/frontend/question/audio.php
+msgid "Get ready"
+msgstr ""
