@@ -28,34 +28,31 @@ class AttemptController
     }
     
     public function register(): void
-{
-    add_action(
-        'admin_post_eas_delete_attempt',
-        array(
-            $this,
-            'delete'
-        )
-    );
-}
+    {
+        add_action(
+            'admin_post_eas_delete_attempt',
+            array(
+                $this,
+                'delete'
+            )
+        );
+    }
 
     public function index(): void
     {
 
         $quiz_id = (int) (
-    $_GET['quiz_id'] ?? 0
-);
+            $_GET['quiz_id'] ?? 0
+        );
 
+        $status = sanitize_text_field(
+            $_GET['status'] ?? ''
+        );
 
-$status = sanitize_text_field(
-    $_GET['status'] ?? ''
-);
-
-
-
-$attempts = $this->attempts->all_completed_filtered(
-    $quiz_id,
-    $status
-);
+        $attempts = $this->attempts->all_completed_filtered(
+            $quiz_id,
+            $status
+        );
 
         foreach ($attempts as &$attempt) {
 
@@ -68,44 +65,38 @@ $attempts = $this->attempts->all_completed_filtered(
                 $this->quizzes->max_points(
                     (int) $attempt['quiz_id']
                 );
-if (
-    !empty($attempt['started_at'])
-    &&
-    !empty($attempt['completed_at'])
-) {
 
-    $start = strtotime(
-        $attempt['started_at']
-    );
+            if (
+                !empty($attempt['started_at'])
+                &&
+                !empty($attempt['completed_at'])
+            ) {
 
-    $end = strtotime(
-        $attempt['completed_at']
-    );
+                $start = strtotime(
+                    $attempt['started_at']
+                );
 
+                $end = strtotime(
+                    $attempt['completed_at']
+                );
 
-    $seconds = $end - $start;
+                $seconds = $end - $start;
 
+                $minutes = floor(
+                    $seconds / 60
+                );
 
-    $minutes = floor(
-        $seconds / 60
-    );
+                $remaining_seconds = $seconds % 60;
 
+                $attempt['duration'] =
+                    $minutes . ' min ' .
+                    $remaining_seconds . ' sec';
 
-    $remaining_seconds = $seconds % 60;
+            } else {
 
+                $attempt['duration'] = '-';
 
-    $attempt['duration'] =
-        $minutes . ' min ' .
-        $remaining_seconds . ' sec';
-
-
-} else {
-
-
-    $attempt['duration'] = '-';
-
-
-}
+            }
         }
 
         unset($attempt);
@@ -114,75 +105,76 @@ if (
             'views/admin/attempts/index.php';
 
     }
-public function delete(): void
-{
-    /*
-     * Only logged-in WordPress users with the
-     * appropriate administrative capability may
-     * delete attempts.
-     */
-    if (!current_user_can('manage_options')) {
 
-        wp_die(
-            'You do not have permission to delete attempts.'
+    public function delete(): void
+    {
+        /*
+         * Only logged-in WordPress users with the
+         * appropriate administrative capability may
+         * delete attempts.
+         */
+        if (!current_user_can('manage_options')) {
+
+            wp_die(
+                esc_html__('You do not have permission to delete attempts.', 'eas-quiz')
+            );
+
+        }
+
+        /*
+         * Get the attempt ID.
+         */
+        $attempt_id = (int) (
+            $_GET['id'] ?? 0
         );
 
-    }
+        if ($attempt_id <= 0) {
 
-    /*
-     * Get the attempt ID.
-     */
-    $attempt_id = (int) (
-        $_GET['id'] ?? 0
-    );
+            wp_die(
+                esc_html__('Invalid attempt.', 'eas-quiz')
+            );
 
-    if ($attempt_id <= 0) {
+        }
 
-        wp_die(
-            'Invalid attempt.'
+        /*
+         * Verify the deletion nonce.
+         */
+        check_admin_referer(
+            'eas_delete_attempt_' . $attempt_id
         );
 
-    }
-
-    /*
-     * Verify the deletion nonce.
-     */
-    check_admin_referer(
-        'eas_delete_attempt_' . $attempt_id
-    );
-
-    /*
-     * Make sure the attempt actually exists.
-     */
-    $attempt = $this->attempts->find(
-        $attempt_id
-    );
-
-    if (!$attempt) {
-
-        wp_die(
-            'Attempt not found.'
+        /*
+         * Make sure the attempt actually exists.
+         */
+        $attempt = $this->attempts->find(
+            $attempt_id
         );
 
+        if (!$attempt) {
+
+            wp_die(
+                esc_html__('Attempt not found.', 'eas-quiz')
+            );
+
+        }
+
+        /*
+         * Delete the attempt and all associated
+         * responses/audio records.
+         */
+        $this->attempts->delete(
+            $attempt_id
+        );
+
+        /*
+         * Return to the Attempts page.
+         */
+        wp_redirect(
+            admin_url(
+                'admin.php?page=eas-attempts'
+            )
+        );
+
+        exit;
     }
-
-    /*
-     * Delete the attempt and all associated
-     * responses/audio records.
-     */
-    $this->attempts->delete(
-        $attempt_id
-    );
-
-    /*
-     * Return to the Attempts page.
-     */
-    wp_redirect(
-        admin_url(
-            'admin.php?page=eas-attempts'
-        )
-    );
-
-    exit;
-}
 }
