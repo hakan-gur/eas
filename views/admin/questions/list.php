@@ -24,8 +24,7 @@ if (!defined('ABSPATH')) {
 <div class="notice notice-warning is-dismissible">
 
     <p>
-        Warning: This question has no correct answer selected. 
-        It has been saved, but it cannot be graded correctly.
+        <?php esc_html_e('Warning: This question has no correct answer selected. It has been saved, but it cannot be graded correctly.', 'eas-quiz'); ?>
     </p>
 
 </div>
@@ -44,17 +43,17 @@ settings_errors(
 
 
 <h1>
-Questions
+<?php esc_html_e('Questions', 'eas-quiz'); ?>
 </h1>
 
 
 <p>
-Quiz: <?php echo esc_html($quiz_title ?? ''); ?>
+<?php esc_html_e('Quiz:', 'eas-quiz'); ?> <?php echo esc_html($quiz_title ?? ''); ?>
 </p>
 
 
 <p>
-Page: <?php echo esc_html($page_title ?? ''); ?>
+<?php esc_html_e('Page:', 'eas-quiz'); ?> <?php echo esc_html($page_title ?? ''); ?>
 </p>
 <p>
 
@@ -67,7 +66,7 @@ href="<?php echo admin_url(
 
 ); ?>">
 
-← Back to Pages
+← <?php esc_html_e('Back to Pages', 'eas-quiz'); ?>
 
 </a>
 
@@ -83,7 +82,7 @@ $page_id .
 
 ); ?>">
 
-Add New Question
+<?php esc_html_e('Add New Question', 'eas-quiz'); ?>
 
 </a>
 <a class="button"
@@ -93,7 +92,7 @@ Add New Question
        '&action=add_existing'
    ); ?>">
 
-    Add Existing Question
+    <?php esc_html_e('Add Existing Question', 'eas-quiz'); ?>
 
 </a>
 
@@ -107,7 +106,7 @@ Add New Question
 
 
 <p>
-No questions found.
+<?php esc_html_e('No questions found.', 'eas-quiz'); ?>
 </p>
 
 
@@ -121,12 +120,12 @@ No questions found.
 
 <tr>
 <th>#</th>
-<th>Order</th>
-<th>Question</th>
-<th>Type</th>
-<th>Points</th>
-<th>Status</th>
-<th>Actions</th>
+<th><?php esc_html_e('Order', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Question', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Type', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Points', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Status', 'eas-quiz'); ?></th>
+<th><?php esc_html_e('Actions', 'eas-quiz'); ?></th>
 
 </tr>
 
@@ -176,7 +175,7 @@ No questions found.
                 'eas_move_question_up_' . $question['id']
             ); ?>"
             class="button"
-            title="Move question up"
+            title="<?php esc_attr_e('Move question up', 'eas-quiz'); ?>"
         >↑</a>
 
     <?php endif; ?>
@@ -193,7 +192,7 @@ No questions found.
             'eas_move_question_down_' . $question['id']
         ); ?>"
         class="button"
-        title="Move question down"
+        title="<?php esc_attr_e('Move question down', 'eas-quiz'); ?>"
     >↓</a>
 </td>
 
@@ -266,7 +265,7 @@ color:#155724;
 font-weight:600;
 ">
 
-✓ Auto graded
+✓ <?php esc_html_e('Auto graded', 'eas-quiz'); ?>
 
 </span>
 
@@ -288,7 +287,7 @@ color:#856404;
 font-weight:600;
 ">
 
-🟡 Manual grading
+🟡 <?php esc_html_e('Manual grading', 'eas-quiz'); ?>
 
 </span>
 
@@ -302,7 +301,7 @@ color:#555;
 font-weight:600;
 ">
 
-Review
+<?php esc_html_e('Review', 'eas-quiz'); ?>
 
 </span>
 
@@ -321,6 +320,7 @@ Review
 
 
 
+
 <a href="<?php echo admin_url(
 
 'admin.php?page=eas-questions&page_id=' .
@@ -330,7 +330,7 @@ $question['id']
 
 ); ?>">
 
-Edit
+<?php esc_html_e('Edit', 'eas-quiz'); ?>
 
 </a>
 
@@ -343,7 +343,7 @@ $question['id']
 ); ?>"
 target="_blank">
 
-Preview
+<?php esc_html_e('Preview', 'eas-quiz'); ?>
 
 </a>
 
@@ -364,9 +364,9 @@ $page_id
 'eas_delete_question_' . $question['id']
 
 ); ?>"
-onclick="return confirm('Delete this question permanently?');">
+onclick="return confirm('<?php echo esc_js(__('Delete this question permanently?', 'eas-quiz')); ?>');">
 
-Delete
+<?php esc_html_e('Delete', 'eas-quiz'); ?>
 
 </a>
 </td>
