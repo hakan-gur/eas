@@ -29,7 +29,7 @@ class AttemptRenderer
     {
         $attempt = $this->attempts->find($attempt_id);
         if (!$attempt) {
-            return '<p>Attempt not found.</p>';
+            return '<p>' . esc_html__('Attempt not found.', 'eas-quiz') . '</p>';
         }
         if (!empty($attempt['current_page_id'])) {
             $page = $this->pages->find(
@@ -41,7 +41,7 @@ class AttemptRenderer
             );
         }
         if (!$page) {
-            return '<p>No pages found.</p>';
+            return '<p>' . esc_html__('No pages found.', 'eas-quiz') . '</p>';
         }
         $quiz = $this->quizzes->find(
             (int) $attempt['quiz_id']
