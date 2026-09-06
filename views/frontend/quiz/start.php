@@ -18,18 +18,7 @@ if (!defined('ABSPATH')) {
         <?php esc_html_e('Time limit:', 'eas-quiz'); ?>
     </strong>
     <?php echo esc_html($quiz['time_limit']); ?>
-    <?php
-    printf(
-        esc_html(
-            _n(
-                'minute',
-                'minutes',
-                (int) $quiz['time_limit'],
-                'eas-quiz'
-            )
-        )
-    );
-    ?>
+    <?php echo esc_html(_n('minute', 'minutes', (int) $quiz['time_limit'], 'eas-quiz')); ?>
 </p>
 <?php endif; ?>
     <div class="eas-attempt-info">
@@ -71,11 +60,7 @@ if (!defined('ABSPATH')) {
             <input type="hidden"
                    name="quiz_id"
                    value="<?php echo esc_attr($quiz['id']); ?>">
-            <?php
-            wp_nonce_field(
-                'eas_start_quiz'
-            );
-            ?>
+            <?php wp_nonce_field('eas_start_quiz'); ?>
             <button type="submit"
                     class="button button-primary">
                 <?php esc_html_e('Start Attempt', 'eas-quiz'); ?>
