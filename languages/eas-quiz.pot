@@ -1000,3 +1000,123 @@ msgstr ""
 #: views/frontend/question/item.php
 msgid "No answers found."
 msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Moodle GIFT Import"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Paste questions exported from Moodle in"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "GIFT format"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "below."
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "EAS currently supports:"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "questions"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Question numbers in the"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "format"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Correct answers beginning with"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Incorrect answers beginning with"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "General Feedback beginning with"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "HTML in question text and General Feedback"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Examples"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Description:"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Multiple Choice:"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "The number"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "is not displayed."
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Other question numbers are retained at the beginning of the question text."
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "For example,"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "becomes"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "at the beginning of the question."
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "GIFT Questions"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Paste your Moodle GIFT questions here..."
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Paste the GIFT text exactly as exported from Moodle. Each question should begin with"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Import GIFT Questions"
+msgstr ""
+
+#: views/admin/questions/import.php
+msgid "Back to Question Bank"
+msgstr ""
+
+#: src/Admin/QuizMenu.php
+msgid "EAS Quiz"
+msgstr ""
+
+#: src/Admin/QuizMenu.php
+msgid "ID"
+msgstr ""
+
+#: src/Admin/QuizMenu.php
+msgid "No limit"
+msgstr ""
+
+#: src/Admin/QuizMenu.php
+msgid "Delete this quiz?"
+msgstr ""
