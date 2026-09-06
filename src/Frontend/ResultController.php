@@ -42,7 +42,7 @@ class ResultController
          */
         if (!is_user_logged_in()) {
 
-            return '<p>Please log in to view your result.</p>';
+            return '<p>' . esc_html__('Please log in to view your result.', 'eas-quiz') . '</p>';
 
         }
 
@@ -54,7 +54,7 @@ class ResultController
 
         if ($attempt_id <= 0) {
 
-            return '<p>No attempt selected.</p>';
+            return '<p>' . esc_html__('No attempt selected.', 'eas-quiz') . '</p>';
 
         }
 
@@ -70,7 +70,7 @@ class ResultController
 
         if (!$attempt) {
 
-            return '<p>Attempt not found.</p>';
+            return '<p>' . esc_html__('Attempt not found.', 'eas-quiz') . '</p>';
 
         }
 
@@ -86,7 +86,7 @@ class ResultController
             (int) get_current_user_id()
         ) {
 
-            return '<p>You are not allowed to view this result.</p>';
+            return '<p>' . esc_html__('You are not allowed to view this result.', 'eas-quiz') . '</p>';
 
         }
 
@@ -99,7 +99,7 @@ class ResultController
             !== 'completed'
         ) {
 
-            return '<p>This quiz attempt has not been completed.</p>';
+            return '<p>' . esc_html__('This quiz attempt has not been completed.', 'eas-quiz') . '</p>';
 
         }
 
