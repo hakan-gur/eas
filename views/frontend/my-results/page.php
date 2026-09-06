@@ -9,14 +9,13 @@ if (!defined('ABSPATH')) {
 <div class="eas-my-results">
 
     <h2>
-        My Results
+        <?php esc_html_e('My Results', 'eas-quiz'); ?>
     </h2>
-
 
     <?php if (empty($attempts)) : ?>
 
         <p>
-            You have not completed any quizzes yet.
+            <?php esc_html_e('You have not completed any quizzes yet.', 'eas-quiz'); ?>
         </p>
 
     <?php else : ?>
@@ -30,29 +29,28 @@ if (!defined('ABSPATH')) {
                     <tr>
 
                         <th>
-                            Quiz Name
+                            <?php esc_html_e('Quiz Name', 'eas-quiz'); ?>
                         </th>
 
                         <th>
-                            Completed Time
+                            <?php esc_html_e('Completed Time', 'eas-quiz'); ?>
                         </th>
 
                         <th>
-                            Status
+                            <?php esc_html_e('Status', 'eas-quiz'); ?>
                         </th>
 
                         <th>
-                            Score
+                            <?php esc_html_e('Score', 'eas-quiz'); ?>
                         </th>
 
                         <th>
-                            Review
+                            <?php esc_html_e('Review', 'eas-quiz'); ?>
                         </th>
 
                     </tr>
 
                 </thead>
-
 
                 <tbody>
 
@@ -62,25 +60,14 @@ if (!defined('ABSPATH')) {
                     ) : ?>
 
                         <?php
-
                         $attempt_id =
                             (int) $attempt['id'];
 
-                        /*
-                         * Determine grading status.
-                         *
-                         * Essay and audio_response require
-                         * manual grading.
-                         */
                         $grading_status =
                             $this->attempts->grading_status(
                                 $attempt_id
                             );
 
-                        /*
-                         * Determine whether this attempt
-                         * contains manually graded questions.
-                         */
                         global $wpdb;
 
                         $manual_question_count =
@@ -106,29 +93,22 @@ if (!defined('ABSPATH')) {
                             if ($grading_status === 'Needs grading') {
 
                                 $display_status =
-                                    'Pending Grading';
+                                    __('Pending Grading', 'eas-quiz');
 
                             } else {
 
                                 $display_status =
-                                    'Graded';
+                                    __('Graded', 'eas-quiz');
 
                             }
 
                         } else {
 
                             $display_status =
-                                'Auto Graded';
+                                __('Auto Graded', 'eas-quiz');
 
                         }
 
-
-                        /*
-                         * Score.
-                         *
-                         * Pending manual grading:
-                         * do not display a final score.
-                         */
                         if (
                             $manual_question_count > 0
                             &&
@@ -140,20 +120,13 @@ if (!defined('ABSPATH')) {
                         } else {
 
                             $display_score =
-                                number_format(
+                                number_format_i18n(
                                     (float) $attempt['score'],
                                     2
                                 );
 
                         }
 
-
-                        /*
-                         * Completed date/time.
-                         *
-                         * The database stores the value using
-                         * WordPress's current time.
-                         */
                         $completed_time = '—';
 
                         if (!empty($attempt['completed_at'])) {
@@ -179,10 +152,6 @@ if (!defined('ABSPATH')) {
 
                         }
 
-
-                        /*
-                         * Existing EAS Results page.
-                         */
                         $results_page_id =
                             (int) get_option(
                                 'eas_results_page_id'
@@ -217,33 +186,20 @@ if (!defined('ABSPATH')) {
 
                         <tr>
 
-                            <td
-                                data-label="Quiz Name"
-                            >
+                            <td data-label="<?php esc_attr_e('Quiz Name', 'eas-quiz'); ?>">
                                 <?php
                                 echo esc_html(
                                     $attempt['quiz_title']
-                                    ?? 'Quiz'
+                                    ?? __('Quiz', 'eas-quiz')
                                 );
                                 ?>
                             </td>
 
-
-                            <td
-                                data-label="Completed Time"
-                            >
-                                <?php
-                                echo esc_html(
-                                    $completed_time
-                                );
-                                ?>
+                            <td data-label="<?php esc_attr_e('Completed Time', 'eas-quiz'); ?>">
+                                <?php echo esc_html($completed_time); ?>
                             </td>
 
-
-                            <td
-                                data-label="Status"
-                            >
-
+                            <td data-label="<?php esc_attr_e('Status', 'eas-quiz'); ?>">
                                 <span
                                     class="eas-result-status eas-result-status-<?php echo esc_attr(
                                         sanitize_title(
@@ -251,48 +207,25 @@ if (!defined('ABSPATH')) {
                                         )
                                     ); ?>"
                                 >
-                                    <?php
-                                    echo esc_html(
-                                        $display_status
-                                    );
-                                    ?>
+                                    <?php echo esc_html($display_status); ?>
                                 </span>
-
                             </td>
 
-
-                            <td
-                                data-label="Score"
-                            >
-                                <?php
-                                echo esc_html(
-                                    $display_score
-                                );
-                                ?>
+                            <td data-label="<?php esc_attr_e('Score', 'eas-quiz'); ?>">
+                                <?php echo esc_html($display_score); ?>
                             </td>
 
-
-                            <td
-                                data-label="Review"
-                            >
-
+                            <td data-label="<?php esc_attr_e('Review', 'eas-quiz'); ?>">
                                 <?php if ($review_url) : ?>
-
                                     <a
                                         class="button button-primary"
-                                        href="<?php echo esc_url(
-                                            $review_url
-                                        ); ?>"
+                                        href="<?php echo esc_url($review_url); ?>"
                                     >
-                                        Review
+                                        <?php esc_html_e('Review', 'eas-quiz'); ?>
                                     </a>
-
                                 <?php else : ?>
-
                                     —
-                                    
                                 <?php endif; ?>
-
                             </td>
 
                         </tr>
