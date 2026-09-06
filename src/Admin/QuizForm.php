@@ -89,8 +89,8 @@ class QuizForm
         echo '<h1>';
 
         echo $id
-            ? 'Edit Quiz'
-            : 'Add New Quiz';
+            ? esc_html__('Edit Quiz', 'eas-quiz')
+            : esc_html__('Add New Quiz', 'eas-quiz');
 
         echo '</h1>';
 
@@ -113,7 +113,7 @@ class QuizForm
 
         echo '<tr>';
 
-        echo '<th>Quiz Name</th>';
+        echo '<th>' . esc_html__('Quiz Name', 'eas-quiz') . '</th>';
 
         echo '<td>';
 
@@ -133,7 +133,7 @@ class QuizForm
 
         echo '<tr>';
 
-        echo '<th>Description</th>';
+        echo '<th>' . esc_html__('Description', 'eas-quiz') . '</th>';
 
         echo '<td>';
 
@@ -163,7 +163,7 @@ class QuizForm
 
         echo '<tr>';
 
-        echo '<th>Attempts Allowed</th>';
+        echo '<th>' . esc_html__('Attempts Allowed', 'eas-quiz') . '</th>';
 
         echo '<td>';
 
@@ -178,7 +178,7 @@ class QuizForm
             1
         );
 
-        echo '>1 attempt</option>';
+        echo '>' . esc_html__('1 attempt', 'eas-quiz') . '</option>';
 
 
 
@@ -189,7 +189,7 @@ class QuizForm
             0
         );
 
-        echo '>Unlimited</option>';
+        echo '>' . esc_html__('Unlimited', 'eas-quiz') . '</option>';
 
 
 
@@ -203,7 +203,7 @@ class QuizForm
 
         echo '<tr>';
 
-        echo '<th>Time Limit</th>';
+        echo '<th>' . esc_html__('Time Limit', 'eas-quiz') . '</th>';
 
         echo '<td>';
 
@@ -213,11 +213,11 @@ class QuizForm
             $quiz['time_limit']
         );
 
-        echo '"> minutes';
+        echo '"> ' . esc_html__('minutes', 'eas-quiz');
 
         echo '<p class="description">';
 
-        echo 'Enter 0 for no time limit.';
+        echo esc_html__('Enter 0 for no time limit.', 'eas-quiz');
 
         echo '</p>';
 
@@ -229,7 +229,7 @@ class QuizForm
 
         echo '<tr>';
 
-        echo '<th>Backward Navigation</th>';
+        echo '<th>' . esc_html__('Backward Navigation', 'eas-quiz') . '</th>';
 
         echo '<td>';
 
@@ -244,7 +244,7 @@ class QuizForm
             1
         );
 
-        echo '> Permitted';
+        echo '> ' . esc_html__('Permitted', 'eas-quiz');
 
         echo '</label>';
 
@@ -263,7 +263,7 @@ class QuizForm
             0
         );
 
-        echo '> Not permitted';
+        echo '> ' . esc_html__('Not permitted', 'eas-quiz');
 
         echo '</label>';
 
@@ -280,7 +280,7 @@ class QuizForm
 
 
         submit_button(
-            'Save Quiz',
+            __('Save Quiz', 'eas-quiz'),
             'primary',
             'eas_save_quiz'
         );
