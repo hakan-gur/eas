@@ -494,10 +494,6 @@ class AttemptController
 
         $score = 0;
 
-        $pages = $this->pages->all_by_quiz(
-            (int) $attempt['quiz_id']
-        );
-
         foreach ($pages as $page) {
 
             $page_questions = $this->questions->all_by_page(
@@ -576,6 +572,10 @@ class AttemptController
                     /*
                      * Student answers are stored as JSON
                      */
+                     $student_answers = json_decode(
+                         stripslashes($submitted),
+                         true
+                    );
                     $all_correct = true;
 
                     if (
@@ -607,20 +607,6 @@ class AttemptController
                             }
                         }
                     }
-
-                    error_log(
-                        print_r(
-                            $correct_answers,
-                            true
-                        )
-                    );
-
-                    error_log(
-                        print_r(
-                            $student_answers,
-                            true
-                        )
-                    );
 
                     if ($all_correct) {
 
@@ -697,28 +683,6 @@ class AttemptController
                     $student_answers = json_decode(
                         $submitted,
                         true
-                    );
-
-                    error_log(
-                        'FILL BLANK CORRECT ANSWERS:'
-                    );
-
-                    error_log(
-                        print_r(
-                            $correct_answers,
-                            true
-                        )
-                    );
-
-                    error_log(
-                        'FILL BLANK STUDENT ANSWERS:'
-                    );
-
-                    error_log(
-                        print_r(
-                            $student_answers,
-                            true
-                        )
                     );
 
                     /*
