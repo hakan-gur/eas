@@ -351,34 +351,6 @@ class AttemptController
 
     public function next_page(): void
     {
-        error_log(
-            'NEXT PAGE REQUEST: ' .
-            print_r($_POST, true)
-        );
-
-        $received_nonce =
-            $_POST['_wpnonce'] ?? '';
-
-        error_log(
-            'NEXT PAGE RECEIVED NONCE: ' .
-            $received_nonce
-        );
-
-        error_log(
-            'NEXT PAGE EXPECTED ACTION: eas_next_page'
-        );
-
-        error_log(
-            'NEXT PAGE VERIFY RESULT: ' .
-            print_r(
-                wp_verify_nonce(
-                    $received_nonce,
-                    'eas_next_page'
-                ),
-                true
-            )
-        );
-
         check_admin_referer(
             'eas_next_page'
         );
@@ -604,51 +576,6 @@ class AttemptController
                     /*
                      * Student answers are stored as JSON
                      */
-
-                    error_log(
-                        'QUESTION ID: ' . $question_id
-                    );
-
-                    error_log(
-                        'RAW SUBMITTED:'
-                    );
-
-                    error_log($submitted);
-
-                    /*
-                     * Decode JSON response.
-                     * Database may contain escaped JSON.
-                     */
-
-                    $submitted = stripslashes($submitted);
-
-                    $student_answers = json_decode(
-                        $submitted,
-                        true
-                    );
-
-                    error_log(
-                        'CORRECT ANSWERS:'
-                    );
-
-                    error_log(
-                        print_r(
-                            $correct_answers,
-                            true
-                        )
-                    );
-
-                    error_log(
-                        'STUDENT ANSWERS:'
-                    );
-
-                    error_log(
-                        print_r(
-                            $student_answers,
-                            true
-                        )
-                    );
-
                     $all_correct = true;
 
                     if (
@@ -939,18 +866,6 @@ class AttemptController
                     'question_' . $question_id
                 ] ?? ''
             );
-
-            error_log(
-                'POST DATA: ' .
-                print_r($_POST, true)
-            );
-
-            error_log(
-                'SAVING QUESTION ' . $question_id .
-                ' TYPE: ' . $question['type'] .
-                ' ANSWER: ' . $answer
-            );
-
             $existing = $this->responses->find(
                 $attempt_id,
                 $question_id
