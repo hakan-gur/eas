@@ -62,7 +62,7 @@ class QuizController
                 );
             }
 
-            $quiz = $this->quizzes->find(
+            $quiz = $this->repository->find(
                 $quiz_id
             );
 
