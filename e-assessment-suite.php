@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: English Assessment Suite
+ * Plugin Name: e-Assessment Suite
  * Plugin URI: https://test-of-english.com
- * Description: Assessment platform for the TOEFL and the TOEIC courses.
+ * Description: Test preparation and management platform for standardized tests like the TOEFL iBT and the TOEIC.
  * Version: 1.0
  * Authors: Test of English, ChatGPT
  * Text Domain: eas-quiz
@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 
 define(
     'EAS_VERSION',
-    '0.3.2'
+    '1.0'
 );
 
 define(
