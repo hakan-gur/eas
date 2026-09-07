@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 <div class="wrap eas-dashboard">
 
 <h1>
-<?php esc_html_e('English Assessment Suite', 'eas-quiz'); ?>
+<?php esc_html_e('e-Assessment Suite', 'eas-quiz'); ?>
 </h1>
 
 <div style="
