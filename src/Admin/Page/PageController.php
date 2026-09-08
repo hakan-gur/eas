@@ -15,22 +15,30 @@ class PageController
         $this->repository = new PageRepository();
 		$this->quizzes = new QuizRepository();
         add_action('admin_menu', array($this, 'register'), 99);
+        add_action('admin_menu', array($this, 'hide_menu'), 100);
         add_action('admin_post_eas_save_page', array($this, 'save'));
         add_action('admin_post_eas_delete_page', array($this, 'delete'));
         add_action('admin_post_eas_move_page', array($this, 'move'));
         add_action('admin_post_eas_reorder_pages', array($this, 'reorder'));
     }
     public function register(): void
-{
-    add_submenu_page(
-        null,
-        __('EAS Pages', 'eas-quiz'),
-        __('Pages', 'eas-quiz'),
-        'manage_options',
-        'eas-pages',
-        array($this, 'index')
-    );
-}
+    {
+        add_submenu_page(
+            'eas-dashboard',
+            __('EAS Pages', 'eas-quiz'),
+            __('Pages', 'eas-quiz'),
+            'manage_options',
+            'eas-pages',
+            array($this, 'index')
+        );
+    }
+    public function hide_menu(): void
+    {
+        remove_submenu_page(
+            'eas-dashboard',
+            'eas-pages'
+        );
+    }
     public function index(): void
     {
         $quiz_id = isset($_GET['quiz_id']) ? (int) $_GET['quiz_id'] : 0;
