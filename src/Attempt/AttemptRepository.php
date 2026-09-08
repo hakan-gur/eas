@@ -345,6 +345,35 @@ public function all_completed_filtered(
         ARRAY_A
     );
 }
+public function recalculate_score(int $attempt_id): bool
+{
+    $responses_table = $this->wpdb->prefix . 'eas_responses';
+
+    $score = $this->wpdb->get_var(
+        $this->wpdb->prepare(
+            "SELECT COALESCE(SUM(points_awarded), 0)
+             FROM {$responses_table}
+             WHERE attempt_id = %d",
+            $attempt_id
+        )
+    );
+
+    return $this->wpdb->update(
+        $this->table(),
+        array(
+            'score' => (float) $score
+        ),
+        array(
+            'id' => $attempt_id
+        ),
+        array(
+            '%f'
+        ),
+        array(
+            '%d'
+        )
+    ) !== false;
+}
 public function delete(
     int $attempt_id
 ): bool {
