@@ -46,6 +46,15 @@ class AdminController
                 'register_menu'
             )
         );
+
+        add_action(
+            'admin_menu',
+            array(
+                $this,
+                'hide_internal_pages'
+            ),
+            100
+        );
     }
 
     public function register_menu(): void
@@ -88,7 +97,7 @@ class AdminController
         );
 
         add_submenu_page(
-            null,
+            'eas-dashboard',
             __('Grade Attempt', 'eas-quiz'),
             __('Grade Attempt', 'eas-quiz'),
             'manage_options',
@@ -97,6 +106,14 @@ class AdminController
                 $this,
                 'grade_page'
             )
+        );
+    }
+
+    public function hide_internal_pages(): void
+    {
+        remove_submenu_page(
+            'eas-dashboard',
+            'eas-attempt-grade'
         );
     }
 
@@ -138,7 +155,7 @@ class AdminController
              FROM {$wpdb->users}"
         );
 
-        $attemptRepository = new \EAS\Attempt\AttemptRepository();
+        $attemptRepository = new \\EAS\\Attempt\\AttemptRepository();
 
         $pending_grading = $attemptRepository->count_pending_grading();
 
