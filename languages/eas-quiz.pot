@@ -1,0 +1,1254 @@
+# e-Assessment Suite translation template.
+# Copyright (C) 2026
+# This file is distributed under the same license as the e-Assessment Suite plugin.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: e-Assessment Suite\n"
+"Report-Msgid-Bugs-To: https://github.com/hakan-gur/EAS/issues\n"
+"POT-Creation-Date: 2026-09-08 20:21+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: eas-quiz\n"
+"\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: src/Admin/Attempt/AttemptController.php:92
+#, php-format
+msgid "%1$d min %2$d sec"
+msgstr ""
+
+#: views/admin/pages/list.php:193
+msgid "%d sec"
+msgstr ""
+
+#: views/admin/questions/form.php:233 views/admin/questions/form.php:280
+#, php-format
+msgid "%s %d"
+msgstr ""
+
+#: views/frontend/question/audio.php:48
+msgid "0 seconds remaining"
+msgstr ""
+
+#: src/Admin/QuizForm.php:181
+msgid "1 attempt"
+msgstr ""
+
+#: views/admin/attempts/index.php:119 views/admin/questions/add-existing.php:89
+msgid "Action"
+msgstr ""
+
+#: src/Admin/QuizMenu.php:198 views/admin/pages/list.php:140
+#: views/admin/questions/bank.php:68 views/admin/questions/list.php:128
+#: views/admin/quizzes/list.php:61
+msgid "Actions"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:12 views/admin/questions/list.php:95
+msgid "Add Existing Question"
+msgstr ""
+
+#: views/admin/pages/form.php:26 views/admin/pages/list.php:99
+msgid "Add New Page"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:63 views/admin/questions/form.php:60
+#: views/admin/questions/list.php:85
+msgid "Add New Question"
+msgstr ""
+
+#: src/Admin/QuizForm.php:93 src/Admin/QuizMenu.php:169
+#: views/admin/quizzes/form.php:20 views/admin/quizzes/list.php:32
+msgid "Add New Quiz"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:192
+msgid "Add to Page"
+msgstr ""
+
+#: views/admin/attempts/index.php:74
+msgid "All"
+msgstr ""
+
+#: views/admin/attempts/index.php:41
+msgid "All quizzes"
+msgstr ""
+
+#: views/admin/quizzes/form.php:135
+msgid "Allow moving back between pages"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:148
+msgid "Already on this page"
+msgstr ""
+
+#: views/admin/questions/preview.php:51
+msgid "Answers"
+msgstr ""
+
+#: views/admin/attempts/index.php:288
+msgid ""
+"Are you sure you want to permanently delete this student attempt? All "
+"answers and associated audio recordings will also be deleted."
+msgstr ""
+
+#: views/frontend/attempt/page.php:314
+msgid "Are you sure you want to submit this quiz?"
+msgstr ""
+
+#: views/admin/questions/import.php:64
+msgid "at the beginning of the question."
+msgstr ""
+
+#: src/Attempt/AttemptRenderer.php:32 src/Frontend/AttemptController.php:250
+#: src/Frontend/AttemptController.php:377
+#: src/Frontend/AttemptController.php:470 src/Frontend/ResultController.php:73
+#: src/Result/ResultRenderer.php:41 src/Result/ResultRenderer.php:376
+#: src/Admin/Attempt/AttemptController.php:158
+msgid "Attempt not found."
+msgstr ""
+
+#: src/Frontend/AttemptController.php:186
+msgid "Attempt page not found."
+msgstr ""
+
+#: src/Admin/AdminController.php:89 src/Admin/QuizMenu.php:196
+#: views/admin/attempts/index.php:24
+msgid "Attempts"
+msgstr ""
+
+#: src/Admin/QuizForm.php:166 views/admin/quizzes/form.php:89
+msgid "Attempts Allowed"
+msgstr ""
+
+#: views/frontend/quiz/start.php:27
+msgid "Attempts allowed:"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:126 views/admin/questions/bank.php:13
+#: views/admin/questions/form.php:108
+msgid "Audio Response"
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:167
+#: views/frontend/my-results/page.php:108
+msgid "Auto Graded"
+msgstr ""
+
+#: views/admin/questions/list.php:268
+msgid "Auto graded"
+msgstr ""
+
+#: views/admin/attempts/grade.php:30
+msgid "Back to Attempts"
+msgstr ""
+
+#: views/admin/questions/list.php:69
+msgid "Back to Pages"
+msgstr ""
+
+#: views/admin/questions/import.php:104
+msgid "Back to Question Bank"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:32
+#: views/admin/questions/preview.php:144
+msgid "Back to Questions"
+msgstr ""
+
+#: views/admin/attempts/index.php:8 views/admin/pages/list.php:84
+#: views/admin/questions/bank.php:28
+msgid "Back to Quizzes"
+msgstr ""
+
+#: src/Admin/QuizForm.php:232 views/admin/quizzes/form.php:121
+msgid "Backward Navigation"
+msgstr ""
+
+#: src/Frontend/AttemptController.php:277
+msgid "Backward navigation is not allowed."
+msgstr ""
+
+#: views/admin/questions/import.php:63
+msgid "becomes"
+msgstr ""
+
+#: views/admin/questions/import.php:25
+msgid "below."
+msgstr ""
+
+#: views/admin/pages/form.php:154 views/admin/questions/form.php:355
+#: views/admin/questions/form.php:361
+msgid "Cancel"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1478
+msgid "Close Preview"
+msgstr ""
+
+#: views/admin/dashboard.php:111 views/admin/attempts/index.php:84
+#: views/admin/attempts/index.php:117
+msgid "Completed"
+msgstr ""
+
+#: views/frontend/quiz/start.php:37
+msgid "Completed attempts:"
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:118
+#: views/frontend/my-results/page.php:36 views/frontend/my-results/page.php:198
+msgid "Completed Time"
+msgstr ""
+
+#: views/admin/pages/form.php:116
+msgid "Content"
+msgstr ""
+
+#: views/frontend/question/essay.php:43
+msgid "Copy"
+msgstr ""
+
+#: views/admin/questions/form.php:244
+msgid "Correct"
+msgstr ""
+
+#: views/admin/questions/preview.php:95
+msgid "correct"
+msgstr ""
+
+#: views/admin/questions/import.php:34
+msgid "Correct answers beginning with"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:42 views/admin/questions/bank.php:34
+#: views/admin/questions/form.php:59
+msgid "Create New Question"
+msgstr ""
+
+#: src/Frontend/AttemptController.php:299
+#: src/Frontend/AttemptController.php:395
+msgid "Current page not found."
+msgstr ""
+
+#: views/frontend/question/essay.php:39
+msgid "Cut"
+msgstr ""
+
+#: views/admin/questions/form.php:176
+msgid "Delay Before Recording"
+msgstr ""
+
+#: src/Admin/QuizMenu.php:261 views/admin/attempts/index.php:289
+#: views/admin/pages/list.php:274 views/admin/questions/bank.php:123
+#: views/admin/questions/list.php:369 views/admin/quizzes/list.php:110
+msgid "Delete"
+msgstr ""
+
+#: views/admin/pages/list.php:271
+msgid "Delete this page and all of its questions permanently?"
+msgstr ""
+
+#: views/admin/questions/bank.php:122
+msgid "Delete this question permanently from the question bank?"
+msgstr ""
+
+#: views/admin/questions/list.php:367
+msgid "Delete this question permanently?"
+msgstr ""
+
+#: views/admin/quizzes/list.php:109
+msgid ""
+"Delete this quiz and ALL of its pages, questions, answers, attempts, and "
+"responses permanently?"
+msgstr ""
+
+#: src/Admin/QuizMenu.php:259
+msgid "Delete this quiz?"
+msgstr ""
+
+#: src/Admin/QuizForm.php:136 views/admin/questions/add-existing.php:124
+#: views/admin/questions/bank.php:11 views/admin/questions/form.php:102
+#: views/admin/questions/import.php:31 views/admin/quizzes/form.php:68
+msgid "Description"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1694
+msgid "Description question %d could not be imported."
+msgstr ""
+
+#: views/admin/questions/import.php:42
+msgid "Description:"
+msgstr ""
+
+#: views/admin/questions/form.php:295
+msgid "Distractor"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:122 views/admin/questions/bank.php:9
+#: views/admin/questions/form.php:96
+msgid "Drag and Drop into Text"
+msgstr ""
+
+#: views/admin/quizzes/list.php:104
+msgid "Duplicate"
+msgstr ""
+
+#: views/admin/attempts/index.php:118
+msgid "Duration"
+msgstr ""
+
+#. Name of the plugin
+#: src/Admin/AdminController.php:62 views/admin/dashboard.php:12
+msgid "e-Assessment Suite"
+msgstr ""
+
+#: src/Admin/AdminController.php:88
+msgid "EAS Attempts"
+msgstr ""
+
+#: views/admin/questions/import.php:28
+msgid "EAS currently supports:"
+msgstr ""
+
+#: src/Admin/Page/PageController.php:35
+msgid "EAS Pages"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:84
+msgid "EAS Questions"
+msgstr ""
+
+#: src/Admin/QuizMenu.php:53
+msgid "EAS Quiz"
+msgstr ""
+
+#: src/Admin/AdminController.php:76 src/Admin/QuizMenu.php:51
+#: src/Admin/QuizMenu.php:164
+msgid "EAS Quizzes"
+msgstr ""
+
+#: src/Admin/QuizMenu.php:251 views/admin/pages/list.php:236
+#: views/admin/questions/bank.php:107 views/admin/questions/list.php:333
+#: views/admin/quizzes/list.php:99
+msgid "Edit"
+msgstr ""
+
+#: views/admin/pages/form.php:25
+msgid "Edit Page"
+msgstr ""
+
+#: views/admin/questions/form.php:57
+msgid "Edit Question"
+msgstr ""
+
+#: src/Admin/QuizForm.php:92 views/admin/quizzes/form.php:19
+msgid "Edit Quiz"
+msgstr ""
+
+#: src/Admin/QuizForm.php:220
+msgid "Enter 0 for no time limit."
+msgstr ""
+
+#: views/admin/questions/form.php:148
+msgid "Enter general feedback. HTML is allowed."
+msgstr ""
+
+#: views/admin/questions/form.php:333
+msgid "Enter the correct missing letters in square brackets."
+msgstr ""
+
+#: views/admin/pages/form.php:101
+msgid "Enter the maximum time allowed for this page in seconds."
+msgstr ""
+
+#: views/admin/questions/add-existing.php:125 views/admin/questions/bank.php:12
+#: views/admin/questions/form.php:105
+msgid "Essay"
+msgstr ""
+
+#: views/admin/questions/form.php:257 views/admin/questions/form.php:335
+msgid "Example:"
+msgstr ""
+
+#: views/admin/questions/import.php:40
+msgid "Examples"
+msgstr ""
+
+#: views/admin/questions/bank.php:49
+msgid "Export Questions (GIFT)"
+msgstr ""
+
+#: views/admin/attempts/grade.php:221
+msgid "Feedback:"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:123 views/admin/questions/bank.php:10
+#: views/admin/questions/form.php:99
+msgid "Fill in the Blanks (C-Test)"
+msgstr ""
+
+#: views/admin/attempts/index.php:94
+msgid "Filter"
+msgstr ""
+
+#: views/admin/questions/import.php:62
+msgid "For example,"
+msgstr ""
+
+#: views/admin/pages/form.php:103
+msgid "For example: 5 = 5 seconds, 30 = 30 seconds, 60 = 1 minute."
+msgstr ""
+
+#: views/admin/questions/import.php:33
+msgid "format"
+msgstr ""
+
+#: views/admin/questions/form.php:139
+msgid "General Feedback"
+msgstr ""
+
+#: views/admin/questions/import.php:36
+msgid "General Feedback beginning with"
+msgstr ""
+
+#: views/admin/questions/form.php:151
+msgid "General feedback shown after the question is answered. HTML is allowed."
+msgstr ""
+
+#: views/frontend/result/page.php:175
+msgid "General feedback:"
+msgstr ""
+
+#: views/frontend/question/audio.php:404
+msgid "Get ready"
+msgstr ""
+
+#: views/admin/questions/import.php:24
+msgid "GIFT format"
+msgstr ""
+
+#: views/admin/questions/import.php:78
+msgid "GIFT Questions"
+msgstr ""
+
+#: views/admin/attempts/index.php:264
+msgid "Grade"
+msgstr ""
+
+#: src/Admin/AdminController.php:100 src/Admin/AdminController.php:101
+#: views/admin/attempts/grade.php:52
+msgid "Grade Attempt"
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:175 views/admin/attempts/index.php:174
+#: views/frontend/my-results/page.php:101
+msgid "Graded"
+msgstr ""
+
+#: views/admin/attempts/grade.php:14
+msgid "Grades saved successfully."
+msgstr ""
+
+#: views/admin/questions/import.php:37
+msgid "HTML in question text and General Feedback"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://test-of-english.com"
+msgstr ""
+
+#: src/Admin/QuizMenu.php:194
+msgid "ID"
+msgstr ""
+
+#: views/admin/questions/import.php:97
+msgid "Import GIFT Questions"
+msgstr ""
+
+#: views/admin/questions/import.php:11
+msgid "Import Questions"
+msgstr ""
+
+#: views/admin/questions/bank.php:40
+msgid "Import Questions (GIFT)"
+msgstr ""
+
+#: views/admin/questions/form.php:182
+msgid "Include page loading time + instruction audio length."
+msgstr ""
+
+#: views/admin/questions/import.php:35
+msgid "Incorrect answers beginning with"
+msgstr ""
+
+#: views/admin/questions/form.php:253 views/admin/questions/form.php:330
+msgid "Instructions"
+msgstr ""
+
+#: src/Frontend/AttemptController.php:237
+#: src/Frontend/AttemptController.php:364
+#: src/Frontend/AttemptController.php:457
+#: src/Admin/Attempt/AttemptController.php:136
+#: src/Admin/Attempt/GradeController.php:68
+#: src/Admin/Attempt/GradeController.php:114
+msgid "Invalid attempt."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1076
+msgid "Invalid page or question."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:988
+msgid "Invalid page."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1166
+#: src/Admin/Question/QuestionController.php:1236
+msgid "Invalid question or page."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:269
+#: src/Admin/Question/QuestionController.php:1315
+#: src/Admin/Question/QuestionController.php:1422
+msgid "Invalid question."
+msgstr ""
+
+#: src/Frontend/AttemptController.php:123
+#: src/Admin/Question/QuestionController.php:111
+#: src/Admin/Question/QuestionController.php:169
+#: src/Admin/Question/QuestionController.php:214
+#: src/Admin/Question/QuestionController.php:260
+#: src/Admin/Question/QuestionController.php:506
+#: src/Admin/Question/QuestionController.php:1012
+#: src/Admin/Question/QuestionController.php:1506
+#: src/Admin/Question/QuestionController.php:2169
+#: src/Admin/Quiz/QuizController.php:61 src/Admin/Quiz/QuizController.php:136
+msgid "Invalid quiz."
+msgstr ""
+
+#: views/admin/questions/import.php:57
+msgid "is not displayed."
+msgstr ""
+
+#: views/admin/pages/form.php:105
+msgid "Leave as 0 for an unlimited page."
+msgstr ""
+
+#: views/frontend/question/audio.php:31
+msgid "Listen carefully. Your response will start automatically."
+msgstr ""
+
+#: views/admin/dashboard.php:64
+msgid "Manage Quizzes"
+msgstr ""
+
+#: views/admin/questions/list.php:290
+msgid "Manual grading"
+msgstr ""
+
+#: views/frontend/question/audio.php:260
+msgid "Microphone permission denied."
+msgstr ""
+
+#: views/admin/questions/form.php:317
+msgid "Minimum answer lines"
+msgstr ""
+
+#: views/admin/questions/form.php:322
+msgid "Minimum visible writing lines for students."
+msgstr ""
+
+#: views/frontend/quiz/start.php:21
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Admin/QuizForm.php:216 src/Admin/QuizMenu.php:241
+#: src/Result/ResultRenderer.php:510
+msgid "minutes"
+msgstr ""
+
+#: views/admin/questions/import.php:20
+msgid "Moodle GIFT Import"
+msgstr ""
+
+#: views/admin/questions/list.php:195
+msgid "Move question down"
+msgstr ""
+
+#: views/admin/questions/list.php:178
+msgid "Move question up"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:121 views/admin/questions/bank.php:8
+#: views/admin/questions/form.php:93 views/admin/questions/import.php:32
+msgid "Multiple Choice"
+msgstr ""
+
+#: views/admin/questions/import.php:46
+msgid "Multiple Choice:"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:2078
+msgid "Multiple-choice question %d could not be imported."
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:101
+#: views/frontend/my-results/page.php:12
+msgid "My Results"
+msgstr ""
+
+#: views/admin/attempts/index.php:159
+msgid "Needs grading"
+msgstr ""
+
+#: views/frontend/attempt/page.php:84
+msgid "Next Page"
+msgstr ""
+
+#: views/frontend/question/item.php:31
+msgid "No answers found."
+msgstr ""
+
+#: views/admin/questions/preview.php:60
+msgid "No answers have been added."
+msgstr ""
+
+#: src/Frontend/AttemptController.php:213 src/Frontend/ResultController.php:57
+msgid "No attempt selected."
+msgstr ""
+
+#: src/Frontend/AttemptController.php:883
+msgid "No audio uploaded."
+msgstr ""
+
+#: views/admin/attempts/index.php:16
+msgid "No completed attempts found."
+msgstr ""
+
+#: views/admin/dashboard.php:101
+msgid "No completed attempts yet."
+msgstr ""
+
+#: src/Admin/QuizMenu.php:240
+msgid "No limit"
+msgstr ""
+
+#: src/Attempt/AttemptRenderer.php:44 src/Frontend/AttemptController.php:488
+#: views/admin/pages/list.php:108
+msgid "No pages found."
+msgstr ""
+
+#: views/admin/questions/list.php:109
+msgid "No questions found."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1525
+msgid "No questions were provided."
+msgstr ""
+
+#: src/Admin/QuizMenu.php:181 views/admin/quizzes/list.php:39
+msgid "No quizzes found."
+msgstr ""
+
+#: views/admin/attempts/grade.php:88
+msgid "No responses found."
+msgstr ""
+
+#: views/frontend/result/page.php:39
+msgid "No responses on this page."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1578
+msgid "No valid Moodle GIFT questions were found."
+msgstr ""
+
+#: views/admin/questions/bank.php:95
+msgid "Not assigned to a page"
+msgstr ""
+
+#: src/Admin/QuizForm.php:266
+msgid "Not permitted"
+msgstr ""
+
+#: views/admin/questions/form.php:234 views/admin/questions/form.php:281
+msgid "Option"
+msgstr ""
+
+#: views/admin/questions/list.php:123
+msgid "Order"
+msgstr ""
+
+#: views/admin/questions/import.php:58
+msgid ""
+"Other question numbers are retained at the beginning of the question text."
+msgstr ""
+
+#: views/admin/pages/list.php:124
+msgid "Page"
+msgstr ""
+
+#: views/frontend/result/page.php:28
+msgid "Page %d"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:489
+#: src/Admin/Question/QuestionController.php:1001
+#: src/Admin/Question/QuestionController.php:1089
+msgid "Page not found."
+msgstr ""
+
+#: views/admin/pages/list.php:128
+msgid "Page Time"
+msgstr ""
+
+#: views/admin/pages/form.php:85
+msgid "Page Time Limit (seconds)"
+msgstr ""
+
+#: views/admin/pages/form.php:63
+msgid "Page Title"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:21 views/admin/questions/list.php:56
+msgid "Page:"
+msgstr ""
+
+#: src/Admin/Page/PageController.php:36 views/admin/pages/list.php:62
+#: views/admin/questions/bank.php:67 views/admin/quizzes/list.php:57
+#: views/admin/quizzes/list.php:89
+msgid "Pages"
+msgstr ""
+
+#: views/frontend/question/essay.php:47
+msgid "Paste"
+msgstr ""
+
+#: views/frontend/question/essay.php:147
+msgid "Paste is not allowed by your browser."
+msgstr ""
+
+#: views/admin/questions/import.php:23
+msgid "Paste questions exported from Moodle in"
+msgstr ""
+
+#: views/admin/questions/import.php:90
+msgid ""
+"Paste the GIFT text as exported from Moodle. Make sure that lines that start "
+"with // have been removed. All instances of \\n and \\ must also be removed. "
+"Each question should begin with"
+msgstr ""
+
+#: views/admin/questions/import.php:87
+msgid "Paste your Moodle GIFT questions here..."
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:171
+#: views/frontend/my-results/page.php:96
+msgid "Pending Grading"
+msgstr ""
+
+#: views/admin/dashboard.php:49
+msgid "Pending grading"
+msgstr ""
+
+#: src/Admin/QuizForm.php:247
+msgid "Permitted"
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:38
+msgid "Please log in to view your quiz results."
+msgstr ""
+
+#: src/Frontend/ResultController.php:45
+msgid "Please log in to view your result."
+msgstr ""
+
+#: src/Frontend/AttemptController.php:940
+msgid "Please log in."
+msgstr ""
+
+#: views/admin/pages/list.php:136 views/admin/questions/add-existing.php:85
+#: views/admin/questions/bank.php:66 views/admin/questions/form.php:159
+#: views/admin/questions/list.php:126 views/admin/quizzes/list.php:59
+msgid "Points"
+msgstr ""
+
+#: views/admin/attempts/grade.php:187 views/frontend/result/page.php:185
+msgid "Points:"
+msgstr ""
+
+#: views/admin/questions/form.php:189
+msgid "Preparation Countdown"
+msgstr ""
+
+#: views/frontend/question/audio.php:38
+msgid "Preparing..."
+msgstr ""
+
+#: views/admin/questions/bank.php:113 views/admin/questions/list.php:346
+msgid "Preview"
+msgstr ""
+
+#: views/frontend/attempt/page.php:71
+msgid "Previous Page"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:77 views/admin/questions/bank.php:64
+#: views/admin/questions/list.php:124 views/admin/questions/preview.php:25
+msgid "Question"
+msgstr ""
+
+#: views/frontend/result/page.php:53
+msgid "Question %d"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1887
+msgid "Question %d contains no valid answer options."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1742
+msgid "Question %d has an invalid GIFT answer block."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1787
+msgid "Question %d has no question text."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1996
+msgid "Question %d must contain at least two answer options."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:2013
+msgid "Question %d must have exactly one correct answer. Found: %d."
+msgstr ""
+
+#: views/admin/questions/bank.php:19 views/admin/questions/form.php:70
+msgid "Question Bank"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:695
+msgid "Question could not be saved."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1184
+#: src/Admin/Question/QuestionController.php:1258
+msgid "Question is not assigned to this page."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:657
+msgid "Question not found in this quiz."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:301
+#: src/Admin/Question/QuestionController.php:1102
+#: src/Admin/Question/QuestionController.php:1336
+#: src/Admin/Question/QuestionController.php:1435
+msgid "Question not found."
+msgstr ""
+
+#: views/admin/questions/import.php:33
+msgid "Question numbers in the"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:1451
+#: views/admin/questions/preview.php:14
+msgid "Question Preview"
+msgstr ""
+
+#: views/admin/questions/form.php:116
+msgid "Question Text"
+msgstr ""
+
+#: views/admin/questions/form.php:88
+msgid "Question Type"
+msgstr ""
+
+#: views/admin/dashboard.php:33 src/Admin/Question/QuestionController.php:85
+#: views/admin/pages/list.php:132 views/admin/pages/list.php:251
+#: views/admin/questions/list.php:46 views/admin/quizzes/list.php:58
+#: views/admin/quizzes/list.php:94
+msgid "Questions"
+msgstr ""
+
+#: views/admin/questions/import.php:31 views/admin/questions/import.php:32
+msgid "questions"
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:2141
+msgid "Questions imported successfully."
+msgstr ""
+
+#: views/admin/dashboard.php:59
+msgid "Quick Actions"
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:81 src/Result/ResultRenderer.php:390
+#: views/admin/dashboard.php:109 views/admin/attempts/index.php:113
+#: views/frontend/attempt/page.php:30 views/frontend/my-results/page.php:193
+msgid "Quiz"
+msgstr ""
+
+#: src/Admin/Quiz/QuizController.php:228
+msgid "Quiz duplication failed."
+msgstr ""
+
+#: src/Frontend/QuizShortcode.php:84
+msgid "Quiz ID missing."
+msgstr ""
+
+#: src/Admin/QuizForm.php:116 src/Frontend/MyResultsController.php:117
+#: views/frontend/my-results/page.php:32 views/frontend/my-results/page.php:189
+msgid "Quiz Name"
+msgstr ""
+
+#: src/Frontend/AttemptController.php:136
+#: src/Frontend/AttemptController.php:263 src/Frontend/QuizRenderer.php:56
+#: src/Admin/Question/QuestionController.php:124
+#: src/Admin/Question/QuestionController.php:182
+#: src/Admin/Question/QuestionController.php:227
+#: src/Admin/Question/QuestionController.php:285
+#: src/Admin/Question/QuestionController.php:526
+#: src/Admin/Question/QuestionController.php:2192
+#: src/Admin/Quiz/QuizController.php:71 src/Admin/Quiz/QuizController.php:146
+msgid "Quiz not found."
+msgstr ""
+
+#: views/admin/quizzes/list.php:56
+msgid "Quiz Title"
+msgstr ""
+
+#: views/admin/attempts/grade.php:63 views/admin/attempts/index.php:34
+#: views/admin/pages/list.php:68 views/admin/questions/add-existing.php:16
+#: views/admin/questions/bank.php:22 views/admin/questions/import.php:14
+#: views/admin/questions/list.php:51
+msgid "Quiz:"
+msgstr ""
+
+#: src/Admin/AdminController.php:77 src/Admin/QuizMenu.php:75
+#: src/Admin/QuizMenu.php:77 views/admin/dashboard.php:25
+#: views/admin/quizzes/list.php:27
+msgid "Quizzes"
+msgstr ""
+
+#: views/admin/dashboard.php:97
+msgid "Recent Activity"
+msgstr ""
+
+#: views/frontend/question/audio.php:192
+msgid "Recording"
+msgstr ""
+
+#: views/admin/questions/form.php:201
+msgid "Recording Duration"
+msgstr ""
+
+#: src/Frontend/FrontendAssets.php:57
+msgid "Recording ready."
+msgstr ""
+
+#: views/frontend/question/audio.php:355
+msgid "Recording saved."
+msgstr ""
+
+#: src/Frontend/FrontendAssets.php:58
+msgid "Recording uploaded successfully."
+msgstr ""
+
+#: src/Frontend/FrontendAssets.php:61 views/frontend/question/audio.php:197
+msgid "Recording..."
+msgstr ""
+
+#: views/frontend/quiz/start.php:43
+msgid "Remaining attempts:"
+msgstr ""
+
+#: views/frontend/attempt/page.php:36 views/frontend/attempt/page.php:47
+msgid "Remaining Time:"
+msgstr ""
+
+#: src/Frontend/AttemptController.php:796
+msgid "Result page not found."
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:121
+#: src/Frontend/MyResultsController.php:231 src/Result/ResultRenderer.php:544
+#: views/admin/attempts/index.php:271 views/admin/questions/list.php:304
+#: views/frontend/my-results/page.php:48 views/frontend/my-results/page.php:218
+#: views/frontend/my-results/page.php:224
+msgid "Review"
+msgstr ""
+
+#: views/admin/attempts/grade.php:255
+msgid "Save Grades"
+msgstr ""
+
+#: views/admin/pages/form.php:144
+msgid "Save Page"
+msgstr ""
+
+#: views/admin/questions/form.php:347
+msgid "Save Question"
+msgstr ""
+
+#: src/Admin/QuizForm.php:283 views/admin/quizzes/form.php:166
+msgid "Save Quiz"
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:120 views/admin/dashboard.php:110
+#: views/admin/attempts/index.php:115 views/frontend/my-results/page.php:44
+#: views/frontend/my-results/page.php:214
+msgid "Score"
+msgstr ""
+
+#: views/frontend/result/page.php:11
+msgid "Score:"
+msgstr ""
+
+#: views/frontend/question/audio.php:140
+msgid "second remaining"
+msgstr ""
+
+#: src/Result/ResultRenderer.php:520
+msgid "seconds"
+msgstr ""
+
+#: views/admin/questions/form.php:181
+msgid "Seconds after page load before preparation countdown begins."
+msgstr ""
+
+#: views/admin/questions/form.php:194
+msgid "Seconds before recording starts."
+msgstr ""
+
+#: views/frontend/question/audio.php:141 views/frontend/question/audio.php:168
+msgid "seconds remaining"
+msgstr ""
+
+#: views/admin/quizzes/list.php:60
+msgid "Shortcode"
+msgstr ""
+
+#: views/admin/quizzes/form.php:156
+msgid "Shuffle multiple-choice options"
+msgstr ""
+
+#: views/admin/quizzes/form.php:141
+msgid "Shuffle Options"
+msgstr ""
+
+#: views/admin/questions/form.php:206
+msgid "Speaking time (12-60 seconds)."
+msgstr ""
+
+#: views/frontend/quiz/start.php:66
+msgid "Start Attempt"
+msgstr ""
+
+#: views/admin/attempts/index.php:116
+msgid "Started"
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:119 views/admin/dashboard.php:85
+#: views/admin/attempts/index.php:114 views/admin/questions/list.php:127
+#: views/frontend/my-results/page.php:40 views/frontend/my-results/page.php:202
+msgid "Status"
+msgstr ""
+
+#: views/admin/attempts/grade.php:71 views/admin/attempts/index.php:66
+msgid "Status:"
+msgstr ""
+
+#: views/admin/dashboard.php:108 views/admin/attempts/index.php:112
+msgid "Student"
+msgstr ""
+
+#: views/admin/attempts/grade.php:163
+msgid "Student answer:"
+msgstr ""
+
+#: views/admin/attempts/grade.php:136
+msgid "Student recording:"
+msgstr ""
+
+#: views/admin/dashboard.php:41
+msgid "Students"
+msgstr ""
+
+#: views/frontend/attempt/page.php:276 views/frontend/attempt/page.php:288
+msgid "Submit Quiz"
+msgstr ""
+
+#: views/admin/dashboard.php:75
+msgid "System Information"
+msgstr ""
+
+#: views/admin/dashboard.php:88
+msgid "System operational"
+msgstr ""
+
+#: views/frontend/result/page.php:196
+msgid "Teacher feedback:"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Test preparation and management platform for standardized tests like the "
+"TOEFL iBT and the TOEIC."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:2530
+msgid ""
+"The GIFT export could not be started because output has already been sent."
+msgstr ""
+
+#: views/admin/questions/import.php:56
+msgid "The number"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:52
+msgid "There are no existing questions in this quiz."
+msgstr ""
+
+#: src/Admin/Question/QuestionController.php:319
+#: src/Admin/Question/QuestionController.php:1121
+msgid "This question does not belong to this quiz."
+msgstr ""
+
+#: views/admin/questions/form.php:69
+#, php-format
+msgid ""
+"This question will be saved in the %s and will not be assigned to a page yet."
+msgstr ""
+
+#: src/Frontend/ResultController.php:102
+msgid "This quiz attempt has not been completed."
+msgstr ""
+
+#: views/admin/questions/bank.php:57
+msgid "This quiz does not have any questions in its question bank yet."
+msgstr ""
+
+#: src/Admin/QuizForm.php:206 src/Admin/QuizMenu.php:197
+msgid "Time Limit"
+msgstr ""
+
+#: views/admin/quizzes/form.php:105
+msgid "Time Limit (minutes)"
+msgstr ""
+
+#: views/frontend/quiz/start.php:18
+msgid "Time limit:"
+msgstr ""
+
+#: src/Result/ResultRenderer.php:504
+msgid "Time Spent:"
+msgstr ""
+
+#: src/Admin/QuizMenu.php:195 views/admin/quizzes/form.php:51
+msgid "Title"
+msgstr ""
+
+#: src/Result/ResultRenderer.php:483
+msgid "Total Score:"
+msgstr ""
+
+#: views/admin/questions/add-existing.php:81 views/admin/questions/bank.php:65
+#: views/admin/questions/list.php:125
+msgid "Type"
+msgstr ""
+
+#: views/frontend/question/essay.php:57
+msgid "Type your answer here;"
+msgstr ""
+
+#: views/admin/attempts/grade.php:118
+msgid "Type:"
+msgstr ""
+
+#: views/admin/pages/list.php:72
+msgid "Unknown quiz"
+msgstr ""
+
+#: src/Admin/QuizForm.php:192 src/Admin/QuizMenu.php:230
+#: views/frontend/quiz/start.php:31
+msgid "Unlimited"
+msgstr ""
+
+#: views/admin/questions/form.php:346
+msgid "Update Question"
+msgstr ""
+
+#: views/admin/quizzes/form.php:165
+msgid "Update Quiz"
+msgstr ""
+
+#: src/Frontend/FrontendAssets.php:60
+msgid "Upload error."
+msgstr ""
+
+#: src/Frontend/AttemptController.php:918 src/Frontend/FrontendAssets.php:59
+#: views/frontend/question/audio.php:371
+msgid "Upload failed."
+msgstr ""
+
+#: views/frontend/question/audio.php:384
+msgid "Upload failed. Please try again."
+msgstr ""
+
+#: views/frontend/question/audio.php:243 views/frontend/question/audio.php:299
+msgid "Uploading..."
+msgstr ""
+
+#: views/admin/questions/form.php:256
+msgid "Use placeholders in the question text to create drag-and-drop gaps."
+msgstr ""
+
+#: views/admin/dashboard.php:80
+msgid "Version"
+msgstr ""
+
+#: views/admin/dashboard.php:69
+msgid "View Attempts"
+msgstr ""
+
+#: views/admin/questions/list.php:27
+msgid ""
+"Warning: This question has no correct answer selected. It has been saved, "
+"but it cannot be graded correctly."
+msgstr ""
+
+#: views/frontend/question/essay.php:65
+msgid "Words:"
+msgstr ""
+
+#: src/Frontend/ResultController.php:89
+msgid "You are not allowed to view this result."
+msgstr ""
+
+#: src/Admin/Attempt/AttemptController.php:121
+msgid "You do not have permission to delete attempts."
+msgstr ""
+
+#: src/Frontend/MyResultsController.php:106
+#: views/frontend/my-results/page.php:18
+msgid "You have not completed any quizzes yet."
+msgstr ""
+
+#: src/Frontend/AttemptController.php:166 views/frontend/quiz/start.php:71
+msgid "You have reached the maximum number of attempts allowed for this quiz."
+msgstr ""
+
+#: src/Frontend/AttemptController.php:110
+msgid "You must be logged in."
+msgstr ""
+
+#: views/frontend/result/page.php:71
+msgid "Your answer:"
+msgstr ""
