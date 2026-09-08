@@ -59,7 +59,7 @@ class AdminController
     public function register_menu(): void
     {
         add_menu_page(
-            __('English Assessment Suite', 'eas-quiz'),
+            __('e-Assessment Suite', 'eas-quiz'),
             'EAS',
             'manage_options',
             'eas-dashboard',
