@@ -87,7 +87,7 @@ if (!defined('ABSPATH')) {
                         placeholder="<?php echo esc_attr__('Paste your Moodle GIFT questions here...', 'eas-quiz'); ?>"
                     ></textarea>
                     <p class="description">
-                        <?php esc_html_e('Paste the GIFT text exactly as exported from Moodle. Each question should begin with', 'eas-quiz'); ?>
+                        <?php esc_html_e('Paste the GIFT text as exported from Moodle. Make sure that lines that start with // have been removed. All instances of \n and \ must also be removed. Each question should begin with', 'eas-quiz'); ?>
                         <code>::number::</code>.
                     </p>
                 </td>
