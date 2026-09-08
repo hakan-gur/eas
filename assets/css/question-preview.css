@@ -1,0 +1,192 @@
+.eas-question-preview {
+    box-sizing: border-box;
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 24px 56px;
+    background: #f5f7f9;
+    color: #1d2327;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.eas-question-preview__shell {
+    width: min(960px, 100%);
+    margin: 0 auto;
+}
+
+.eas-question-preview__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 22px;
+}
+
+.eas-question-preview__eyebrow {
+    margin: 0 0 6px;
+    color: #646970;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.eas-question-preview__title {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.25;
+    font-weight: 600;
+}
+
+.eas-question-preview__close {
+    flex: 0 0 auto;
+    padding: 8px 16px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    background: #fff;
+    color: #1d2327;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.eas-question-preview__close:hover {
+    border-color: #50575e;
+    color: #1d2327;
+}
+
+.eas-question-preview__card {
+    box-sizing: border-box;
+    padding: 36px 40px 40px;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+}
+
+.eas-question-preview .eas-question {
+    margin: 0;
+    padding: 0;
+}
+
+.eas-question-preview .eas-question-text {
+    margin-bottom: 26px;
+    font-size: 18px;
+    line-height: 1.75;
+}
+
+.eas-question-preview .eas-question-text p:last-child {
+    margin-bottom: 0;
+}
+
+.eas-question-preview .eas-drag-drop-text .eas-question-text {
+    margin-bottom: 30px;
+}
+
+.eas-question-preview .eas-drop-blank {
+    min-width: 92px;
+    min-height: 30px;
+    margin: 0 4px;
+    padding: 3px 10px;
+    border: 2px dashed #8c8f94;
+    border-radius: 5px;
+    background: #f6f7f7;
+    vertical-align: middle;
+}
+
+.eas-question-preview .eas-drop-blank.filled {
+    border-style: solid;
+    border-color: #2271b1;
+    background: #f0f6fc;
+}
+
+.eas-question-preview .eas-word-bank {
+    margin-top: 28px;
+    padding: 20px 22px 22px;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+.eas-question-preview .eas-word-bank::before {
+    content: "Word bank";
+    display: block;
+    margin-bottom: 13px;
+    color: #50575e;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.eas-question-preview .eas-drag-options {
+    gap: 10px;
+    margin-top: 0;
+}
+
+.eas-question-preview .eas-draggable-word {
+    padding: 8px 14px;
+    border: 1px solid #b8bdc2;
+    border-radius: 999px;
+    background: #fff;
+    color: #1d2327;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+    cursor: grab;
+    font-size: 15px;
+}
+
+.eas-question-preview .eas-draggable-word:hover {
+    border-color: #2271b1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .08);
+}
+
+.eas-question-preview .eas-c-test-blank {
+    gap: 3px;
+    margin: 0 4px;
+}
+
+.eas-question-preview .eas-letter-input {
+    width: 1.25em !important;
+    height: 1.8em !important;
+    min-height: 1.8em !important;
+    border: 1px solid #8c8f94 !important;
+    border-radius: 3px !important;
+    background: #f6f7f7 !important;
+    box-shadow: none !important;
+}
+
+.eas-question-preview .eas-letter-input:focus {
+    background: #fff !important;
+    border-color: #2271b1 !important;
+}
+
+.eas-question-preview .eas-preview-note {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid #dcdcde;
+    color: #646970;
+    font-size: 13px;
+}
+
+@media (max-width: 700px) {
+    .eas-question-preview {
+        padding: 24px 14px 40px;
+    }
+
+    .eas-question-preview__header {
+        display: block;
+    }
+
+    .eas-question-preview__close {
+        display: inline-block;
+        margin-top: 14px;
+    }
+
+    .eas-question-preview__card {
+        padding: 26px 20px 30px;
+    }
+
+    .eas-question-preview .eas-question-text {
+        font-size: 17px;
+        line-height: 1.65;
+    }
+}
