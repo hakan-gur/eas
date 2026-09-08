@@ -1,9 +1,9 @@
-# English Assessment Suite translation template.
+# e-Assessment Suite translation template.
 # Copyright (C) 2026
-# This file is distributed under the same license as the English Assessment Suite plugin.
+# This file is distributed under the same license as the e-Assessment Suite plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: English Assessment Suite\n"
+"Project-Id-Version: e-Assessment Suite\n"
 "Report-Msgid-Bugs-To: https://github.com/hakan-gur/EAS/issues\n"
 "POT-Creation-Date: 2026-09-06 00:00+0200\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +12,7 @@ msgstr ""
 "X-Domain: eas-quiz\n"
 
 #: views/admin/dashboard.php
-msgid "English Assessment Suite"
+msgid "e-Assessment Suite"
 msgstr ""
 
 #: views/admin/dashboard.php
