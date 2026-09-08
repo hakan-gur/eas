@@ -551,9 +551,13 @@ class QuestionController
                 $_POST['feedback']
                 ?? ''
             ),
-            'points' => (float) (
-                $_POST['points']
-                ?? 1
+            'points' => (
+                ($_POST['type'] ?? 'multiple_choice') === 'description'
+                ? 0
+                : (float) (
+                    $_POST['points']
+                    ?? 1
+                )
             ),
             'updated_at' => current_time(
                 'mysql'
