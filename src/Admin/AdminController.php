@@ -155,7 +155,7 @@ class AdminController
              FROM {$wpdb->users}"
         );
 
-        $attemptRepository = new \\EAS\\Attempt\\AttemptRepository();
+        $attemptRepository = new \EAS\Attempt\AttemptRepository();
 
         $pending_grading = $attemptRepository->count_pending_grading();
 
