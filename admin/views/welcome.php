@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 <div class="wrap">
 
 <h1>
-English Assessment Suite
+e-Assessment Suite
 </h1>
 
 
