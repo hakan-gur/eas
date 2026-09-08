@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 $question_id = 0;
 $question_text = '';
-$points = 1;
+$points = 0;
 $type = $_GET['type'] ?? 'multiple_choice';
 $audio_delay_seconds = 0;
 $audio_prepare_seconds = 5;
@@ -25,7 +25,11 @@ $page_id = isset($page_id) ? (int) $page_id : 0;
 if ($question) {
     $question_id = (int) $question['id'];
     $question_text = $question['question_text'];
-    $points = $question['points'];
+    $points = (
+    $question['type'] === 'description'
+        ? 0
+        : $question['points']
+);
 
     if ($question_id > 0) {
         $type = $question['type'];
@@ -149,14 +153,22 @@ if ($question) {
                 </td>
             </tr>
 
-            <tr>
-                <th>
-                    <label><?php esc_html_e('Points', 'eas-quiz'); ?></label>
-                </th>
-                <td>
-                    <input type="number" name="points" value="<?php echo esc_attr($points); ?>" min="0" step="0.5">
-                </td>
-            </tr>
+            <?php if ($type !== 'description'): ?>
+    <tr>
+        <th>
+            <label><?php esc_html_e('Points', 'eas-quiz'); ?></label>
+        </th>
+        <td>
+            <input
+                type="number"
+                name="points"
+                value="<?php echo esc_attr($points); ?>"
+                min="0"
+                step="0.5"
+            >
+        </td>
+    </tr>
+<?php endif; ?>
 
             <?php if ($type === 'audio_response'): ?>
                 <tr>
