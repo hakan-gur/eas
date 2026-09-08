@@ -141,6 +141,11 @@ class AdminController
     {
         $this->attemptController->index();
     }
+    
+    public function grade_page(): void
+    {
+    $this->gradeController->index();
+    }
 
     public function dashboard(): void
     {
