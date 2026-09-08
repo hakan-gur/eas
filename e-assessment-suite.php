@@ -58,6 +58,14 @@ function eas_initialize_plugin(): void
 {
     $app = new \EAS\Core\Application();
     $app->run();
+
+    /*
+     * Register the standalone admin question preview after the normal
+     * application has registered its controllers. The preview controller
+     * replaces the old bare admin-post presentation without touching the
+     * question renderer, scoring, or answer storage.
+     */
+    new \EAS\Admin\Question\QuestionPreviewController();
 }
 
 register_activation_hook(
