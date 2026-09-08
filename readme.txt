@@ -1,8 +1,7 @@
-=== Plugin Name ===
-e-Assessment Suite
+=== e-Assessment Suite ===
 
 Contributors: hakangur
-Tags: quiz, online quizzes, education, learning, assessment, standardized tests, language assessment, reading, listening, speaking, writing
+Tags: qui, education, test, assessment
 Requires at least: 6.0
 Tested up to: 7.1
 Stable tag: 1.0
