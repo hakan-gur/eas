@@ -48,12 +48,11 @@ class AdminController
         );
 
         add_action(
-            'admin_menu',
+            'admin_head',
             array(
                 $this,
                 'hide_internal_pages'
-            ),
-            100
+            )
         );
     }
 
@@ -111,10 +110,14 @@ class AdminController
 
     public function hide_internal_pages(): void
     {
-        remove_submenu_page(
-            'eas-dashboard',
-            'eas-attempt-grade'
-        );
+        ?>
+        <style>
+            #adminmenu li:has(> a[href*="page=eas-pages"]),
+            #adminmenu li:has(> a[href*="page=eas-attempt-grade"]) {
+                display: none;
+            }
+        </style>
+        <?php
     }
 
     public function quizzes_page(): void
