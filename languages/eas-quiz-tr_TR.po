@@ -1,0 +1,1269 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: English Assessment Suite\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 18:41+0000\n"
+"PO-Revision-Date: 2026-09-08 20:37+0000\n"
+"Last-Translator: Hakan Gür\n"
+"Language-Team: Turkish\n"
+"Language: tr-TR\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.8; wp-7.1; php-8.1.34\n"
+"X-Domain: eas-quiz"
+
+#: src/Admin/Attempt/AttemptController.php:92
+#, php-format
+msgid "%1$d min %2$d sec"
+msgstr "%1$d dakika %2$d saniye"
+
+#: views/admin/pages/list.php:193
+msgid "%d sec"
+msgstr "%d sn"
+
+#: views/admin/questions/form.php:233 views/admin/questions/form.php:280
+#, php-format
+msgid "%s %d"
+msgstr "%s %d"
+
+#: views/frontend/question/audio.php:48
+msgid "0 seconds remaining"
+msgstr "0 saniye kaldı"
+
+#: src/Admin/QuizForm.php:181
+msgid "1 attempt"
+msgstr "1 deneme"
+
+#: views/admin/attempts/index.php:119 views/admin/questions/add-existing.php:89
+msgid "Action"
+msgstr "Eylem"
+
+#: src/Admin/QuizMenu.php:198 views/admin/pages/list.php:140 
+#: views/admin/questions/bank.php:68 views/admin/questions/list.php:128 
+#: views/admin/quizzes/list.php:61
+msgid "Actions"
+msgstr "Eylemler"
+
+#: views/admin/questions/add-existing.php:12 views/admin/questions/list.php:95
+msgid "Add Existing Question"
+msgstr "Mevcut Soruyu Ekle"
+
+#: views/admin/pages/form.php:26 views/admin/pages/list.php:99
+msgid "Add New Page"
+msgstr "Yeni Sayfa Ekle"
+
+#: views/admin/questions/add-existing.php:63 views/admin/questions/form.php:60 
+#: views/admin/questions/list.php:85
+msgid "Add New Question"
+msgstr "Yeni Soru Ekle"
+
+#: src/Admin/QuizForm.php:93 src/Admin/QuizMenu.php:169 
+#: views/admin/quizzes/form.php:20 views/admin/quizzes/list.php:32
+msgid "Add New Quiz"
+msgstr "Yeni Sınav Ekle"
+
+#: views/admin/questions/add-existing.php:192
+msgid "Add to Page"
+msgstr "Sayfaya Ekle"
+
+#: views/admin/attempts/index.php:74
+msgid "All"
+msgstr "Tüm"
+
+#: views/admin/attempts/index.php:41
+msgid "All quizzes"
+msgstr "Tüm sınavlar"
+
+#: views/admin/quizzes/form.php:135
+msgid "Allow moving back between pages"
+msgstr "Sayfalar arasında geriye gitmeye izin ver"
+
+#: views/admin/questions/add-existing.php:148
+msgid "Already on this page"
+msgstr "Zaten bu sayfada"
+
+#: views/admin/questions/preview.php:51
+msgid "Answers"
+msgstr "Yanıtlar"
+
+#: views/admin/attempts/index.php:288
+msgid ""
+"Are you sure you want to permanently delete this student attempt? All "
+"answers and associated audio recordings will also be deleted."
+msgstr ""
+"Bu öğrenci denemesini kalıcı olarak silmek istediğinizden emin misiniz? Tüm "
+"yanıtlar ve ilgili ses kayıtları da silinecek."
+
+#: views/frontend/attempt/page.php:314
+msgid "Are you sure you want to submit this quiz?"
+msgstr "Bu sınavı tamamlamak istediğinize emin misiniz?"
+
+#: views/admin/questions/import.php:64
+msgid "at the beginning of the question."
+msgstr "sorunun başında."
+
+#: src/Attempt/AttemptRenderer.php:32 src/Frontend/AttemptController.php:250 
+#: src/Frontend/AttemptController.php:377 
+#: src/Frontend/AttemptController.php:470 src/Frontend/ResultController.php:73 
+#: src/Result/ResultRenderer.php:41 src/Result/ResultRenderer.php:376 
+#: src/Admin/Attempt/AttemptController.php:158
+msgid "Attempt not found."
+msgstr "Deneme bulunamadı."
+
+#: src/Frontend/AttemptController.php:186
+msgid "Attempt page not found."
+msgstr "Deneme sayfası bulunamadı."
+
+#: src/Admin/AdminController.php:89 src/Admin/QuizMenu.php:196 
+#: views/admin/attempts/index.php:24
+msgid "Attempts"
+msgstr "Denemeler"
+
+#: src/Admin/QuizForm.php:166 views/admin/quizzes/form.php:89
+msgid "Attempts Allowed"
+msgstr "İzin Verilen Deneme"
+
+#: views/frontend/quiz/start.php:27
+msgid "Attempts allowed:"
+msgstr "İzin verilen deneme:"
+
+#: views/admin/questions/add-existing.php:126 
+#: views/admin/questions/bank.php:13 views/admin/questions/form.php:108
+msgid "Audio Response"
+msgstr "Sesli Yanıt"
+
+#: src/Frontend/MyResultsController.php:167 
+#: views/frontend/my-results/page.php:108
+msgid "Auto Graded"
+msgstr "Otomatik Notlandırma"
+
+#: views/admin/questions/list.php:268
+msgid "Auto graded"
+msgstr "Otomatik notlandırma"
+
+#: views/admin/attempts/grade.php:30
+msgid "Back to Attempts"
+msgstr "Denemelere Dön"
+
+#: views/admin/questions/list.php:69
+msgid "Back to Pages"
+msgstr "Sayfalara Dön"
+
+#: views/admin/questions/import.php:104
+msgid "Back to Question Bank"
+msgstr "Soru Bankasına Dön"
+
+#: views/admin/questions/add-existing.php:32 
+#: views/admin/questions/preview.php:144
+msgid "Back to Questions"
+msgstr "Sorulara Dön"
+
+#: views/admin/attempts/index.php:8 views/admin/pages/list.php:84 
+#: views/admin/questions/bank.php:28
+msgid "Back to Quizzes"
+msgstr "Sınavlara Geri Dön"
+
+#: src/Admin/QuizForm.php:232 views/admin/quizzes/form.php:121
+msgid "Backward Navigation"
+msgstr "Geriye Doğru Gezinme"
+
+#: src/Frontend/AttemptController.php:277
+msgid "Backward navigation is not allowed."
+msgstr "Geri gitmeye izin yok."
+
+#: views/admin/questions/import.php:63
+msgid "becomes"
+msgstr "bu biçimi alır:"
+
+#: views/admin/questions/import.php:25
+msgid "below."
+msgstr "altında."
+
+#: views/admin/pages/form.php:154 views/admin/questions/form.php:355 
+#: views/admin/questions/form.php:361
+msgid "Cancel"
+msgstr "İptal"
+
+#: src/Admin/Question/QuestionController.php:1478
+msgid "Close Preview"
+msgstr "Önizlemeyi Kapat"
+
+#: views/admin/dashboard.php:111 views/admin/attempts/index.php:84 
+#: views/admin/attempts/index.php:117
+msgid "Completed"
+msgstr "Tamamlandı"
+
+#: views/frontend/quiz/start.php:37
+msgid "Completed attempts:"
+msgstr "Tamamlanan denemeler:"
+
+#: src/Frontend/MyResultsController.php:118 
+#: views/frontend/my-results/page.php:36 views/frontend/my-results/page.php:198
+msgid "Completed Time"
+msgstr "Tamamlama Süresi"
+
+#: views/admin/pages/form.php:116
+msgid "Content"
+msgstr "İçerik"
+
+#: views/frontend/question/essay.php:43
+msgid "Copy"
+msgstr "Kopyala"
+
+#: views/admin/questions/form.php:244
+msgid "Correct"
+msgstr "Doğru"
+
+#: views/admin/questions/preview.php:95
+msgid "correct"
+msgstr "doğru"
+
+#: views/admin/questions/import.php:34
+msgid "Correct answers beginning with"
+msgstr "Doğru yanıtların başında"
+
+#: views/admin/questions/add-existing.php:42 views/admin/questions/bank.php:34 
+#: views/admin/questions/form.php:59
+msgid "Create New Question"
+msgstr "Yeni Soru Oluştur"
+
+#: src/Frontend/AttemptController.php:299 
+#: src/Frontend/AttemptController.php:395
+msgid "Current page not found."
+msgstr "Sayfa bulunamadı."
+
+#: views/frontend/question/essay.php:39
+msgid "Cut"
+msgstr "Kes"
+
+#: views/admin/questions/form.php:176
+msgid "Delay Before Recording"
+msgstr "Kayıttan Önce Gecikme"
+
+#: src/Admin/QuizMenu.php:261 views/admin/attempts/index.php:289 
+#: views/admin/pages/list.php:274 views/admin/questions/bank.php:123 
+#: views/admin/questions/list.php:369 views/admin/quizzes/list.php:110
+msgid "Delete"
+msgstr "Sil"
+
+#: views/admin/pages/list.php:271
+msgid "Delete this page and all of its questions permanently?"
+msgstr "Bu sayfa ve tüm soruları kalıcı olarak silinsin mi?"
+
+#: views/admin/questions/bank.php:122
+msgid "Delete this question permanently from the question bank?"
+msgstr "Soru bankasından kalıcı olarak silinsin mi?"
+
+#: views/admin/questions/list.php:367
+msgid "Delete this question permanently?"
+msgstr "Bu soru kalıcı olarak silinsin mi?"
+
+#: views/admin/quizzes/list.php:109
+msgid ""
+"Delete this quiz and ALL of its pages, questions, answers, attempts, and "
+"responses permanently?"
+msgstr ""
+"Bu sınav ile onun tüm sayfaları, soruları, yanıtları ve denemeleri kalıcı "
+"olarak silinsin mi?"
+
+#: src/Admin/QuizMenu.php:259
+msgid "Delete this quiz?"
+msgstr "Bu sınav silinsin mi?"
+
+#: src/Admin/QuizForm.php:136 views/admin/questions/add-existing.php:124 
+#: views/admin/questions/bank.php:11 views/admin/questions/form.php:102 
+#: views/admin/questions/import.php:31 views/admin/quizzes/form.php:68
+msgid "Description"
+msgstr "Açıklama"
+
+#: src/Admin/Question/QuestionController.php:1694
+msgid "Description question %d could not be imported."
+msgstr "Açıklama sorusu %d içe aktarılamadı."
+
+#: views/admin/questions/import.php:42
+msgid "Description:"
+msgstr "Tanım:"
+
+#: views/admin/questions/form.php:295
+msgid "Distractor"
+msgstr "Çeldirici"
+
+#: views/admin/questions/add-existing.php:122 views/admin/questions/bank.php:9 
+#: views/admin/questions/form.php:96
+msgid "Drag and Drop into Text"
+msgstr "Metne Sürükleyip Bırak"
+
+#: views/admin/quizzes/list.php:104
+msgid "Duplicate"
+msgstr "Çoğalt"
+
+#: views/admin/attempts/index.php:118
+msgid "Duration"
+msgstr "Süre"
+
+#. Name of the plugin
+#: src/Admin/AdminController.php:62 views/admin/dashboard.php:12
+msgid "e-Assessment Suite"
+msgstr "e-Değerlendirme Paketi"
+
+#: src/Admin/AdminController.php:88
+msgid "EAS Attempts"
+msgstr "EAS Denemeleri"
+
+#: views/admin/questions/import.php:28
+msgid "EAS currently supports:"
+msgstr "EAS şunları destekliyor:"
+
+#: src/Admin/Page/PageController.php:35
+msgid "EAS Pages"
+msgstr "EAS Sayfaları"
+
+#: src/Admin/Question/QuestionController.php:84
+msgid "EAS Questions"
+msgstr "EAS Soruları"
+
+#: src/Admin/QuizMenu.php:53
+msgid "EAS Quiz"
+msgstr "EAS Sınavı"
+
+#: src/Admin/AdminController.php:76 src/Admin/QuizMenu.php:51 
+#: src/Admin/QuizMenu.php:164
+msgid "EAS Quizzes"
+msgstr "EAS Sınavları"
+
+#: src/Admin/QuizMenu.php:251 views/admin/pages/list.php:236 
+#: views/admin/questions/bank.php:107 views/admin/questions/list.php:333 
+#: views/admin/quizzes/list.php:99
+msgid "Edit"
+msgstr "Düzenle"
+
+#: views/admin/pages/form.php:25
+msgid "Edit Page"
+msgstr "Sayfayı Düzenle"
+
+#: views/admin/questions/form.php:57
+msgid "Edit Question"
+msgstr "Soruyu Düzenle"
+
+#: src/Admin/QuizForm.php:92 views/admin/quizzes/form.php:19
+msgid "Edit Quiz"
+msgstr "Sınavı Düzenle"
+
+#: src/Admin/QuizForm.php:220
+msgid "Enter 0 for no time limit."
+msgstr "Zaman sınırı yoksa 0 olarak bırakın."
+
+#: views/admin/questions/form.php:148
+msgid "Enter general feedback. HTML is allowed."
+msgstr "Genel geri bildirim yazın. HTML'ye izin verilir."
+
+#: views/admin/questions/form.php:333
+msgid "Enter the correct missing letters in square brackets."
+msgstr "Doğru eksik harfleri köşeli parantez içinde verin."
+
+#: views/admin/pages/form.php:101
+msgid "Enter the maximum time allowed for this page in seconds."
+msgstr "Bu sayfa için izin verilen maksimum süreyi saniye cinsinden yazın."
+
+#: views/admin/questions/add-existing.php:125 
+#: views/admin/questions/bank.php:12 views/admin/questions/form.php:105
+msgid "Essay"
+msgstr "Kompozisyon"
+
+#: views/admin/questions/form.php:257 views/admin/questions/form.php:335
+msgid "Example:"
+msgstr "Örnek:"
+
+#: views/admin/questions/import.php:40
+msgid "Examples"
+msgstr "Örnekler"
+
+#: views/admin/questions/bank.php:49
+msgid "Export Questions (GIFT)"
+msgstr "Soruları Dışarı Aktar (GIFT)"
+
+#: views/admin/attempts/grade.php:221
+msgid "Feedback:"
+msgstr "Geri bildirim:"
+
+#: views/admin/questions/add-existing.php:123 
+#: views/admin/questions/bank.php:10 views/admin/questions/form.php:99
+msgid "Fill in the Blanks (C-Test)"
+msgstr "Boşluk Doldurma (C-Test)"
+
+#: views/admin/attempts/index.php:94
+msgid "Filter"
+msgstr "Filtre"
+
+#: views/admin/questions/import.php:62
+msgid "For example,"
+msgstr "Örneğin,"
+
+#: views/admin/pages/form.php:103
+msgid "For example: 5 = 5 seconds, 30 = 30 seconds, 60 = 1 minute."
+msgstr "Örneğin: 5 = 5 saniye, 30 = 30 saniye, 60 = 1 dakika."
+
+#: views/admin/questions/import.php:33
+msgid "format"
+msgstr "biçim"
+
+#: views/admin/questions/form.php:139
+msgid "General Feedback"
+msgstr "Genel Geri Bildirim"
+
+#: views/admin/questions/import.php:36
+msgid "General Feedback beginning with"
+msgstr "Genel Geri bildirimin başında"
+
+#: views/admin/questions/form.php:151
+msgid "General feedback shown after the question is answered. HTML is allowed."
+msgstr ""
+"Soru yanıtlandıktan sonra gösterilen genel geri bildirim. HTML'ye izin "
+"verilir."
+
+#: views/frontend/result/page.php:175
+msgid "General feedback:"
+msgstr "Genel geri bildirim:"
+
+#: views/frontend/question/audio.php:404
+msgid "Get ready"
+msgstr "Hazırlan"
+
+#: views/admin/questions/import.php:24
+msgid "GIFT format"
+msgstr "GIFT formatı"
+
+#: views/admin/questions/import.php:78
+msgid "GIFT Questions"
+msgstr "GIFT Soruları"
+
+#: views/admin/attempts/index.php:264
+msgid "Grade"
+msgstr "Puan"
+
+#: src/Admin/AdminController.php:100 src/Admin/AdminController.php:101 
+#: views/admin/attempts/grade.php:52
+msgid "Grade Attempt"
+msgstr "Denemeye Puan Ver"
+
+#: src/Frontend/MyResultsController.php:175 views/admin/attempts/index.php:174 
+#: views/frontend/my-results/page.php:101
+msgid "Graded"
+msgstr "Değerlendirildi"
+
+#: views/admin/attempts/grade.php:14
+msgid "Grades saved successfully."
+msgstr "Puanlar başarıyla kaydedildi."
+
+#: views/admin/questions/import.php:37
+msgid "HTML in question text and General Feedback"
+msgstr "Soru metninde Genel Geri Bildirimde HTML"
+
+#. URI of the plugin
+msgid "https://test-of-english.com"
+msgstr "https://test-of-english.com"
+
+#: src/Admin/QuizMenu.php:194
+msgid "ID"
+msgstr "ID"
+
+#: views/admin/questions/import.php:97
+msgid "Import GIFT Questions"
+msgstr "GIFT Sorularını İçe Aktar"
+
+#: views/admin/questions/import.php:11
+msgid "Import Questions"
+msgstr "Soruları İçeri Aktar"
+
+#: views/admin/questions/bank.php:40
+msgid "Import Questions (GIFT)"
+msgstr "Soruları İçe Aktar (GIFT)"
+
+#: views/admin/questions/form.php:182
+msgid "Include page loading time + instruction audio length."
+msgstr "Sayfa yükleme süresini + yönerge ses uzunluğunu ekleyin."
+
+#: views/admin/questions/import.php:35
+msgid "Incorrect answers beginning with"
+msgstr "Yanlış yanıtların başında"
+
+#: views/admin/questions/form.php:253 views/admin/questions/form.php:330
+msgid "Instructions"
+msgstr "Yönergeler"
+
+#: src/Frontend/AttemptController.php:237 
+#: src/Frontend/AttemptController.php:364 
+#: src/Frontend/AttemptController.php:457 
+#: src/Admin/Attempt/AttemptController.php:136 
+#: src/Admin/Attempt/GradeController.php:68 
+#: src/Admin/Attempt/GradeController.php:114
+msgid "Invalid attempt."
+msgstr "Geçersiz deneme."
+
+#: src/Admin/Question/QuestionController.php:1076
+msgid "Invalid page or question."
+msgstr "Geçersiz sayfa ya da soru."
+
+#: src/Admin/Question/QuestionController.php:988
+msgid "Invalid page."
+msgstr "Geçersiz sayfa."
+
+#: src/Admin/Question/QuestionController.php:1166 
+#: src/Admin/Question/QuestionController.php:1236
+msgid "Invalid question or page."
+msgstr "Geçersiz soru ya da sayfa."
+
+#: src/Admin/Question/QuestionController.php:269 
+#: src/Admin/Question/QuestionController.php:1315 
+#: src/Admin/Question/QuestionController.php:1422
+msgid "Invalid question."
+msgstr "Geçersiz soru."
+
+#: src/Frontend/AttemptController.php:123 
+#: src/Admin/Question/QuestionController.php:111 
+#: src/Admin/Question/QuestionController.php:169 
+#: src/Admin/Question/QuestionController.php:214 
+#: src/Admin/Question/QuestionController.php:260 
+#: src/Admin/Question/QuestionController.php:506 
+#: src/Admin/Question/QuestionController.php:1012 
+#: src/Admin/Question/QuestionController.php:1506 
+#: src/Admin/Question/QuestionController.php:2169 
+#: src/Admin/Quiz/QuizController.php:61 src/Admin/Quiz/QuizController.php:136
+msgid "Invalid quiz."
+msgstr "Geçersiz sınav."
+
+#: views/admin/questions/import.php:57
+msgid "is not displayed."
+msgstr "gösterilmiyor."
+
+#: views/admin/pages/form.php:105
+msgid "Leave as 0 for an unlimited page."
+msgstr "Sınırsız sayfa süresi için 0 olarak bırakın."
+
+#: views/frontend/question/audio.php:31
+msgid "Listen carefully. Your response will start automatically."
+msgstr "Dikkatle dinleyin. Yanıtınız kaydı otomatik olarak başlayacak."
+
+#: views/admin/dashboard.php:64
+msgid "Manage Quizzes"
+msgstr "Sınavları Yönet"
+
+#: views/admin/questions/list.php:290
+msgid "Manual grading"
+msgstr "Elle puanlandırma"
+
+#: views/frontend/question/audio.php:260
+msgid "Microphone permission denied."
+msgstr "Mikrofon izni reddedildi."
+
+#: views/admin/questions/form.php:317
+msgid "Minimum answer lines"
+msgstr "Minimum yanıt satırı"
+
+#: views/admin/questions/form.php:322
+msgid "Minimum visible writing lines for students."
+msgstr "Öğrenciler için minimum görünür yazma satırı sayısı."
+
+#: views/frontend/quiz/start.php:21
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] "dakika"
+msgstr[1] "dakika"
+
+#: src/Admin/QuizForm.php:216 src/Admin/QuizMenu.php:241 
+#: src/Result/ResultRenderer.php:510
+msgid "minutes"
+msgstr "dakika"
+
+#: views/admin/questions/import.php:20
+msgid "Moodle GIFT Import"
+msgstr "Moodle GIFT İçe Aktarımı"
+
+#: views/admin/questions/list.php:195
+msgid "Move question down"
+msgstr "Soruyu aşağı taşı"
+
+#: views/admin/questions/list.php:178
+msgid "Move question up"
+msgstr "Soruyu yukarı taşı"
+
+#: views/admin/questions/add-existing.php:121 views/admin/questions/bank.php:8 
+#: views/admin/questions/form.php:93 views/admin/questions/import.php:32
+msgid "Multiple Choice"
+msgstr "Çoktan Seçmeli"
+
+#: views/admin/questions/import.php:46
+msgid "Multiple Choice:"
+msgstr "Çoktan Seçmeli:"
+
+#: src/Admin/Question/QuestionController.php:2078
+msgid "Multiple-choice question %d could not be imported."
+msgstr "Çoktan seçmeli soru %d içe aktarılamadı."
+
+#: src/Frontend/MyResultsController.php:101 
+#: views/frontend/my-results/page.php:12
+msgid "My Results"
+msgstr "Sonuçlarım"
+
+#: views/admin/attempts/index.php:159
+msgid "Needs grading"
+msgstr "Puanlandırma gerekiyor"
+
+#: views/frontend/attempt/page.php:84
+msgid "Next Page"
+msgstr "Sonraki Sayfa"
+
+#: views/frontend/question/item.php:31
+msgid "No answers found."
+msgstr "Yanıt bulunamadı."
+
+#: views/admin/questions/preview.php:60
+msgid "No answers have been added."
+msgstr "Hiçbir yanıt eklenmedi."
+
+#: src/Frontend/AttemptController.php:213 src/Frontend/ResultController.php:57
+msgid "No attempt selected."
+msgstr "Deneme seçilmedi."
+
+#: src/Frontend/AttemptController.php:883
+msgid "No audio uploaded."
+msgstr "Ses yüklenmedi."
+
+#: views/admin/attempts/index.php:16
+msgid "No completed attempts found."
+msgstr "Tamamlanmış deneme bulunamadı."
+
+#: views/admin/dashboard.php:101
+msgid "No completed attempts yet."
+msgstr "Henüz tamamlanmış deneme yok."
+
+#: src/Admin/QuizMenu.php:240
+msgid "No limit"
+msgstr "Sınır yok"
+
+#: src/Attempt/AttemptRenderer.php:44 src/Frontend/AttemptController.php:488 
+#: views/admin/pages/list.php:108
+msgid "No pages found."
+msgstr "Sayfa bulunamadı."
+
+#: views/admin/questions/list.php:109
+msgid "No questions found."
+msgstr "Soru bulunamadı."
+
+#: src/Admin/Question/QuestionController.php:1525
+msgid "No questions were provided."
+msgstr "Hiçbir soru sorulmadı."
+
+#: src/Admin/QuizMenu.php:181 views/admin/quizzes/list.php:39
+msgid "No quizzes found."
+msgstr "Sınav bulunamadı."
+
+#: views/admin/attempts/grade.php:88
+msgid "No responses found."
+msgstr "Yanıt bulunamadı."
+
+#: views/frontend/result/page.php:39
+msgid "No responses on this page."
+msgstr "Bu sayfada yanıt yok."
+
+#: src/Admin/Question/QuestionController.php:1578
+msgid "No valid Moodle GIFT questions were found."
+msgstr "Geçerli bir Moodle GIFT sorusu bulunamadı."
+
+#: views/admin/questions/bank.php:95
+msgid "Not assigned to a page"
+msgstr "Bir sayfaya atanmamış"
+
+#: src/Admin/QuizForm.php:266
+msgid "Not permitted"
+msgstr "İzin yok"
+
+#: views/admin/questions/form.php:234 views/admin/questions/form.php:281
+msgid "Option"
+msgstr "Seçenek"
+
+#: views/admin/questions/list.php:123
+msgid "Order"
+msgstr "Sıralama"
+
+#: views/admin/questions/import.php:58
+msgid ""
+"Other question numbers are retained at the beginning of the question text."
+msgstr "Diğer soru numaraları, soru metninin başında saklanır."
+
+#: views/admin/pages/list.php:124
+msgid "Page"
+msgstr "Sayfa"
+
+#: views/frontend/result/page.php:28
+msgid "Page %d"
+msgstr "Sayfa %d"
+
+#: src/Admin/Question/QuestionController.php:489 
+#: src/Admin/Question/QuestionController.php:1001 
+#: src/Admin/Question/QuestionController.php:1089
+msgid "Page not found."
+msgstr "Sayfa bulunamadı."
+
+#: views/admin/pages/list.php:128
+msgid "Page Time"
+msgstr "Sayfa Süresi"
+
+#: views/admin/pages/form.php:85
+msgid "Page Time Limit (seconds)"
+msgstr "Sayfa Süresi Sınırı (saniye)"
+
+#: views/admin/pages/form.php:63
+msgid "Page Title"
+msgstr "Sayfa Başlığı"
+
+#: views/admin/questions/add-existing.php:21 views/admin/questions/list.php:56
+msgid "Page:"
+msgstr "Sayfa:"
+
+#: src/Admin/Page/PageController.php:36 views/admin/pages/list.php:62 
+#: views/admin/questions/bank.php:67 views/admin/quizzes/list.php:57 
+#: views/admin/quizzes/list.php:89
+msgid "Pages"
+msgstr "Sayfalar"
+
+#: views/frontend/question/essay.php:47
+msgid "Paste"
+msgstr "Yapıştır"
+
+#: views/frontend/question/essay.php:147
+msgid "Paste is not allowed by your browser."
+msgstr "Yapıştırmaya tarayıcınız tarafından izin verilmiyor."
+
+#: views/admin/questions/import.php:23
+msgid "Paste questions exported from Moodle in"
+msgstr "Moodle'dan dışa aktarılan soruları yapıştır"
+
+#: views/admin/questions/import.php:90
+msgid ""
+"Paste the GIFT text as exported from Moodle. Make sure that lines that start "
+"with // have been removed. All instances of \\n and \\ must also be removed. "
+"Each question should begin with"
+msgstr ""
+"GIFT metnini Moodle sitesinden alındığı biçimiyle yapıştırmadan önce // ile "
+"başlayan satırları, tüm \\n ve \\ kullanımlarını silin. Her bir sorunun "
+"başında bu olmalı:"
+
+#: views/admin/questions/import.php:87
+msgid "Paste your Moodle GIFT questions here..."
+msgstr "Moodle GIFT sorularınızı buraya yapıştırın..."
+
+#: src/Frontend/MyResultsController.php:171 
+#: views/frontend/my-results/page.php:96
+msgid "Pending Grading"
+msgstr "Puanlandırma Bekliyor"
+
+#: views/admin/dashboard.php:49
+msgid "Pending grading"
+msgstr "Puanlandırma bekliyor"
+
+#: src/Admin/QuizForm.php:247
+msgid "Permitted"
+msgstr "İzin verilmekte"
+
+#: src/Frontend/MyResultsController.php:38
+msgid "Please log in to view your quiz results."
+msgstr "Sınav sonuçlarınızı görmek için giriş yapın."
+
+#: src/Frontend/ResultController.php:45
+msgid "Please log in to view your result."
+msgstr "Sonucunuzu görmek için giriş yapın."
+
+#: src/Frontend/AttemptController.php:940
+msgid "Please log in."
+msgstr "Oturum açın."
+
+#: views/admin/pages/list.php:136 views/admin/questions/add-existing.php:85 
+#: views/admin/questions/bank.php:66 views/admin/questions/form.php:159 
+#: views/admin/questions/list.php:126 views/admin/quizzes/list.php:59
+msgid "Points"
+msgstr "Puanlar"
+
+#: views/admin/attempts/grade.php:187 views/frontend/result/page.php:185
+msgid "Points:"
+msgstr "Puanlar:"
+
+#: views/admin/questions/form.php:189
+msgid "Preparation Countdown"
+msgstr "Hazırlık Geri Sayımı"
+
+#: views/frontend/question/audio.php:38
+msgid "Preparing..."
+msgstr "Hazırlanıyor ..."
+
+#: views/admin/questions/bank.php:113 views/admin/questions/list.php:346
+msgid "Preview"
+msgstr "Önizleme"
+
+#: views/frontend/attempt/page.php:71
+msgid "Previous Page"
+msgstr "Önceki Sayfa"
+
+#: views/admin/questions/add-existing.php:77 views/admin/questions/bank.php:64 
+#: views/admin/questions/list.php:124 views/admin/questions/preview.php:25
+msgid "Question"
+msgstr "Soru"
+
+#: views/frontend/result/page.php:53
+msgid "Question %d"
+msgstr "Soru %d"
+
+#: src/Admin/Question/QuestionController.php:1887
+msgid "Question %d contains no valid answer options."
+msgstr "Soru %d geçerli bir yanıt seçeneği içermiyor."
+
+#: src/Admin/Question/QuestionController.php:1742
+msgid "Question %d has an invalid GIFT answer block."
+msgstr "Soru %d geçersiz bir GIFT yanıt bloğu içeriyor."
+
+#: src/Admin/Question/QuestionController.php:1787
+msgid "Question %d has no question text."
+msgstr "Soru %d içinde soru metni yok."
+
+#: src/Admin/Question/QuestionController.php:1996
+msgid "Question %d must contain at least two answer options."
+msgstr "Soru %d en az iki yanıt seçeneği içermelidir."
+
+#: src/Admin/Question/QuestionController.php:2013
+msgid "Question %d must have exactly one correct answer. Found: %d."
+msgstr "Soru %d içinde tam olarak bir doğru yanıt olmalı. Bulunan: %d ."
+
+#: views/admin/questions/bank.php:19 views/admin/questions/form.php:70
+msgid "Question Bank"
+msgstr "Soru Bankası"
+
+#: src/Admin/Question/QuestionController.php:695
+msgid "Question could not be saved."
+msgstr "Soru kaydedilemedi."
+
+#: src/Admin/Question/QuestionController.php:1184 
+#: src/Admin/Question/QuestionController.php:1258
+msgid "Question is not assigned to this page."
+msgstr "Bu sayfaya soru atanmadı."
+
+#: src/Admin/Question/QuestionController.php:657
+msgid "Question not found in this quiz."
+msgstr "Soru bu sınavda bulunamadı."
+
+#: src/Admin/Question/QuestionController.php:301 
+#: src/Admin/Question/QuestionController.php:1102 
+#: src/Admin/Question/QuestionController.php:1336 
+#: src/Admin/Question/QuestionController.php:1435
+msgid "Question not found."
+msgstr "Soru bulunamadı."
+
+#: views/admin/questions/import.php:33
+msgid "Question numbers in the"
+msgstr "Soru numaraları"
+
+#: src/Admin/Question/QuestionController.php:1451 
+#: views/admin/questions/preview.php:14
+msgid "Question Preview"
+msgstr "Soru Önizlemesi"
+
+#: views/admin/questions/form.php:116
+msgid "Question Text"
+msgstr "Soru Metni"
+
+#: views/admin/questions/form.php:88
+msgid "Question Type"
+msgstr "Soru Türü"
+
+#: views/admin/dashboard.php:33 src/Admin/Question/QuestionController.php:85 
+#: views/admin/pages/list.php:132 views/admin/pages/list.php:251 
+#: views/admin/questions/list.php:46 views/admin/quizzes/list.php:58 
+#: views/admin/quizzes/list.php:94
+msgid "Questions"
+msgstr "Sorular"
+
+#: views/admin/questions/import.php:31 views/admin/questions/import.php:32
+msgid "questions"
+msgstr "soru"
+
+#: src/Admin/Question/QuestionController.php:2141
+msgid "Questions imported successfully."
+msgstr "Sorular başarıyla içe aktarıldı."
+
+#: views/admin/dashboard.php:59
+msgid "Quick Actions"
+msgstr "Hızlı Eylemler"
+
+#: src/Frontend/MyResultsController.php:81 src/Result/ResultRenderer.php:390 
+#: views/admin/dashboard.php:109 views/admin/attempts/index.php:113 
+#: views/frontend/attempt/page.php:30 views/frontend/my-results/page.php:193
+msgid "Quiz"
+msgstr "Sınav"
+
+#: src/Admin/Quiz/QuizController.php:228
+msgid "Quiz duplication failed."
+msgstr "Sınav çoğaltması başarısız oldu."
+
+#: src/Frontend/QuizShortcode.php:84
+msgid "Quiz ID missing."
+msgstr "Sınav ID eksik."
+
+#: src/Admin/QuizForm.php:116 src/Frontend/MyResultsController.php:117 
+#: views/frontend/my-results/page.php:32 views/frontend/my-results/page.php:189
+msgid "Quiz Name"
+msgstr "Sınavın Adı"
+
+#: src/Frontend/AttemptController.php:136 
+#: src/Frontend/AttemptController.php:263 src/Frontend/QuizRenderer.php:56 
+#: src/Admin/Question/QuestionController.php:124 
+#: src/Admin/Question/QuestionController.php:182 
+#: src/Admin/Question/QuestionController.php:227 
+#: src/Admin/Question/QuestionController.php:285 
+#: src/Admin/Question/QuestionController.php:526 
+#: src/Admin/Question/QuestionController.php:2192 
+#: src/Admin/Quiz/QuizController.php:71 src/Admin/Quiz/QuizController.php:146
+msgid "Quiz not found."
+msgstr "Sınav bulunamadı."
+
+#: views/admin/quizzes/list.php:56
+msgid "Quiz Title"
+msgstr "Sınav Başlığı"
+
+#: views/admin/attempts/grade.php:63 views/admin/attempts/index.php:34 
+#: views/admin/pages/list.php:68 views/admin/questions/add-existing.php:16 
+#: views/admin/questions/bank.php:22 views/admin/questions/import.php:14 
+#: views/admin/questions/list.php:51
+msgid "Quiz:"
+msgstr "Sınav:"
+
+#: src/Admin/AdminController.php:77 src/Admin/QuizMenu.php:75 
+#: src/Admin/QuizMenu.php:77 views/admin/dashboard.php:25 
+#: views/admin/quizzes/list.php:27
+msgid "Quizzes"
+msgstr "Sınavlar"
+
+#: views/admin/dashboard.php:97
+msgid "Recent Activity"
+msgstr "Son Etkinlik"
+
+#: views/frontend/question/audio.php:192
+msgid "Recording"
+msgstr "Kaydediliyor"
+
+#: views/admin/questions/form.php:201
+msgid "Recording Duration"
+msgstr "Kayıt Süresi"
+
+#: src/Frontend/FrontendAssets.php:57
+msgid "Recording ready."
+msgstr "Kayıt hazır."
+
+#: views/frontend/question/audio.php:355
+msgid "Recording saved."
+msgstr "Kayıt kaydedildi."
+
+#: src/Frontend/FrontendAssets.php:58
+msgid "Recording uploaded successfully."
+msgstr "Kayıt başarıyla yüklendi."
+
+#: src/Frontend/FrontendAssets.php:61 views/frontend/question/audio.php:197
+msgid "Recording..."
+msgstr "Kaydediliyor ..."
+
+#: views/frontend/quiz/start.php:43
+msgid "Remaining attempts:"
+msgstr "Kalan deneme:"
+
+#: views/frontend/attempt/page.php:36 views/frontend/attempt/page.php:47
+msgid "Remaining Time:"
+msgstr "Kalan Süre:"
+
+#: src/Frontend/AttemptController.php:796
+msgid "Result page not found."
+msgstr "Sonuç sayfası bulunamadı."
+
+#: src/Frontend/MyResultsController.php:121 
+#: src/Frontend/MyResultsController.php:231 src/Result/ResultRenderer.php:544 
+#: views/admin/attempts/index.php:271 views/admin/questions/list.php:304 
+#: views/frontend/my-results/page.php:48 
+#: views/frontend/my-results/page.php:218 
+#: views/frontend/my-results/page.php:224
+msgid "Review"
+msgstr "Gözden geçir"
+
+#: views/admin/attempts/grade.php:255
+msgid "Save Grades"
+msgstr "Puanları Kaydet"
+
+#: views/admin/pages/form.php:144
+msgid "Save Page"
+msgstr "Sayfayı Kaydet"
+
+#: views/admin/questions/form.php:347
+msgid "Save Question"
+msgstr "Soruyu Kaydet"
+
+#: src/Admin/QuizForm.php:283 views/admin/quizzes/form.php:166
+msgid "Save Quiz"
+msgstr "Sınavı Kaydet"
+
+#: src/Frontend/MyResultsController.php:120 views/admin/dashboard.php:110 
+#: views/admin/attempts/index.php:115 views/frontend/my-results/page.php:44 
+#: views/frontend/my-results/page.php:214
+msgid "Score"
+msgstr "Puan"
+
+#: views/frontend/result/page.php:11
+msgid "Score:"
+msgstr "Puan:"
+
+#: views/frontend/question/audio.php:140
+msgid "second remaining"
+msgstr "saniye kaldı"
+
+#: src/Result/ResultRenderer.php:520
+msgid "seconds"
+msgstr "saniye"
+
+#: views/admin/questions/form.php:181
+msgid "Seconds after page load before preparation countdown begins."
+msgstr ""
+"Hazırlık geri sayımı başlamadan önce, sayfa yüklendikten sonraki saniye "
+"sayısı."
+
+#: views/admin/questions/form.php:194
+msgid "Seconds before recording starts."
+msgstr "Kayıt başlamadan önceki saniye sayısı."
+
+#: views/frontend/question/audio.php:141 views/frontend/question/audio.php:168
+msgid "seconds remaining"
+msgstr "saniye kaldı"
+
+#: views/admin/quizzes/list.php:60
+msgid "Shortcode"
+msgstr "Kısa Kod"
+
+#: views/admin/quizzes/form.php:156
+msgid "Shuffle multiple-choice options"
+msgstr "Çoktan seçmeli seçenekleri karıştır"
+
+#: views/admin/quizzes/form.php:141
+msgid "Shuffle Options"
+msgstr "Seçenekleri Karıştır"
+
+#: views/admin/questions/form.php:206
+msgid "Speaking time (12-60 seconds)."
+msgstr "Konuşma süresi (12-60 saniye)."
+
+#: views/frontend/quiz/start.php:66
+msgid "Start Attempt"
+msgstr "Denemeyi Başlat"
+
+#: views/admin/attempts/index.php:116
+msgid "Started"
+msgstr "Başlama"
+
+#: src/Frontend/MyResultsController.php:119 views/admin/dashboard.php:85 
+#: views/admin/attempts/index.php:114 views/admin/questions/list.php:127 
+#: views/frontend/my-results/page.php:40 views/frontend/my-results/page.php:202
+msgid "Status"
+msgstr "Durum"
+
+#: views/admin/attempts/grade.php:71 views/admin/attempts/index.php:66
+msgid "Status:"
+msgstr "Durum:"
+
+#: views/admin/dashboard.php:108 views/admin/attempts/index.php:112
+msgid "Student"
+msgstr "Öğrenci"
+
+#: views/admin/attempts/grade.php:163
+msgid "Student answer:"
+msgstr "Öğrenci yanıtı:"
+
+#: views/admin/attempts/grade.php:136
+msgid "Student recording:"
+msgstr "Öğrenci kaydı:"
+
+#: views/admin/dashboard.php:41
+msgid "Students"
+msgstr "Öğrenciler"
+
+#: views/frontend/attempt/page.php:276 views/frontend/attempt/page.php:288
+msgid "Submit Quiz"
+msgstr "Sınavı Tamamla"
+
+#: views/admin/dashboard.php:75
+msgid "System Information"
+msgstr "Sistem Bilgisi"
+
+#: views/admin/dashboard.php:88
+msgid "System operational"
+msgstr "Sistem çalışır durumda"
+
+#: views/frontend/result/page.php:196
+msgid "Teacher feedback:"
+msgstr "Eğitmen geri bildirimi:"
+
+#. Description of the plugin
+msgid ""
+"Test preparation and management platform for standardized tests like the "
+"TOEFL iBT and the TOEIC."
+msgstr ""
+"TOEFL iBT ve TOEIC gibi ölçünlü sınavları hazırlama ve uygulama platformu."
+
+#: src/Admin/Question/QuestionController.php:2530
+msgid ""
+"The GIFT export could not be started because output has already been sent."
+msgstr "Çıktı zaten gönderildiği için GIFT dışa aktarma işlemi başlatılamadı."
+
+#: views/admin/questions/import.php:56
+msgid "The number"
+msgstr "Sayı"
+
+#: views/admin/questions/add-existing.php:52
+msgid "There are no existing questions in this quiz."
+msgstr "Bu sınavda mevcut soru yok."
+
+#: src/Admin/Question/QuestionController.php:319 
+#: src/Admin/Question/QuestionController.php:1121
+msgid "This question does not belong to this quiz."
+msgstr "Bu soru bu sınava ait değil."
+
+#: views/admin/questions/form.php:69
+#, php-format
+msgid ""
+"This question will be saved in the %s and will not be assigned to a page yet."
+msgstr "Bu soru %s içinde kaydedilecek ve henüz bir sayfaya atanmayacak."
+
+#: src/Frontend/ResultController.php:102
+msgid "This quiz attempt has not been completed."
+msgstr "Bu sınav denemesi tamamlanmadı."
+
+#: views/admin/questions/bank.php:57
+msgid "This quiz does not have any questions in its question bank yet."
+msgstr "Bu sınavın soru bankasında henüz herhangi bir soru yok."
+
+#: src/Admin/QuizForm.php:206 src/Admin/QuizMenu.php:197
+msgid "Time Limit"
+msgstr "Süre Sınırı"
+
+#: views/admin/quizzes/form.php:105
+msgid "Time Limit (minutes)"
+msgstr "Süre Sınırı (dakika)"
+
+#: views/frontend/quiz/start.php:18
+msgid "Time limit:"
+msgstr "Sğre sınırı:"
+
+#: src/Result/ResultRenderer.php:504
+msgid "Time Spent:"
+msgstr "Harcanan Süre:"
+
+#: src/Admin/QuizMenu.php:195 views/admin/quizzes/form.php:51
+msgid "Title"
+msgstr "Başlık"
+
+#: src/Result/ResultRenderer.php:483
+msgid "Total Score:"
+msgstr "Toplam Puan:"
+
+#: views/admin/questions/add-existing.php:81 views/admin/questions/bank.php:65 
+#: views/admin/questions/list.php:125
+msgid "Type"
+msgstr "Tip"
+
+#: views/frontend/question/essay.php:57
+msgid "Type your answer here;"
+msgstr "Yanıtınızı buraya yazın;"
+
+#: views/admin/attempts/grade.php:118
+msgid "Type:"
+msgstr "Tip:"
+
+#: views/admin/pages/list.php:72
+msgid "Unknown quiz"
+msgstr "Bilinmeyen sınav"
+
+#: src/Admin/QuizForm.php:192 src/Admin/QuizMenu.php:230 
+#: views/frontend/quiz/start.php:31
+msgid "Unlimited"
+msgstr "Sınırsız"
+
+#: views/admin/questions/form.php:346
+msgid "Update Question"
+msgstr "Soruyu Güncelle"
+
+#: views/admin/quizzes/form.php:165
+msgid "Update Quiz"
+msgstr "Sınavı Güncelle"
+
+#: src/Frontend/FrontendAssets.php:60
+msgid "Upload error."
+msgstr "Yükleme hatası."
+
+#: src/Frontend/AttemptController.php:918 src/Frontend/FrontendAssets.php:59 
+#: views/frontend/question/audio.php:371
+msgid "Upload failed."
+msgstr "Yükleme başarısız oldu."
+
+#: views/frontend/question/audio.php:384
+msgid "Upload failed. Please try again."
+msgstr "Yükleme başarısız oldu. Lütfen tekrar deneyin."
+
+#: views/frontend/question/audio.php:243 views/frontend/question/audio.php:299
+msgid "Uploading..."
+msgstr "Yükleniyor..."
+
+#: views/admin/questions/form.php:256
+msgid "Use placeholders in the question text to create drag-and-drop gaps."
+msgstr ""
+"Sürükle ve bırak boşlukları oluşturmak için soru metnindeki yer tutucuları "
+"kullanın."
+
+#: views/admin/dashboard.php:80
+msgid "Version"
+msgstr "Sürüm"
+
+#: views/admin/dashboard.php:69
+msgid "View Attempts"
+msgstr "Denemelere Bak"
+
+#: views/admin/questions/list.php:27
+msgid ""
+"Warning: This question has no correct answer selected. It has been saved, "
+"but it cannot be graded correctly."
+msgstr ""
+"Uyarı: Bu sorunun doğru yanıtı seçilmedi. Soru kaydedildi ama doğru şekilde "
+"puanlandırılamaz."
+
+#: views/frontend/question/essay.php:65
+msgid "Words:"
+msgstr "Sözcük:"
+
+#: src/Frontend/ResultController.php:89
+msgid "You are not allowed to view this result."
+msgstr "Bu sonucu görmenize izin yok."
+
+#: src/Admin/Attempt/AttemptController.php:121
+msgid "You do not have permission to delete attempts."
+msgstr "Denemeleri silemezsiniz."
+
+#: src/Frontend/MyResultsController.php:106 
+#: views/frontend/my-results/page.php:18
+msgid "You have not completed any quizzes yet."
+msgstr "Henüz herhangi bir sınavı tamamlamadınız."
+
+#: src/Frontend/AttemptController.php:166 views/frontend/quiz/start.php:71
+msgid "You have reached the maximum number of attempts allowed for this quiz."
+msgstr "Bu sınav için izin verilen maksimum deneme sayısına ulaştınız."
+
+#: src/Frontend/AttemptController.php:110
+msgid "You must be logged in."
+msgstr "Oturum açmalısınız."
+
+#: views/frontend/result/page.php:71
+msgid "Your answer:"
+msgstr "Yanıtınız:"
