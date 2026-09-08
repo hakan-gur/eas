@@ -174,6 +174,9 @@ public function save(): void
 
     }
 
+    $this->attempts->recalculate_score(
+        $attempt_id
+    );
 
 
     wp_redirect(
