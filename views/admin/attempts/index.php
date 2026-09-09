@@ -29,38 +29,6 @@ href="<?php echo esc_url(admin_url(
        name="page"
        value="eas-attempts">
 
-
-<label>
-<?php esc_html_e('Quiz:', 'eas-quiz'); ?>
-</label>
-
-
-<select name="quiz_id">
-
-<option value="0">
-<?php esc_html_e('All quizzes', 'eas-quiz'); ?>
-</option>
-
-
-<?php foreach ($quizzes as $quiz) : ?>
-
-<option value="<?php echo esc_attr($quiz['id']); ?>"
-<?php selected(
-    $quiz_id,
-    $quiz['id']
-); ?>>
-
-<?php echo esc_html($quiz['title']); ?>
-
-</option>
-
-
-<?php endforeach; ?>
-
-</select>
-
-
-
 <label style="margin-left:20px;">
 
 <?php esc_html_e('Status:', 'eas-quiz'); ?>
