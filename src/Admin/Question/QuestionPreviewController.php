@@ -11,13 +11,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Provides a standalone, frontend-styled question preview for administrators.
- *
- * The existing question renderer is deliberately reused so that preview output
- * stays synchronized with the real student question presentation. This class
- * changes presentation only; it does not create, save, grade, or alter answers.
- */
 class QuestionPreviewController
 {
     private QuestionRepository $repository;
@@ -26,10 +19,6 @@ class QuestionPreviewController
     {
         $this->repository = new QuestionRepository();
 
-        /*
-         * QuestionController already registers this action. Remove that
-         * presentation-only callback and replace it with the dedicated preview.
-         */
         remove_all_actions('admin_post_eas_preview_question');
 
         add_action(
@@ -49,34 +38,20 @@ class QuestionPreviewController
         }
 
         $id = (int) ($_GET['id'] ?? 0);
-
-        if ($id <= 0) {
-            wp_die(
-                esc_html__('Invalid question.', 'eas-quiz')
-            );
-        }
-
-        $question = $this->repository->find($id);
+        $question = $id > 0 ? $this->repository->find($id) : null;
 
         if (!$question) {
-            wp_die(
-                esc_html__('Question not found.', 'eas-quiz')
-            );
+            wp_die(esc_html__('Question not found.', 'eas-quiz'));
         }
 
         $renderer = new QuestionRenderer();
         $question_html = $renderer->render($question, 1);
-
-        $title = sprintf(
-            __('Question Preview: %s', 'eas-quiz'),
-            wp_strip_all_tags((string) ($question['type'] ?? ''))
-        );
-
+        $title = __('Question Preview', 'eas-quiz');
         $frontend_css = EAS_PLUGIN_URL . 'assets/css/frontend.css';
         $preview_css = EAS_PLUGIN_URL . 'assets/css/question-preview.css';
-        $frontend_js = EAS_PLUGIN_URL . 'assets/js/frontend.js';
-
-        ?><!doctype html>
+        $preview_js = EAS_PLUGIN_URL . 'assets/js/question-preview.js';
+        ?>
+<!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
@@ -85,42 +60,31 @@ class QuestionPreviewController
     <link rel="stylesheet" href="<?php echo esc_url($frontend_css . '?ver=' . EAS_VERSION); ?>">
     <link rel="stylesheet" href="<?php echo esc_url($preview_css . '?ver=' . EAS_VERSION); ?>">
 </head>
-<body>
+<body class="eas-question-preview-page">
     <main class="eas-question-preview">
         <div class="eas-question-preview__shell">
             <header class="eas-question-preview__header">
                 <div>
-                    <p class="eas-question-preview__eyebrow">
-                        <?php esc_html_e('EAS', 'eas-quiz'); ?>
-                    </p>
-                    <h1 class="eas-question-preview__title">
-                        <?php esc_html_e('Question Preview', 'eas-quiz'); ?>
-                    </h1>
+                    <p class="eas-question-preview__eyebrow"><?php esc_html_e('EAS', 'eas-quiz'); ?></p>
+                    <h1 class="eas-question-preview__title"><?php esc_html_e('Question Preview', 'eas-quiz'); ?></h1>
                 </div>
-
-                <a
-                    class="eas-question-preview__close"
-                    href="javascript:window.close();"
-                >
+                <a class="eas-question-preview__close" href="javascript:window.close();">
                     <?php esc_html_e('Close Preview', 'eas-quiz'); ?>
                 </a>
             </header>
 
             <section class="eas-question-preview__card">
                 <?php echo $question_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-
                 <p class="eas-preview-note">
                     <?php esc_html_e('Preview only. No answer or result is saved from this page.', 'eas-quiz'); ?>
                 </p>
             </section>
         </div>
     </main>
-
-    <script src="<?php echo esc_url($frontend_js . '?ver=' . EAS_VERSION); ?>"></script>
+    <script src="<?php echo esc_url($preview_js . '?ver=' . EAS_VERSION); ?>"></script>
 </body>
 </html>
 <?php
-
         exit;
     }
 }
