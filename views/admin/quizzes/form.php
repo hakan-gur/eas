@@ -86,7 +86,7 @@ wp_editor(
 
 <tr>
 <th>
-<label><?php esc_html_e('Attempts Allowed', 'eas-quiz'); ?></label>
+<label><?php esc_html_e('Attempts Allowed (0 for Unlimited)', 'eas-quiz'); ?></label>
 </th>
 <td>
 <input type="number"
