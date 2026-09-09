@@ -24,7 +24,6 @@ class Activator
     {
         $pages = array(
             array('title' => 'Attempt', 'slug' => 'attempt', 'content' => '[eas_attempt]'),
-            array('title' => 'Quiz Results', 'slug' => 'quiz-result', 'content' => '[eas_results]'),
             array('title' => 'My Results', 'slug' => 'my-results', 'content' => '[eas_my_quizresults]')
         );
 
