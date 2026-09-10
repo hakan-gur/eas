@@ -15,11 +15,13 @@ class MyResultsController
 {
     private AttemptRepository $attempts;
     private QuizRepository $quizzes;
+    private ResultController $results;
 
     public function __construct()
     {
         $this->attempts = new AttemptRepository();
         $this->quizzes = new QuizRepository();
+        $this->results = new ResultController();
     }
 
     public function register(): void
@@ -41,7 +43,16 @@ class MyResultsController
                 'eas-quiz'
             ) . '</p>';
         }
+        $review = isset($_GET['review'])
+        ? absint(wp_unslash($_GET['review']))
+        : 0;
+        $attempt_id = isset($_GET['attempt_id'])
+        ? absint(wp_unslash($_GET['attempt_id']))
+        : 0;
 
+if ($review === 1 && $attempt_id > 0) {
+    return $this->results->render();
+}
         $user_id = get_current_user_id();
 
         $attempts = $this->attempts->all_by_user(
