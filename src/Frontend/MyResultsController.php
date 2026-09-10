@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace EAS\Frontend;
@@ -35,7 +36,10 @@ class MyResultsController
     public function render(): string
     {
         if (!is_user_logged_in()) {
-            return '<p>' . esc_html__('Please log in to view your quiz results.', 'eas-quiz') . '</p>';
+            return '<p>' . esc_html__(
+                'Please log in to view your quiz results.',
+                'eas-quiz'
+            ) . '</p>';
         }
 
         $user_id = get_current_user_id();
@@ -103,7 +107,10 @@ class MyResultsController
             <?php if (empty($attempts)) : ?>
 
                 <p>
-                    <?php esc_html_e('You have not completed any quizzes yet.', 'eas-quiz'); ?>
+                    <?php esc_html_e(
+                        'You have not completed any quizzes yet.',
+                        'eas-quiz'
+                    ); ?>
                 </p>
 
             <?php else : ?>
@@ -114,11 +121,40 @@ class MyResultsController
 
                         <thead>
                             <tr>
-                                <th><?php esc_html_e('Quiz Name', 'eas-quiz'); ?></th>
-                                <th><?php esc_html_e('Completed Time', 'eas-quiz'); ?></th>
-                                <th><?php esc_html_e('Status', 'eas-quiz'); ?></th>
-                                <th><?php esc_html_e('Score', 'eas-quiz'); ?></th>
-                                <th><?php esc_html_e('Review', 'eas-quiz'); ?></th>
+                                <th>
+                                    <?php esc_html_e(
+                                        'Quiz Name',
+                                        'eas-quiz'
+                                    ); ?>
+                                </th>
+
+                                <th>
+                                    <?php esc_html_e(
+                                        'Completed Time',
+                                        'eas-quiz'
+                                    ); ?>
+                                </th>
+
+                                <th>
+                                    <?php esc_html_e(
+                                        'Status',
+                                        'eas-quiz'
+                                    ); ?>
+                                </th>
+
+                                <th>
+                                    <?php esc_html_e(
+                                        'Score',
+                                        'eas-quiz'
+                                    ); ?>
+                                </th>
+
+                                <th>
+                                    <?php esc_html_e(
+                                        'Review',
+                                        'eas-quiz'
+                                    ); ?>
+                                </th>
                             </tr>
                         </thead>
 
@@ -128,7 +164,9 @@ class MyResultsController
 
                             <tr>
                                 <td>
-                                    <?php echo esc_html($attempt['quiz_title']); ?>
+                                    <?php echo esc_html(
+                                        $attempt['quiz_title']
+                                    ); ?>
                                 </td>
 
                                 <td>
@@ -163,17 +201,32 @@ class MyResultsController
                                     ?>
 
                                     <?php if ($status === 'Auto Graded') : ?>
+
                                         <span class="eas-status eas-status-auto">
-                                            <?php esc_html_e('Auto Graded', 'eas-quiz'); ?>
+                                            <?php esc_html_e(
+                                                'Auto Graded',
+                                                'eas-quiz'
+                                            ); ?>
                                         </span>
+
                                     <?php elseif ($status === 'Pending Grading') : ?>
+
                                         <span class="eas-status eas-status-pending">
-                                            <?php esc_html_e('Pending Grading', 'eas-quiz'); ?>
+                                            <?php esc_html_e(
+                                                'Pending Grading',
+                                                'eas-quiz'
+                                            ); ?>
                                         </span>
+
                                     <?php else : ?>
+
                                         <span class="eas-status eas-status-graded">
-                                            <?php esc_html_e('Graded', 'eas-quiz'); ?>
+                                            <?php esc_html_e(
+                                                'Graded',
+                                                'eas-quiz'
+                                            ); ?>
                                         </span>
+
                                     <?php endif; ?>
                                 </td>
 
@@ -203,6 +256,7 @@ class MyResultsController
 
                                         if ($max_points > 0) {
                                             echo ' / ';
+
                                             echo esc_html(
                                                 number_format_i18n(
                                                     $max_points,
@@ -215,21 +269,33 @@ class MyResultsController
                                 </td>
 
                                 <td>
-                                    <a
-                                        class="button"
-                                        href="<?php echo esc_url(
-                                            add_query_arg(
-                                                array(
-                                                    'attempt_id' =>
-                                                        (int) $attempt['id'],
-                                                    'review' => 1
-                                                ),
-                                                $this->get_results_page_url()
-                                            )
-                                        ); ?>"
-                                    >
-                                        <?php esc_html_e('Review', 'eas-quiz'); ?>
-                                    </a>
+                                    <?php
+                                    $results_url =
+                                        $this->get_results_page_url();
+
+                                    if ($results_url !== '') :
+                                    ?>
+
+                                        <a
+                                            class="button"
+                                            href="<?php echo esc_url(
+                                                add_query_arg(
+                                                    array(
+                                                        'attempt_id' =>
+                                                            (int) $attempt['id'],
+                                                        'review' => 1
+                                                    ),
+                                                    $results_url
+                                                )
+                                            ); ?>"
+                                        >
+                                            <?php esc_html_e(
+                                                'Review',
+                                                'eas-quiz'
+                                            ); ?>
+                                        </a>
+
+                                    <?php endif; ?>
                                 </td>
                             </tr>
 
@@ -334,17 +400,23 @@ class MyResultsController
 
     private function get_results_page_url(): string
     {
-        $result_page_id =
+        $my_results_page_id =
             (int) get_option(
-                'eas_results_page_id'
+                'eas_my_results_page_id'
             );
 
-        if ($result_page_id > 0) {
-            return get_permalink(
-                $result_page_id
-            );
+        if ($my_results_page_id <= 0) {
+            return '';
         }
 
-        return home_url('/');
+        $url = get_permalink(
+            $my_results_page_id
+        );
+
+        if ($url === false) {
+            return '';
+        }
+
+        return $url;
     }
 }
