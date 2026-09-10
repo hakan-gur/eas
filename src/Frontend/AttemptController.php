@@ -787,29 +787,59 @@ class AttemptController
             $score
         );
 
-        $result_page_id = (int) get_option(
-            'eas_results_page_id'
+        $my_results_page_id = (int) get_option(
+    'eas_my_results_page_id'
+);
+
+if ($my_results_page_id <= 0) {
+    $my_results_page = get_page_by_path(
+        'my-results',
+        OBJECT,
+        'page'
+    );
+
+    if ($my_results_page instanceof \WP_Post) {
+        $my_results_page_id = (int) $my_results_page->ID;
+
+        update_option(
+            'eas_my_results_page_id',
+            $my_results_page_id
         );
+    }
+}
 
-        if ($result_page_id <= 0) {
-            wp_die(
-                esc_html__(
-                    'Result page not found.',
-                    'eas-quiz'
-                )
-            );
-        }
+if ($my_results_page_id <= 0) {
+    wp_die(
+        esc_html__(
+            'My Results page not found.',
+            'eas-quiz'
+        )
+    );
+}
 
-        wp_redirect(
-            add_query_arg(
-                array(
-                    'attempt_id' => $attempt_id
-                ),
-                get_permalink($result_page_id)
-            )
-        );
+$my_results_page_url = get_permalink(
+    $my_results_page_id
+);
 
-        exit;
+if ($my_results_page_url === false) {
+    wp_die(
+        esc_html__(
+            'Unable to load the My Results page.',
+            'eas-quiz'
+        )
+    );
+}
+
+wp_redirect(
+    add_query_arg(
+        array(
+            'attempt_id' => $attempt_id
+        ),
+        $my_results_page_url
+    )
+);
+
+exit;
     }
 
     private function save_current_page_responses(
