@@ -173,7 +173,8 @@ public function count_completed_attempts(
             "SELECT COUNT(*)
              FROM {$this->table()}
              WHERE user_id = %d
-             AND quiz_id = %d",
+             AND quiz_id = %d
+             AND status = 'completed'",
             $user_id,
             $quiz_id
         )

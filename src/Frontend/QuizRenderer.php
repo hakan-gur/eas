@@ -24,7 +24,6 @@ class QuizRenderer
     private AttemptRepository $attempts;
 
 
-
     public function __construct()
     {
 
@@ -33,8 +32,6 @@ class QuizRenderer
         $this->attempts = new AttemptRepository();
 
     }
-
-
 
 
 
@@ -49,7 +46,6 @@ class QuizRenderer
         );
 
 
-
         if (!$quiz) {
 
 
@@ -57,8 +53,6 @@ class QuizRenderer
 
 
         }
-
-
 
 
 
@@ -84,27 +78,33 @@ class QuizRenderer
 
 
 
+        /*
+         * Administrators are exempt from the attempt limit.
+         *
+         * Keep remaining_attempts as null for administrators so
+         * the Start Attempt button is always displayed.
+         *
+         * Students remain subject to the configured attempt limit.
+         */
+
+        if (!current_user_can('manage_options')) {
+
+            $allowed = (int) $quiz['attempts_allowed'];
 
 
-        $allowed = (int) $quiz['attempts_allowed'];
+            if ($allowed > 0) {
 
+                $remaining_attempts = max(
 
+                    0,
 
-        if ($allowed > 0) {
+                    $allowed - $completed_attempts
 
+                );
 
-            $remaining_attempts = max(
-
-                0,
-
-                $allowed - $completed_attempts
-
-            );
-
+            }
 
         }
-
-
 
 
 
