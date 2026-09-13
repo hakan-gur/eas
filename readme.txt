@@ -80,7 +80,7 @@ Website administrators are responsible for informing users about the collection 
 
 = Development =
 
-e-Assessment Suite is developed as an open-source WordPress plugin.
+e-Assessment Suite is developed as an open-source WordPress plugin. Work on EAS started on 28 August 2026 and the first Version was completed on 11 September 2026.
 
 The source code is available on GitHub:
 
