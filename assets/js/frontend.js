@@ -1238,7 +1238,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .originalValue;
 
 
-                sourceBlank.draggable = true;
+                sourceBlank.draggable = false;
 
 
                 /*
