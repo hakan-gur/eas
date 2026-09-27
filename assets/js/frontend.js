@@ -1177,6 +1177,57 @@ document.addEventListener('DOMContentLoaded', function () {
      * Drop back into Word Bank
      * ========================================================
      */
+    /*
+     * Global drag/drop safety handler.
+     * Some themes/page builders can interfere with events
+     * attached directly to inline drop targets.
+     */
+    document.addEventListener(
+        'dragover',
+        function (event) {
+            const blank =
+                event.target.closest &&
+                event.target.closest('.eas-drop-blank');
+
+            if (
+                !blank ||
+                !questionContainer.contains(blank)
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+            blank.classList.add('drag-over');
+        },
+        true
+    );
+
+    document.addEventListener(
+        'drop',
+        function (event) {
+            const blank =
+                event.target.closest &&
+                event.target.closest('.eas-drop-blank');
+
+            if (
+                !blank ||
+                !questionContainer.contains(blank)
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+            blank.classList.remove('drag-over');
+
+            console.log(
+                'Delegated drop detected:',
+                draggedWord ? draggedWord.value : null
+            );
+        },
+        true
+    );
+
+
     wordBank.addEventListener(
         'dragover',
         function (event) {
