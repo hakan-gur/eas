@@ -515,16 +515,28 @@ class AttemptController
 
                 if ($question['type'] === 'multiple_choice') {
 
-                    $answers = $this->answers->all_by_question(
-                        $question_id
-                    );
+                    /*
+                     * Multiple Choice responses store the database ID
+                     * of the selected answer. Resolve that exact answer
+                     * record and verify that it belongs to this question
+                     * and is marked as correct.
+                     */
+                    $submitted_answer_id = absint($submitted);
 
-                    foreach ($answers as $answer) {
+                    if ($submitted_answer_id > 0) {
+
+                        $selected_answer = $this->answers->find(
+                            $submitted_answer_id
+                        );
 
                         if (
-                            (string) $answer['id'] === (string) $submitted
+                            $selected_answer
                             &&
-                            (int) $answer['is_correct'] === 1
+                            (int) ($selected_answer['question_id'] ?? 0)
+                                === $question_id
+                            &&
+                            (int) ($selected_answer['is_correct'] ?? 0)
+                                === 1
                         ) {
 
                             $points = (float) $question['points'];
@@ -536,8 +548,6 @@ class AttemptController
                                 $question_id,
                                 $points
                             );
-
-                            break;
                         }
                     }
                 } elseif ($question['type'] === 'drag_drop_text') {
