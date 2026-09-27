@@ -1163,10 +1163,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             /*
-             * A blank must be draggable so that
-             * a filled word can be moved elsewhere.
+             * Only a filled blank may be dragged.
+             * Empty blanks must remain pure drop targets.
              */
-            blank.draggable = true;
+            blank.draggable = blank.classList.contains('filled');
 
         }
     );
