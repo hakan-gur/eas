@@ -307,7 +307,20 @@ document.addEventListener('paste', function (event) {
  */
 document.addEventListener('DOMContentLoaded', function () {
 
-    let draggedWord = null;
+    /*
+     * Each drag-and-drop question has its own Word Bank,
+     * drop blanks, and drag state. This is important when
+     * a page contains more than one drag-and-drop question.
+     */
+    const questionContainers =
+        document.querySelectorAll(
+            '.eas-question.eas-drag-drop-text'
+        );
+
+    questionContainers.forEach(
+        function (questionContainer) {
+
+            let draggedWord = null;
 
 
     /*
@@ -315,8 +328,10 @@ document.addEventListener('DOMContentLoaded', function () {
      * Find Word Bank
      * --------------------------------------------------------
      */
-    const wordBank =
-        document.querySelector('.eas-word-bank');
+            const wordBank =
+                questionContainer.querySelector(
+                    '.eas-word-bank'
+                );
 
     if (!wordBank) {
         console.log(
@@ -803,10 +818,10 @@ document.addEventListener('DOMContentLoaded', function () {
      * Find all drop blanks
      * --------------------------------------------------------
      */
-    const blanks =
-        document.querySelectorAll(
-            '.eas-drop-blank'
-        );
+            const blanks =
+                questionContainer.querySelectorAll(
+                    '.eas-drop-blank'
+                );
 
 
     console.log(
@@ -1246,6 +1261,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
     );
+
+        });
 
 });
 
