@@ -222,6 +222,35 @@ if (
             $student_answer = implode('; ', $selected_texts);
         }
     }
+} elseif (
+    $response['type'] === 'drag_drop_text'
+) {
+    /*
+     * Drag-and-Drop responses are stored as a JSON array/map
+     * indexed by blank position. Display the actual words rather
+     * than the raw JSON representation.
+     */
+    $drag_answers = json_decode(
+        stripslashes($student_answer),
+        true
+    );
+
+    if (is_array($drag_answers)) {
+        $selected_texts = array();
+
+        foreach ($drag_answers as $answer) {
+            if (
+                is_string($answer)
+                && trim($answer) !== ''
+            ) {
+                $selected_texts[] = trim($answer);
+            }
+        }
+
+        $student_answer = !empty($selected_texts)
+            ? implode('; ', $selected_texts)
+            : '';
+    }
 }
 
 echo esc_html(
