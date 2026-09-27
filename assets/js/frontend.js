@@ -291,1030 +291,424 @@ document.addEventListener('paste', function (event) {
  * DRAG AND DROP - WORDS IN TEXT
  * ============================================================
  *
- * Supports:
+ * Pointer-based drag/drop is used instead of native HTML5
+ * drag/drop. This avoids browser/theme/page-builder conflicts
+ * with inline spans and makes the interaction reliable for:
  *
  * 1. Word Bank -> Blank
- * 2. Filled Blank -> Word Bank
- * 3. Filled Blank -> another Blank
+ * 2. Filled Blank -> another Blank
+ * 3. Filled Blank -> Word Bank
  * 4. Word Bank -> occupied Blank
  *
- * When replacing an occupied blank, the old word is returned
- * to the Word Bank.
- *
- * Original values are stored in data-original-value.
- * This is important because displayed words may be capitalized
- * when they begin a sentence.
+ * A question can have up to seven blanks and one distractor
+ * word. The distractor simply remains in the Word Bank.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
-    /*
-     * Each drag-and-drop question has its own Word Bank,
-     * drop blanks, and drag state. This is important when
-     * a page contains more than one drag-and-drop question.
-     */
-    const questionContainers =
-        document.querySelectorAll(
-            '.eas-question.eas-drag-drop-text'
+    const questionContainers = document.querySelectorAll(
+        '.eas-question.eas-drag-drop-text'
+    );
+
+    questionContainers.forEach(function (questionContainer) {
+
+        const wordBank = questionContainer.querySelector(
+            '.eas-word-bank'
         );
 
-    questionContainers.forEach(
-        function (questionContainer) {
-
-            let draggedWord = null;
-
-
-    /*
-     * --------------------------------------------------------
-     * Find Word Bank
-     * --------------------------------------------------------
-     */
-            const wordBank =
-                questionContainer.querySelector(
-                    '.eas-word-bank'
-                );
-
-    if (!wordBank) {
-        console.log(
-            'No .eas-word-bank found.'
-        );
-        return;
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Get the options container
-     * --------------------------------------------------------
-     */
-    function getOptionsContainer() {
-
-        const container =
-            wordBank.querySelector(
-                '.eas-drag-options'
-            );
-
-        return container || wordBank;
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Read answers from hidden field
-     * --------------------------------------------------------
-     */
-    function getAnswers(questionContainer) {
-
-        if (!questionContainer) {
-            return {};
+        if (!wordBank) {
+            return;
         }
 
-        const answerField =
-            questionContainer.querySelector(
+        const optionsContainer = wordBank.querySelector(
+            '.eas-drag-options'
+        ) || wordBank;
+
+        let dragState = null;
+        let dragGhost = null;
+        let moved = false;
+
+        function getAnswers() {
+            const field = questionContainer.querySelector(
                 '.eas-drag-answer'
             );
 
-        if (!answerField) {
-            return {};
-        }
-
-        if (answerField.value === '') {
-            return {};
-        }
-
-        try {
-
-            const parsed =
-                JSON.parse(answerField.value);
-
-            if (
-                parsed &&
-                typeof parsed === 'object'
-            ) {
-                return parsed;
+            if (!field || !field.value) {
+                return {};
             }
 
-        } catch (error) {
-
-            console.warn(
-                'Could not parse drag answers:',
-                error
-            );
-
+            try {
+                const parsed = JSON.parse(field.value);
+                return parsed && typeof parsed === 'object' ? parsed : {};
+            } catch (error) {
+                return {};
+            }
         }
 
-        return {};
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Save answers to hidden field
-     * --------------------------------------------------------
-     */
-    function saveAnswers(
-        questionContainer,
-        answers
-    ) {
-
-        if (!questionContainer) {
-            return;
-        }
-
-        const answerField =
-            questionContainer.querySelector(
+        function saveAnswers(answers) {
+            const field = questionContainer.querySelector(
                 '.eas-drag-answer'
             );
 
-        if (!answerField) {
-            return;
-        }
-
-        answerField.value =
-            JSON.stringify(answers);
-
-        console.log(
-            'Saved drag answers:',
-            answerField.value
-        );
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Remove a position from saved answers
-     * --------------------------------------------------------
-     */
-    function removeSavedAnswer(
-        blank
-    ) {
-
-        if (!blank) {
-            return;
-        }
-
-        const questionContainer =
-            blank.closest('.eas-question');
-
-        if (!questionContainer) {
-            return;
-        }
-
-        const answers =
-            getAnswers(questionContainer);
-
-        const position =
-            blank.dataset.position;
-
-        if (
-            position !== undefined &&
-            position !== ''
-        ) {
-
-            delete answers[position];
-
-        }
-
-        saveAnswers(
-            questionContainer,
-            answers
-        );
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Save a blank answer
-     * --------------------------------------------------------
-     */
-    function saveBlankAnswer(
-        blank,
-        originalValue
-    ) {
-
-        const questionContainer =
-            blank.closest('.eas-question');
-
-        if (!questionContainer) {
-            return;
-        }
-
-        const answers =
-            getAnswers(questionContainer);
-
-        answers[
-            blank.dataset.position
-        ] = originalValue;
-
-        saveAnswers(
-            questionContainer,
-            answers
-        );
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Determine whether a blank begins a sentence
-     * --------------------------------------------------------
-     *
-     * IMPORTANT:
-     *
-     * We inspect the rendered DOM, not the raw HTML.
-     *
-     * Therefore:
-     *
-     * <p>[[1]] ...</p>
-     *
-     * correctly identifies [[1]] as the first word.
-     *
-     * HTML tags such as <strong>, <em>, <span>, etc.
-     * are ignored by Range.toString().
-     */
-    function beginsSentence(blank) {
-
-        const paragraph =
-            blank.closest('p');
-
-        if (!paragraph) {
-            return false;
-        }
-
-
-        const range =
-            document.createRange();
-
-        range.selectNodeContents(
-            paragraph
-        );
-
-        range.setEndBefore(
-            blank
-        );
-
-
-        const textBefore =
-            range.toString().trim();
-
-
-        /*
-         * Blank is the first visible text
-         * in the paragraph.
-         */
-        if (textBefore === '') {
-            return true;
-        }
-
-
-        /*
-         * Blank follows sentence-ending punctuation.
-         *
-         * Examples:
-         *
-         * "Hello. [[1]]"
-         * "Hello! [[1]]"
-         * "Hello? [[1]]"
-         *
-         * Also supports closing quotation marks
-         * and brackets.
-         */
-        if (
-            /[.!?]["')\]]*$/.test(
-                textBefore
-            )
-        ) {
-            return true;
-        }
-
-
-        return false;
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Get display value
-     * --------------------------------------------------------
-     *
-     * The original word is kept unchanged.
-     *
-     * Only the displayed value is capitalized.
-     */
-    function getDisplayValue(
-        originalValue,
-        blank
-    ) {
-
-        let value =
-            originalValue;
-
-        if (
-            beginsSentence(blank) &&
-            value.length > 0
-        ) {
-
-            value =
-                value.charAt(0).toUpperCase() +
-                value.slice(1);
-
-        }
-
-        return value;
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Make a Word Bank word draggable
-     * --------------------------------------------------------
-     */
-    function makeWordDraggable(word) {
-
-        if (!word) {
-            return;
-        }
-
-
-        /*
-         * Avoid installing the event listener twice.
-         */
-        if (
-            word.dataset.easDragReady === '1'
-        ) {
-            return;
-        }
-
-        word.dataset.easDragReady = '1';
-
-
-        /*
-         * Store the original value.
-         *
-         * This is deliberately NOT based on the
-         * currently displayed capitalized value
-         * when the word originally came from a blank.
-         */
-        if (
-            !word.dataset.originalValue
-        ) {
-
-            word.dataset.originalValue =
-                word.textContent.trim();
-
-        }
-
-
-        word.draggable = true;
-
-
-        word.addEventListener(
-            'dragstart',
-            function (event) {
-
-                const originalValue =
-                    word.dataset.originalValue ||
-                    word.textContent.trim();
-
-
-                draggedWord = {
-
-                    value: originalValue,
-
-                    source: 'word-bank',
-
-                    element: word
-
-                };
-
-
-                event.dataTransfer.effectAllowed =
-                    'move';
-
-                event.dataTransfer.setData(
-                    'text/plain',
-                    originalValue
-                );
-
-
-                console.log(
-                    'Dragging from Word Bank:',
-                    originalValue
-                );
-
+            if (field) {
+                field.value = JSON.stringify(answers);
             }
-        );
-
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Return a word to Word Bank
-     * --------------------------------------------------------
-     */
-    function returnWordToBank(
-        originalValue
-    ) {
-
-        if (
-            !originalValue ||
-            originalValue.trim() === ''
-        ) {
-            return;
         }
 
+        function removeSavedAnswer(blank) {
+            const position = blank.dataset.position;
+            const answers = getAnswers();
 
-        const existingWords =
-            Array.from(
-                wordBank.querySelectorAll(
-                    '.eas-draggable-word'
-                )
-            );
+            if (position) {
+                delete answers[position];
+            }
 
-
-        /*
-         * Do not create duplicate options.
-         */
-        const alreadyExists =
-            existingWords.some(
-                function (word) {
-
-                    return (
-                        word.dataset.originalValue ===
-                        originalValue
-                    );
-
-                }
-            );
-
-
-        if (alreadyExists) {
-            return;
+            saveAnswers(answers);
         }
 
+        function saveBlankAnswer(blank, value) {
+            const position = blank.dataset.position;
+            const answers = getAnswers();
 
-        const newWord =
-            document.createElement('span');
+            if (position) {
+                answers[position] = value;
+            }
 
-
-        newWord.className =
-            'eas-draggable-word';
-
-        newWord.draggable = true;
-
-        newWord.dataset.originalValue =
-            originalValue;
-
-        newWord.textContent =
-            originalValue;
-
-
-        getOptionsContainer()
-            .appendChild(newWord);
-
-
-        makeWordDraggable(
-            newWord
-        );
-
-
-        console.log(
-            'Returned to Word Bank:',
-            originalValue
-        );
-
-    }
-
-
-    /*
-     * --------------------------------------------------------
-     * Initialize existing Word Bank words
-     * --------------------------------------------------------
-     */
-    const initialWords =
-        wordBank.querySelectorAll(
-            '.eas-draggable-word'
-        );
-
-
-    initialWords.forEach(
-        function (word) {
-
-            makeWordDraggable(
-                word
-            );
-
+            saveAnswers(answers);
         }
-    );
 
-
-    console.log(
-        'Drag words found:',
-        initialWords.length
-    );
-
-
-    /*
-     * --------------------------------------------------------
-     * Find all drop blanks
-     * --------------------------------------------------------
-     */
-            const blanks =
-                questionContainer.querySelectorAll(
-                    '.eas-drop-blank'
-                );
-
-
-    console.log(
-        'Drop blanks found:',
-        blanks.length
-    );
-
-
-    /*
-     * --------------------------------------------------------
-     * Configure each blank
-     * --------------------------------------------------------
-     */
-    blanks.forEach(
-        function (blank) {
-
-
-            /*
-             * Allow dropping.
-             */
-            blank.addEventListener(
-                'dragover',
-                function (event) {
-
-                    event.preventDefault();
-
-                    blank.classList.add(
-                        'drag-over'
-                    );
-
-                }
-            );
-
-
-            /*
-             * Remove visual drag-over state.
-             */
-            blank.addEventListener(
-                'dragleave',
-                function () {
-
-                    blank.classList.remove(
-                        'drag-over'
-                    );
-
-                }
-            );
-
-
-            /*
-             * ------------------------------------------------
-             * Drop onto blank
-             * ------------------------------------------------
-             */
-            blank.addEventListener(
-                'drop',
-                function (event) {
-
-                    event.preventDefault();
-
-                    blank.classList.remove(
-                        'drag-over'
-                    );
-
-
-                    if (!draggedWord) {
-
-                        console.log(
-                            'No dragged word detected.'
-                        );
-
-                        return;
-                    }
-
-
-                    const newOriginalValue =
-                        draggedWord.value;
-
-
-                    if (
-                        !newOriginalValue
-                    ) {
-
-                        draggedWord = null;
-
-                        return;
-                    }
-
-
-                    /*
-                     * Determine whether this blank
-                     * already contains a word.
-                     */
-                    const oldOriginalValue =
-                        blank.dataset.originalValue ||
-                        '';
-
-
-                    /*
-                     * ------------------------------------------------
-                     * CASE 1:
-                     * The same word is dropped into the same blank.
-                     *
-                     * Nothing needs to be returned.
-                     * ------------------------------------------------
-                     */
-                    if (
-                        oldOriginalValue ===
-                        newOriginalValue &&
-                        draggedWord.source ===
-                        'blank'
-                    ) {
-
-                        draggedWord = null;
-
-                        return;
-                    }
-
-
-                    /*
-                     * ------------------------------------------------
-                     * CASE 2:
-                     * The blank already contains another word.
-                     *
-                     * Return the old word to the Word Bank.
-                     * ------------------------------------------------
-                     */
-                    if (
-                        oldOriginalValue &&
-                        oldOriginalValue !==
-                        newOriginalValue
-                    ) {
-
-                        returnWordToBank(
-                            oldOriginalValue
-                        );
-
-                    }
-
-
-                    /*
-                     * ------------------------------------------------
-                     * CASE 3:
-                     * The dragged word came from another blank.
-                     *
-                     * We must clear the original blank.
-                     * ------------------------------------------------
-                     */
-                    if (
-                        draggedWord.source ===
-                        'blank' &&
-                        draggedWord.element
-                    ) {
-
-                        const sourceBlank =
-                            draggedWord.element;
-
-
-                        /*
-                         * Only clear the source blank
-                         * if it is different from the
-                         * destination blank.
-                         */
-                        if (
-                            sourceBlank !== blank
-                        ) {
-
-                            sourceBlank.textContent =
-                                '';
-
-                            sourceBlank.classList.remove(
-                                'filled'
-                            );
-
-
-                            delete sourceBlank.dataset
-                                .originalValue;
-
-
-                            removeSavedAnswer(
-                                sourceBlank
-                            );
-
-                        }
-
-                    }
-
-
-                    /*
-                     * ------------------------------------------------
-                     * Display value
-                     *
-                     * Capitalization is visual only.
-                     * ------------------------------------------------
-                     */
-                    const displayValue =
-                        getDisplayValue(
-                            newOriginalValue,
-                            blank
-                        );
-
-
-                    /*
-                     * Render word in blank.
-                     */
-                    blank.textContent =
-                        displayValue;
-
-
-                    blank.classList.add(
-                        'filled'
-                    );
-
-
-                    /*
-                     * IMPORTANT:
-                     *
-                     * Save the ORIGINAL value,
-                     * not the visually capitalized value.
-                     */
-                    blank.dataset.originalValue =
-                        newOriginalValue;
-
-
-                    /*
-                     * Make the filled blank draggable.
-                     */
-                    blank.draggable = true;
-
-
-                    /*
-                     * Save answer.
-                     */
-                    saveBlankAnswer(
-                        blank,
-                        newOriginalValue
-                    );
-
-
-                    /*
-                     * ------------------------------------------------
-                     * If the word came from the Word Bank,
-                     * remove that option.
-                     * ------------------------------------------------
-                     */
-                    if (
-                        draggedWord.source ===
-                        'word-bank'
-                    ) {
-
-                        const wordElement =
-                            draggedWord.element;
-
-
-                        if (wordElement) {
-
-                            wordElement.remove();
-
-                        }
-
-                    }
-
-
-                    console.log(
-                        'Dropped:',
-                        newOriginalValue,
-                        'into position:',
-                        blank.dataset.position
-                    );
-
-
-                    draggedWord = null;
-
-                }
-            );
-
-
-            /*
-             * ------------------------------------------------
-             * Allow dragging a filled blank.
-             * ------------------------------------------------
-             */
-            blank.addEventListener(
-                'dragstart',
-                function (event) {
-
-                    if (
-                        !blank.classList.contains(
-                            'filled'
-                        )
-                    ) {
-
-                        event.preventDefault();
-
-                        return;
-                    }
-
-
-                    const originalValue =
-                        blank.dataset.originalValue ||
-                        blank.textContent.trim();
-
-
-                    if (!originalValue) {
-
-                        event.preventDefault();
-
-                        return;
-                    }
-
-
-                    draggedWord = {
-
-                        value: originalValue,
-
-                        source: 'blank',
-
-                        element: blank
-
-                    };
-
-
-                    event.dataTransfer.effectAllowed =
-                        'move';
-
-                    event.dataTransfer.setData(
-                        'text/plain',
-                        originalValue
-                    );
-
-
-                    console.log(
-                        'Dragging from filled blank:',
-                        originalValue
-                    );
-
-                }
-            );
-
-
-            /*
-             * Only a filled blank may be dragged.
-             * Empty blanks must remain pure drop targets.
-             */
-            blank.draggable = blank.classList.contains('filled');
-
-        }
-    );
-
-
-    /*
-     * ========================================================
-     * Drop back into Word Bank
-     * ========================================================
-     */
-    /*
-     * Global drag/drop safety handler.
-     * Some themes/page builders can interfere with events
-     * attached directly to inline drop targets.
-     */
-    document.addEventListener(
-        'dragover',
-        function (event) {
-            const blank =
-                event.target.closest &&
-                event.target.closest('.eas-drop-blank');
-
-            if (
-                !blank ||
-                !questionContainer.contains(blank)
-            ) {
+        function returnWordToBank(value) {
+            if (!value) {
                 return;
             }
 
-            event.preventDefault();
-            blank.classList.add('drag-over');
-        },
-        true
-    );
+            const existing = Array.from(
+                optionsContainer.querySelectorAll('.eas-draggable-word')
+            );
 
-    document.addEventListener(
-        'drop',
-        function (event) {
-            const blank =
-                event.target.closest &&
-                event.target.closest('.eas-drop-blank');
+            const exists = existing.some(function (word) {
+                return (word.dataset.originalValue || word.textContent.trim()) === value;
+            });
 
-            if (
-                !blank ||
-                !questionContainer.contains(blank)
-            ) {
+            if (exists) {
                 return;
             }
 
-            event.preventDefault();
-            blank.classList.remove('drag-over');
-
-            console.log(
-                'Delegated drop detected:',
-                draggedWord ? draggedWord.value : null
-            );
-        },
-        true
-    );
-
-
-    wordBank.addEventListener(
-        'dragover',
-        function (event) {
-
-            event.preventDefault();
-
+            const word = document.createElement('span');
+            word.className = 'eas-draggable-word';
+            word.dataset.originalValue = value;
+            word.textContent = value;
+            word.setAttribute('draggable', 'false');
+            optionsContainer.appendChild(word);
         }
-    );
 
+        /*
+         * Determine whether a blank starts a sentence.
+         * We examine all rendered text before the blank, not only
+         * its immediate <p>. This also works when the question
+         * contains headings, spans, strong/em tags, etc.
+         */
+        function beginsSentence(blank) {
+            const textContainer = questionContainer.querySelector(
+                '.eas-question-text'
+            );
 
-    wordBank.addEventListener(
-        'drop',
-        function (event) {
+            if (!textContainer) {
+                return false;
+            }
 
-            event.preventDefault();
+            const range = document.createRange();
+            range.selectNodeContents(textContainer);
+            range.setEndBefore(blank);
 
+            const before = range.toString().trim();
 
-            if (
-                !draggedWord ||
-                draggedWord.source !== 'blank'
-            ) {
+            if (before === '') {
+                return true;
+            }
 
-                draggedWord = null;
+            return /[.!?]["')\\]]*$/.test(before);
+        }
 
+        function getDisplayValue(value, blank) {
+            if (!value) {
+                return '';
+            }
+
+            if (beginsSentence(blank)) {
+                return value.charAt(0).toUpperCase() + value.slice(1);
+            }
+
+            return value;
+        }
+
+        function createGhost(word) {
+            const rect = word.getBoundingClientRect();
+            const ghost = word.cloneNode(true);
+
+            ghost.classList.add('eas-drag-ghost');
+            ghost.style.position = 'fixed';
+            ghost.style.left = rect.left + 'px';
+            ghost.style.top = rect.top + 'px';
+            ghost.style.width = rect.width + 'px';
+            ghost.style.height = rect.height + 'px';
+            ghost.style.margin = '0';
+            ghost.style.zIndex = '999999';
+            ghost.style.pointerEvents = 'none';
+            ghost.style.opacity = '0.85';
+
+            document.body.appendChild(ghost);
+            return ghost;
+        }
+
+        function moveGhost(event) {
+            if (!dragGhost) {
                 return;
             }
 
+            dragGhost.style.left = (event.clientX + 10) + 'px';
+            dragGhost.style.top = (event.clientY + 10) + 'px';
+        }
 
-            const originalValue =
-                draggedWord.value;
+        function getDropBlankAt(x, y) {
+            const blanks = questionContainer.querySelectorAll('.eas-drop-blank');
 
+            for (let i = 0; i < blanks.length; i++) {
+                const rect = blanks[i].getBoundingClientRect();
 
-            const sourceBlank =
-                draggedWord.element;
+                if (
+                    x >= rect.left &&
+                    x <= rect.right &&
+                    y >= rect.top &&
+                    y <= rect.bottom
+                ) {
+                    return blanks[i];
+                }
+            }
 
+            return null;
+        }
+
+        function clearDragState() {
+            if (dragGhost) {
+                dragGhost.remove();
+            }
+
+            dragGhost = null;
+            dragState = null;
+            moved = false;
+
+            questionContainer.querySelectorAll('.drag-over').forEach(function (element) {
+                element.classList.remove('drag-over');
+            });
+        }
+
+        function dropIntoBlank(blank) {
+            if (!dragState || !blank) {
+                return;
+            }
+
+            const newValue = dragState.value;
+
+            if (!newValue) {
+                return;
+            }
+
+            const oldValue = blank.dataset.originalValue || '';
 
             /*
-             * Return the word to the Word Bank.
+             * If a word is moved from one blank to another, clear
+             * its original blank first. The destination's old word
+             * is returned to the Word Bank.
              */
-            returnWordToBank(
-                originalValue
-            );
+            if (oldValue && oldValue !== newValue) {
+                returnWordToBank(oldValue);
+            }
 
+            if (
+                dragState.sourceType === 'blank' &&
+                dragState.sourceElement &&
+                dragState.sourceElement !== blank
+            ) {
+                const sourceBlank = dragState.sourceElement;
 
-            /*
-             * Clear the source blank.
-             */
+                sourceBlank.textContent = '______';
+                sourceBlank.classList.remove('filled');
+                delete sourceBlank.dataset.originalValue;
+                sourceBlank.setAttribute('draggable', 'false');
+                removeSavedAnswer(sourceBlank);
+            }
+
+            blank.textContent = getDisplayValue(newValue, blank);
+            blank.classList.add('filled');
+            blank.dataset.originalValue = newValue;
+            blank.setAttribute('draggable', 'true');
+            saveBlankAnswer(blank, newValue);
+
+            if (dragState.sourceType === 'word-bank' && dragState.sourceElement) {
+                dragState.sourceElement.remove();
+            }
+        }
+
+        function dropIntoWordBank() {
+            if (!dragState || dragState.sourceType !== 'blank') {
+                return;
+            }
+
+            const sourceBlank = dragState.sourceElement;
+            returnWordToBank(dragState.value);
+
             if (sourceBlank) {
+                sourceBlank.textContent = '______';
+                sourceBlank.classList.remove('filled');
+                delete sourceBlank.dataset.originalValue;
+                sourceBlank.setAttribute('draggable', 'false');
+                removeSavedAnswer(sourceBlank);
+            }
+        }
 
-                sourceBlank.textContent =
-                    '';
-
-                sourceBlank.classList.remove(
-                    'filled'
-                );
-
-
-                delete sourceBlank.dataset
-                    .originalValue;
-
-
-                sourceBlank.draggable = false;
-
-
-                /*
-                 * Clear saved answer.
-                 */
-                removeSavedAnswer(
-                    sourceBlank
-                );
-
+        function startDrag(event, element, sourceType) {
+            if (event.button !== undefined && event.button !== 0) {
+                return;
             }
 
+            const value = element.dataset.originalValue || element.textContent.trim();
 
-            console.log(
-                'Word returned to Word Bank:',
-                originalValue
-            );
+            if (!value) {
+                return;
+            }
 
+            if (sourceType === 'blank' && !element.classList.contains('filled')) {
+                return;
+            }
 
-            draggedWord = null;
+            event.preventDefault();
 
+            dragState = {
+                value: value,
+                sourceType: sourceType,
+                sourceElement: element,
+                pointerId: event.pointerId
+            };
+
+            moved = false;
+            dragGhost = createGhost(element);
+
+            element.classList.add('eas-drag-source');
+
+            try {
+                element.setPointerCapture(event.pointerId);
+            } catch (error) {
+                /* Pointer capture is optional. */
+            }
         }
-    );
 
+        function handlePointerMove(event) {
+            if (!dragState || event.pointerId !== dragState.pointerId) {
+                return;
+            }
+
+            moved = true;
+            event.preventDefault();
+            moveGhost(event);
+
+            const blank = getDropBlankAt(event.clientX, event.clientY);
+
+            questionContainer.querySelectorAll('.drag-over').forEach(function (element) {
+                if (element !== blank) {
+                    element.classList.remove('drag-over');
+                }
+            });
+
+            if (blank) {
+                blank.classList.add('drag-over');
+            }
+        }
+
+        function handlePointerUp(event) {
+            if (!dragState || event.pointerId !== dragState.pointerId) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const source = dragState.sourceElement;
+            const dropBlank = getDropBlankAt(event.clientX, event.clientY);
+
+            if (dropBlank) {
+                dropIntoBlank(dropBlank);
+            } else if (
+                dragState.sourceType === 'blank' &&
+                wordBank.contains(event.target)
+            ) {
+                dropIntoWordBank();
+            }
+
+            if (source) {
+                source.classList.remove('eas-drag-source');
+            }
+
+            clearDragState();
+        }
+
+        function handlePointerCancel(event) {
+            if (!dragState || event.pointerId !== dragState.pointerId) {
+                return;
+            }
+
+            if (dragState.sourceElement) {
+                dragState.sourceElement.classList.remove('eas-drag-source');
+            }
+
+            clearDragState();
+        }
+
+        /*
+         * Event delegation means newly returned Word Bank words
+         * automatically work without installing new listeners.
+         */
+        questionContainer.addEventListener('pointerdown', function (event) {
+            const word = event.target.closest('.eas-draggable-word');
+            if (word && questionContainer.contains(word)) {
+                startDrag(event, word, 'word-bank');
+                return;
+            }
+
+            const blank = event.target.closest('.eas-drop-blank');
+            if (blank && questionContainer.contains(blank)) {
+                startDrag(event, blank, 'blank');
+            }
         });
 
+        document.addEventListener('pointermove', handlePointerMove, { passive: false });
+        document.addEventListener('pointerup', handlePointerUp, { passive: false });
+        document.addEventListener('pointercancel', handlePointerCancel, { passive: false });
+
+        /*
+         * Initialize all options. HTML5 draggable is deliberately
+         * disabled because this implementation uses Pointer Events.
+         */
+        const initialWords = wordBank.querySelectorAll('.eas-draggable-word');
+        initialWords.forEach(function (word) {
+            word.setAttribute('draggable', 'false');
+            if (!word.dataset.originalValue) {
+                word.dataset.originalValue = word.textContent.trim();
+            }
+        });
+
+        const blanks = questionContainer.querySelectorAll('.eas-drop-blank');
+        blanks.forEach(function (blank) {
+            if (blank.dataset.answer) {
+                blank.dataset.originalValue = blank.dataset.answer;
+                blank.classList.add('filled');
+                blank.setAttribute('draggable', 'true');
+            } else {
+                blank.setAttribute('draggable', 'false');
+            }
+        });
+
+        console.log('Drag words found:', initialWords.length);
+        console.log('Drop blanks found:', blanks.length);
+    });
 });
 
 
