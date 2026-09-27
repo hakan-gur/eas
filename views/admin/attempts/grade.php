@@ -168,8 +168,64 @@ type="audio/webm">
 
 <div style="padding:10px;background:#f5f5f5;">
 
-<?php echo esc_html(
-    $response['answer']
+<?php
+$student_answer = (string) ($response['answer'] ?? '');
+
+if (
+    $response['type'] === 'multiple_choice'
+) {
+    $answer_repository = new \EAS\Answer\AnswerRepository();
+
+    $selected_answer = $answer_repository->find(
+        absint($student_answer)
+    );
+
+    if (
+        $selected_answer
+        && (int) ($selected_answer['question_id'] ?? 0)
+            === (int) $response['item_id']
+    ) {
+        $student_answer = (string) (
+            $selected_answer['answer_text'] ?? ''
+        );
+    }
+} elseif (
+    $response['type'] === 'multiple_choice_multiple'
+) {
+    $answer_repository = new \EAS\Answer\AnswerRepository();
+
+    $selected_ids = json_decode(
+        stripslashes($student_answer),
+        true
+    );
+
+    if (is_array($selected_ids)) {
+        $selected_texts = array();
+
+        foreach ($selected_ids as $selected_id) {
+            $selected_answer = $answer_repository->find(
+                absint($selected_id)
+            );
+
+            if (
+                $selected_answer
+                && (int) ($selected_answer['question_id'] ?? 0)
+                    === (int) $response['item_id']
+            ) {
+                $selected_texts[] = (string) (
+                    $selected_answer['answer_text'] ?? ''
+                );
+            }
+        }
+
+        if (!empty($selected_texts)) {
+            $student_answer = implode('; ', $selected_texts);
+        }
+    }
+}
+
+echo esc_html(
+    $student_answer
 ); ?>
 
 </div>
