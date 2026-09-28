@@ -524,8 +524,9 @@
 
 .eas-navigation-toggle {
     position: absolute;
-    top: 8px;
+    top: 50%;
     left: -15px;
+    transform: translateY(-50%);
     z-index: 5;
     display: flex;
     align-items: center;
@@ -597,6 +598,7 @@
     .eas-navigation-toggle {
         top: -15px;
         left: 8px;
+        transform: none;
         border-radius: 4px 4px 0 0;
     }
 
@@ -615,6 +617,7 @@
     .eas-attempt-layout.navigation-hidden .eas-navigation-toggle {
         top: 0;
         left: 8px;
+        transform: none;
         border-radius: 4px;
     }
 }
