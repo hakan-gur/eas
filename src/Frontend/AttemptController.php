@@ -555,8 +555,17 @@ class AttemptController
                     /*
                      * Drag-and-Drop scoring:
                      *
-                     * All blanks must be correct.
-                     * No partial credit.
+                     * Each blank is worth an equal share of the
+                     * question's total point value.
+                     *
+                     * Example:
+                     *   Question = 5 points
+                     *   2 blanks
+                     *   2 correct = 5 points
+                     *   1 correct = 2.5 points
+                     *   0 correct = 0 points
+                     *
+                     * Extra distractor words do not affect scoring.
                      */
 
                     $answers = $this->answers->all_by_question(
@@ -567,69 +576,95 @@ class AttemptController
 
                     foreach ($answers as $answer) {
 
-                        if (
-                            (int) $answer['correct_position'] > 0
-                        ) {
+                        $position = (int) (
+                            $answer['correct_position'] ?? 0
+                        );
 
-                            $correct_answers[
-                                (int) $answer['correct_position']
-                            ] = trim(
-                                $answer['answer_text']
+                        if ($position > 0) {
+
+                            $correct_answers[$position] = trim(
+                                (string) (
+                                    $answer['answer_text'] ?? ''
+                                )
                             );
                         }
                     }
 
                     /*
-                     * Student answers are stored as JSON
+                     * Student answers are stored as JSON.
                      */
-                     $student_answers = json_decode(
-                         stripslashes($submitted),
-                         true
+                    $student_answers = json_decode(
+                        stripslashes($submitted),
+                        true
                     );
-                    $all_correct = true;
+
+                    /*
+                     * Count the correctly answered blanks.
+                     */
+                    $total_blanks = count(
+                        $correct_answers
+                    );
+
+                    $correct_count = 0;
 
                     if (
-                        !is_array($student_answers)
+                        $total_blanks > 0
+                        &&
+                        is_array($student_answers)
                     ) {
-
-                        $all_correct = false;
-
-                    } else {
 
                         foreach (
                             $correct_answers as $position => $correct
                         ) {
 
                             $student = trim(
-                                $student_answers[$position] ?? ''
+                                (string) (
+                                    $student_answers[$position]
+                                    ?? ''
+                                )
                             );
 
                             if (
                                 strcasecmp(
                                     $student,
                                     $correct
-                                ) !== 0
+                                ) === 0
                             ) {
 
-                                $all_correct = false;
-
-                                break;
+                                $correct_count++;
                             }
                         }
                     }
 
-                    if ($all_correct) {
+                    /*
+                     * Award a proportional share of the question points
+                     * for each correctly completed blank.
+                     */
+                    if ($total_blanks > 0) {
 
-                        $points = (float) $question['points'];
+                        $question_points =
+                            (float) $question['points'];
 
-                        $score += $points;
+                        $points =
+                            $question_points
+                            * (
+                                $correct_count
+                                / $total_blanks
+                            );
 
-                        $this->responses->update_points(
-                            $attempt_id,
-                            $question_id,
-                            $points
-                        );
+                    } else {
+
+                        $points = 0;
                     }
+
+                    $score += $points;
+
+                    $this->responses->update_points(
+                        $attempt_id,
+                        $question_id,
+                        $points
+                    );
+
                 } elseif ($question['type'] === 'fill_blank') {
 
                     /*
