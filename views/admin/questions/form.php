@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$question_id = 0;
+$question_id = 1;
 $question_text = '';
 $points = 0;
 $type = $_GET['type'] ?? 'multiple_choice';
