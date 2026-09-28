@@ -67,6 +67,14 @@ class AttemptController
         );
 
         add_action(
+            'admin_post_eas_go_to_page',
+            array(
+                $this,
+                'go_to_page'
+            )
+        );
+
+        add_action(
             'admin_post_eas_upload_audio',
             array(
                 $this,
@@ -346,6 +354,55 @@ class AttemptController
             )
         );
 
+        exit;
+    }
+
+    public function go_to_page(): void
+    {
+        check_admin_referer('eas_go_to_page');
+
+        $attempt_id = (int) ($_POST['attempt_id'] ?? 0);
+        $target_page_id = (int) ($_POST['go_to_page_id'] ?? 0);
+
+        if ($attempt_id <= 0 || $target_page_id <= 0) {
+            wp_die(esc_html__('Invalid page navigation request.', 'eas-quiz'));
+        }
+
+        $attempt = $this->repository->find($attempt_id);
+        if (!$attempt) {
+            wp_die(esc_html__('Attempt not found.', 'eas-quiz'));
+        }
+
+        $quiz = $this->quizzes->find((int) $attempt['quiz_id']);
+        if (!$quiz) {
+            wp_die(esc_html__('Quiz not found.', 'eas-quiz'));
+        }
+
+        if (empty($quiz['backward_navigation'])) {
+            wp_die(esc_html__('Backward navigation is not allowed.', 'eas-quiz'));
+        }
+
+        $target_page = $this->pages->find($target_page_id);
+        if (!$target_page || (int) $target_page['quiz_id'] !== (int) $attempt['quiz_id']) {
+            wp_die(esc_html__('Invalid target page.', 'eas-quiz'));
+        }
+
+        $this->save_current_page_responses(
+            $attempt_id,
+            (int) $attempt['current_page_id']
+        );
+
+        $this->repository->update_current_page(
+            $attempt_id,
+            $target_page_id
+        );
+
+        wp_redirect(
+            add_query_arg(
+                array('attempt_id' => $attempt_id),
+                get_permalink((int) get_option('eas_attempt_page_id'))
+            )
+        );
         exit;
     }
 
