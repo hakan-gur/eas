@@ -342,7 +342,7 @@ document.addEventListener(
             aria-expanded="true"
             aria-controls="eas-navigation-pages"
             title="<?php echo esc_attr__('Hide navigation', 'eas-quiz'); ?>"
-        >&lt;</button>
+        >&gt;</button>
 
         <div class="eas-navigation-panel-content">
             <div class="eas-navigation-pages" id="eas-navigation-pages">
@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const hidden = layout.classList.toggle('navigation-hidden');
 
         toggle.setAttribute('aria-expanded', hidden ? 'false' : 'true');
-        toggle.innerHTML = hidden ? '&gt;' : '&lt;';
+        toggle.innerHTML = hidden ? '&lt;' : '&gt;';
         toggle.title = hidden
             ? '<?php echo esc_js(__('Show navigation', 'eas-quiz')); ?>'
             : '<?php echo esc_js(__('Hide navigation', 'eas-quiz')); ?>';
