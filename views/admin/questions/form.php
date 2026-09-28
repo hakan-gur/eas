@@ -201,9 +201,9 @@ if ($question) {
                         <label><?php esc_html_e('Recording Duration', 'eas-quiz'); ?></label>
                     </th>
                     <td>
-                        <input type="number" name="audio_duration_seconds" value="<?php echo esc_attr($audio_duration_seconds); ?>" min="12" max="60">
+                        <input type="number" name="audio_duration_seconds" value="<?php echo esc_attr($audio_duration_seconds); ?>" min="10" max="180">
                         <p class="description">
-                            <?php esc_html_e('Speaking time (12-60 seconds).', 'eas-quiz'); ?>
+                            <?php esc_html_e('Speaking time (10-180 seconds).', 'eas-quiz'); ?>
                         </p>
                     </td>
                 </tr>
