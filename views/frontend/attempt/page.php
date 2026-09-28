@@ -18,8 +18,13 @@ if ($quiz_allows_backward) {
 $show_header_navigation = empty($page_time_limit) && ($previous_page || $next_page);
 $next_page_nonce = wp_create_nonce('eas_next_page');
 $previous_page_nonce = wp_create_nonce('eas_previous_page');
+$go_to_page_nonce = wp_create_nonce('eas_go_to_page');
+$all_pages = $pages->all_by_quiz((int) $page['quiz_id']);
+$show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
 ?>
-<div class="eas-attempt">
+<div class="eas-attempt<?php echo $show_navigation_panel ? ' eas-attempt-with-navigation' : ''; ?>">
+<div class="eas-attempt-layout<?php echo $show_navigation_panel ? ' has-navigation-panel' : ''; ?>" id="eas-attempt-layout">
+<main class="eas-attempt-content" id="eas-attempt-content">
 <form id="eas-attempt-form"
       method="post"
       action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
@@ -87,6 +92,10 @@ $previous_page_nonce = wp_create_nonce('eas_previous_page');
             <?php endif; ?>
         </div>
     </div>
+
+    <?php if ($show_navigation_panel) : ?>
+        <input type="hidden" name="go_to_page_id" id="eas-go-to-page-id" value="">
+    <?php endif; ?>
 
     <?php if (!empty($page_time_limit)) : ?>
         <script>
@@ -323,4 +332,78 @@ document.addEventListener(
 );
     </script>
 </form>
+</main>
+<?php if ($show_navigation_panel) : ?>
+    <aside class="eas-navigation-panel" id="eas-navigation-panel" aria-label="<?php echo esc_attr__('Quiz Navigation', 'eas-quiz'); ?>">
+        <button
+            type="button"
+            class="eas-navigation-toggle"
+            id="eas-navigation-toggle"
+            aria-expanded="true"
+            aria-controls="eas-navigation-pages"
+            title="<?php echo esc_attr__('Hide navigation', 'eas-quiz'); ?>"
+        >&lt;</button>
+
+        <div class="eas-navigation-panel-content">
+            <div class="eas-navigation-pages" id="eas-navigation-pages">
+                <?php foreach ($all_pages as $navigation_page) : ?>
+                    <?php
+                    $navigation_page_id = (int) $navigation_page['id'];
+                    $navigation_is_current =
+                        $navigation_page_id === (int) $page['id'];
+                    ?>
+                    <button
+                        type="button"
+                        class="eas-navigation-page-number<?php echo $navigation_is_current ? ' is-current' : ''; ?>"
+                        data-page-id="<?php echo esc_attr($navigation_page_id); ?>"
+                        <?php echo $navigation_is_current ? 'aria-current="page"' : ''; ?>
+                    >
+                        <?php echo esc_html((int) $navigation_page['page_number']); ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </aside>
+<?php endif; ?>
 </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const layout = document.getElementById('eas-attempt-layout');
+    const toggle = document.getElementById('eas-navigation-toggle');
+    const form = document.getElementById('eas-attempt-form');
+
+    if (!layout || !toggle || !form) {
+        return;
+    }
+
+    toggle.addEventListener('click', function () {
+        const hidden = layout.classList.toggle('navigation-hidden');
+
+        toggle.setAttribute('aria-expanded', hidden ? 'false' : 'true');
+        toggle.innerHTML = hidden ? '&gt;' : '&lt;';
+        toggle.title = hidden
+            ? '<?php echo esc_js(__('Show navigation', 'eas-quiz')); ?>'
+            : '<?php echo esc_js(__('Hide navigation', 'eas-quiz')); ?>';
+    });
+
+    document.querySelectorAll('.eas-navigation-page-number').forEach(function (button) {
+        button.addEventListener('click', function () {
+            const pageId = this.getAttribute('data-page-id');
+            const action = form.querySelector('input[name="action"]');
+            const nonce = form.querySelector('input[name="_wpnonce"]');
+            const target = document.getElementById('eas-go-to-page-id');
+
+            if (!pageId || !action || !nonce || !target) {
+                return;
+            }
+
+            action.value = 'eas_go_to_page';
+            nonce.value = '<?php echo esc_js($go_to_page_nonce); ?>';
+            target.value = pageId;
+            form.submit();
+        });
+    });
+});
+</script>
