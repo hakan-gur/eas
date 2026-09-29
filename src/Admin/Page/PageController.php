@@ -79,7 +79,11 @@ class PageController
 
         $data = array(
             'title' => sanitize_text_field($_POST['title'] ?? ''),
-            'content' => wp_kses_post($_POST['content'] ?? ''),
+            'content' => wp_kses_post(
+                wp_unslash(
+                    $_POST['content'] ?? ''
+                    )
+                ),
             'page_time_limit' => (int) ($_POST['page_time_limit'] ?? 0),
             'updated_at' => current_time('mysql')
         );
