@@ -364,9 +364,9 @@ $page_id
 'eas_delete_question_' . $question['id']
 
 ); ?>"
-onclick="return confirm('<?php echo esc_js(__('Delete this question permanently?', 'eas-quiz')); ?>');">
+onclick="return confirm('<?php echo esc_js(__('Remove this question from the page?', 'eas-quiz')); ?>');">
 
-<?php esc_html_e('Delete', 'eas-quiz'); ?>
+<?php esc_html_e('Remove', 'eas-quiz'); ?>
 
 </a>
 </td>
