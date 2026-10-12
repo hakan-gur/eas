@@ -262,6 +262,8 @@ class AttemptController
             );
         }
 
+        $this->ensure_attempt_access($attempt);
+
         $quiz = $this->quizzes->find(
             (int) $attempt['quiz_id']
         );
@@ -373,6 +375,8 @@ class AttemptController
             wp_die(esc_html__('Attempt not found.', 'eas-quiz'));
         }
 
+        $this->ensure_attempt_access($attempt);
+
         $quiz = $this->quizzes->find((int) $attempt['quiz_id']);
         if (!$quiz) {
             wp_die(esc_html__('Quiz not found.', 'eas-quiz'));
@@ -437,6 +441,8 @@ class AttemptController
                 )
             );
         }
+
+        $this->ensure_attempt_access($attempt);
 
         $this->save_current_page_responses(
             $attempt_id,
@@ -530,6 +536,8 @@ class AttemptController
                 )
             );
         }
+
+        $this->ensure_attempt_access($attempt);
 
         $this->save_current_page_responses(
             $attempt_id,
@@ -942,6 +950,27 @@ wp_redirect(
 );
 
 exit;
+    }
+
+    /**
+     * Ensure a frontend request can only modify the current user's attempt.
+     */
+    private function ensure_attempt_access(array $attempt): void
+    {
+        if (
+            !is_user_logged_in()
+            ||
+            (int) ($attempt['user_id'] ?? 0) !== get_current_user_id()
+        ) {
+            wp_die(
+                esc_html__(
+                    'You are not allowed to access this quiz attempt.',
+                    'eas-quiz'
+                ),
+                '',
+                array('response' => 403)
+            );
+        }
     }
 
     private function save_current_page_responses(

@@ -237,6 +237,38 @@ if (
         }
     }
 } elseif (
+    $response['type'] === 'fill_blank'
+) {
+    /*
+     * Fill-in-blank responses are stored as a JSON array/map
+     * indexed by blank position. Position 0 is unused.
+     * Display the student's words instead of the raw JSON.
+     */
+    $blank_answers = json_decode(
+        stripslashes($student_answer),
+        true
+    );
+
+    if (is_array($blank_answers)) {
+        unset($blank_answers[0]);
+
+        foreach ($blank_answers as $position => $answer) {
+            if (
+                $answer === null
+                || trim((string) $answer) === ''
+            ) {
+                unset($blank_answers[$position]);
+            }
+        }
+
+        ksort($blank_answers);
+
+        $student_answer = implode(
+            ' ',
+            array_map('strval', $blank_answers)
+        );
+    }
+} elseif (
     $response['type'] === 'drag_drop_text'
 ) {
     /*
