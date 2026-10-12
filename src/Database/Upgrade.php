@@ -314,13 +314,7 @@ global $wpdb;
 
 
 
-error_log(
-            'EAS answers database error: ' .
-            $wpdb->last_error
-        );
-
-
-    }
+}
 private static function upgrade_1_4(): void
 {
 
