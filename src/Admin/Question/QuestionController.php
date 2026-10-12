@@ -2531,7 +2531,7 @@ class QuestionController
         $filename =
             'eas-quiz-' .
             $quiz_id .
-            '-gift.gift';
+            '-gift.txt';
 
         /*
          * Make sure nothing has been sent before the download
