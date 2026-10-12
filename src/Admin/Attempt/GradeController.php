@@ -52,6 +52,8 @@ $this->quizzes = new QuizRepository();
 
     public function index(): void
     {
+        $this->require_admin_capability();
+
 
 
         $attempt_id = (int) (
@@ -95,6 +97,8 @@ $this->quizzes = new QuizRepository();
     }
 public function save(): void
 {
+        $this->require_admin_capability();
+
 
     check_admin_referer(
         'eas_save_grades'
@@ -198,4 +202,15 @@ public function save(): void
 
 }
 
+
+    private function require_admin_capability(): void
+    {
+        if (!current_user_can('manage_options')) {
+            wp_die(
+                esc_html__('You do not have permission to perform this action.', 'eas-quiz'),
+                '',
+                array('response' => 403)
+            );
+        }
+    }
 }
