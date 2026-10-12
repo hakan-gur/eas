@@ -533,10 +533,73 @@ class QuestionController
         }
 
         /*
+         * Validate the submitted question type before using it.
+         */
+        $submitted_type = $_POST['type'] ?? 'multiple_choice';
+        $allowed_types = array(
+            'multiple_choice',
+            'drag_drop_text',
+            'fill_blank',
+            'description',
+            'essay',
+            'audio_response'
+        );
+
+        if (
+            !is_string($submitted_type)
+            || !in_array($submitted_type, $allowed_types, true)
+        ) {
+            wp_die(
+                esc_html__('Invalid question type.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        /*
+         * Validate numeric question settings server-side. HTML input
+         * limits can be bypassed by submitting a direct request.
+         */
+        $validate_whole_number = static function (
+            string $field,
+            int $default,
+            int $minimum,
+            ?int $maximum = null
+        ): int {
+            $value = $_POST[$field] ?? $default;
+
+            if (
+                !is_scalar($value)
+                || !is_numeric($value)
+                || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $value)
+            ) {
+                wp_die(
+                    esc_html__('Invalid question setting.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $number = (int) $value;
+
+            if (
+                $number < $minimum
+                || ($maximum !== null && $number > $maximum)
+            ) {
+                wp_die(
+                    esc_html__('Question setting is outside the allowed range.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            return $number;
+        };
+
+        /*
          * Validate question points on the server. HTML input limits
          * can be bypassed by submitting a direct request.
          */
-        $submitted_type = $_POST['type'] ?? 'multiple_choice';
         $points = 0.0;
 
         if ($submitted_type !== 'description') {
@@ -603,11 +666,11 @@ class QuestionController
                 wp_json_encode(
                     array(
                         'essay_min_lines' =>
-                            (int) (
-                                $_POST[
-                                    'essay_min_lines'
-                                ]
-                                ?? 10
+                            $validate_whole_number(
+                                'essay_min_lines',
+                                10,
+                                2,
+                                100
                             )
                     )
                 );
@@ -625,27 +688,26 @@ class QuestionController
                 wp_json_encode(
                     array(
                         'audio_delay_seconds' =>
-                            (int) (
-                                $_POST[
-                                    'audio_delay_seconds'
-                                ]
-                                ?? 0
+                            $validate_whole_number(
+                                'audio_delay_seconds',
+                                0,
+                                0
                             ),
 
                         'audio_prepare_seconds' =>
-                            (int) (
-                                $_POST[
-                                    'audio_prepare_seconds'
-                                ]
-                                ?? 5
+                            $validate_whole_number(
+                                'audio_prepare_seconds',
+                                5,
+                                0,
+                                45
                             ),
 
                         'audio_duration_seconds' =>
-                            (int) (
-                                $_POST[
-                                    'audio_duration_seconds'
-                                ]
-                                ?? 45
+                            $validate_whole_number(
+                                'audio_duration_seconds',
+                                45,
+                                10,
+                                180
                             )
                     )
                 );
