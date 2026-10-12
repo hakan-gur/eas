@@ -38,7 +38,7 @@ class ResponseRepository
     float $points_awarded = 0
 ): int
 {
-    $result = $this->wpdb->insert(
+    $this->wpdb->insert(
 
         $this->table(),
 
