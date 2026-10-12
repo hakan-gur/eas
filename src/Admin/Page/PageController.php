@@ -77,7 +77,89 @@ class PageController
 
         check_admin_referer('eas_save_page');
 
-        $quiz_id = (int) ($_POST['quiz_id'] ?? 0);
+        /*
+         * Validate page identifiers and editable fields before any database writes.
+         */
+        $submitted_quiz_id = $_POST['quiz_id'] ?? null;
+        if (!is_string($submitted_quiz_id) || !preg_match('/^[1-9][0-9]*$/', $submitted_quiz_id)) {
+            wp_die(
+                esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $quiz_id = filter_var($submitted_quiz_id, FILTER_VALIDATE_INT);
+        if ($quiz_id === false || !$this->quizzes->find($quiz_id)) {
+            wp_die(
+                esc_html__('Quiz not found.', 'eas-quiz'),
+                '',
+                array('response' => 404)
+            );
+        }
+
+        foreach (array('title', 'content') as $text_field) {
+            if (isset($_POST[$text_field]) && !is_string($_POST[$text_field])) {
+                wp_die(
+                    esc_html__('Invalid page content.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+        }
+
+        $submitted_time_limit = $_POST['page_time_limit'] ?? '0';
+        if (
+            !is_scalar($submitted_time_limit)
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_time_limit)
+        ) {
+            wp_die(
+                esc_html__('Page time limit must be a non-negative whole number.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $page_time_limit = filter_var((string) $submitted_time_limit, FILTER_VALIDATE_INT);
+        if ($page_time_limit === false) {
+            wp_die(
+                esc_html__('Invalid page time limit.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $submitted_page_id = $_POST['page_id'] ?? '0';
+        if (
+            !is_scalar($submitted_page_id)
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_page_id)
+        ) {
+            wp_die(
+                esc_html__('Invalid page ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $id = filter_var((string) $submitted_page_id, FILTER_VALIDATE_INT);
+        if ($id === false) {
+            wp_die(
+                esc_html__('Invalid page ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        if ($id > 0) {
+            $existing_page = $this->repository->find($id);
+            if (!$existing_page || (int) $existing_page['quiz_id'] !== $quiz_id) {
+                wp_die(
+                    esc_html__('Page not found in this quiz.', 'eas-quiz'),
+                    '',
+                    array('response' => 404)
+                );
+            }
+        }
 
         $data = array(
             'title' => sanitize_text_field($_POST['title'] ?? ''),
@@ -86,11 +168,9 @@ class PageController
                     $_POST['content'] ?? ''
                     )
                 ),
-            'page_time_limit' => (int) ($_POST['page_time_limit'] ?? 0),
+            'page_time_limit' => $page_time_limit,
             'updated_at' => current_time('mysql')
         );
-
-        $id = (int) ($_POST['page_id'] ?? 0);
 
         if ($id > 0) {
             $this->repository->update($id, $data);
