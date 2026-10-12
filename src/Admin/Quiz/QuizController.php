@@ -178,12 +178,9 @@ class QuizController
             FILTER_VALIDATE_INT
         );
 
-        if (
-            $attempts_allowed === false
-            || !in_array($attempts_allowed, array(0, 1), true)
-        ) {
+        if ($attempts_allowed === false || $attempts_allowed < 0) {
             wp_die(
-                esc_html__('Attempts allowed must be 0 (unlimited) or 1.', 'eas-quiz'),
+                esc_html__('Attempts allowed must be a non-negative whole number.', 'eas-quiz'),
                 '',
                 array('response' => 400)
             );
