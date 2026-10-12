@@ -557,6 +557,62 @@ class QuestionController
         }
 
         /*
+         * Reject malformed question content before any database writes.
+         * Normal form submissions send these fields as strings; arrays
+         * can otherwise trigger type errors in WordPress sanitizers or trim().
+         */
+        foreach (array('question_text', 'feedback') as $text_field) {
+            if (
+                isset($_POST[$text_field])
+                && !is_string($_POST[$text_field])
+            ) {
+                wp_die(
+                    esc_html__('Invalid question content.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+        }
+
+        /*
+         * Answer fields are optional, but when supplied they must be strings.
+         * Validate all supported answer slots before saving the question.
+         */
+        for ($answer_index = 1; $answer_index <= 8; $answer_index++) {
+            $answer_field = 'answer_' . $answer_index;
+
+            if (
+                isset($_POST[$answer_field])
+                && !is_string($_POST[$answer_field])
+            ) {
+                wp_die(
+                    esc_html__('Invalid answer content.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+        }
+
+        /*
+         * The multiple-choice correct-answer selector must be one of
+         * the five supported answer slots. It may be omitted, in which
+         * case the existing missing-correct-answer warning is preserved.
+         */
+        if (
+            isset($_POST['correct'])
+            && (
+                !is_string($_POST['correct'])
+                || !preg_match('/^[1-5]$/', $_POST['correct'])
+            )
+        ) {
+            wp_die(
+                esc_html__('Invalid correct answer selection.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        /*
          * Validate numeric question settings server-side. HTML input
          * limits can be bypassed by submitting a direct request.
          */
