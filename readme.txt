@@ -127,11 +127,12 @@ No. EAS is an online assessment system. It does not currently provide certificat
 == Screenshots ==
 
 1. The EAS administration area.
-2. The assessment management interface.
+2. The quiz management interface.
 3. The page management interface.
 4. The question management interface.
-5. The assessment attempt and results interface.
+5. The quiz attempt and results interface.
 6. The student assessment review interface.
+7. Quiz interface.
 
 == Changelog ==
 
