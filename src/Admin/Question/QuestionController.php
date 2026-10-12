@@ -465,13 +465,62 @@ class QuestionController
          *    question bank only.
          */
 
-        $page_id = (int) (
-            $_POST['page_id'] ?? 0
+        /*
+         * Validate the submitted context IDs before converting them.
+         * Malformed values must not silently become zero and change the
+         * operation from editing a page question to creating a bank question.
+         */
+        $submitted_page_id = $_POST['page_id'] ?? '0';
+
+        if (
+            !is_scalar($submitted_page_id)
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) wp_unslash($submitted_page_id))
+        ) {
+            wp_die(
+                esc_html__('Invalid page ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $page_id = filter_var(
+            (string) wp_unslash($submitted_page_id),
+            FILTER_VALIDATE_INT
         );
 
-        $quiz_id = (int) (
-            $_POST['quiz_id'] ?? 0
+        if ($page_id === false) {
+            wp_die(
+                esc_html__('Invalid page ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $submitted_quiz_id = $_POST['quiz_id'] ?? '0';
+
+        if (
+            !is_scalar($submitted_quiz_id)
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) wp_unslash($submitted_quiz_id))
+        ) {
+            wp_die(
+                esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $quiz_id = filter_var(
+            (string) wp_unslash($submitted_quiz_id),
+            FILTER_VALIDATE_INT
         );
+
+        if ($quiz_id === false) {
+            wp_die(
+                esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
         /*
          * If this is a page question, obtain the quiz
@@ -784,11 +833,31 @@ class QuestionController
          * Existing question or new question?
          */
 
-        $id = isset(
-            $_POST['question_id']
-        )
-            ? (int) $_POST['question_id']
-            : 0;
+        $submitted_question_id = $_POST['question_id'] ?? '0';
+
+        if (
+            !is_scalar($submitted_question_id)
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) wp_unslash($submitted_question_id))
+        ) {
+            wp_die(
+                esc_html__('Invalid question ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $id = filter_var(
+            (string) wp_unslash($submitted_question_id),
+            FILTER_VALIDATE_INT
+        );
+
+        if ($id === false) {
+            wp_die(
+                esc_html__('Invalid question ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
         if ($id > 0) {
 
