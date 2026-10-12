@@ -533,6 +533,38 @@ class QuestionController
         }
 
         /*
+         * Validate question points on the server. HTML input limits
+         * can be bypassed by submitting a direct request.
+         */
+        $submitted_type = $_POST['type'] ?? 'multiple_choice';
+        $points = 0.0;
+
+        if ($submitted_type !== 'description') {
+            $submitted_points = $_POST['points'] ?? 1;
+
+            if (
+                !is_scalar($submitted_points)
+                || !is_numeric($submitted_points)
+            ) {
+                wp_die(
+                    esc_html__('Invalid question points.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $points = (float) $submitted_points;
+
+            if (!is_finite($points) || $points < 0) {
+                wp_die(
+                    esc_html__('Question points must be a non-negative number.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+        }
+
+        /*
          * Basic question data.
          */
 
@@ -553,14 +585,7 @@ class QuestionController
                 $_POST['feedback']
                 ?? ''
             ),
-            'points' => (
-                ($_POST['type'] ?? 'multiple_choice') === 'description'
-                ? 0
-                : (float) (
-                    $_POST['points']
-                    ?? 1
-                )
-            ),
+            'points' => $points,
             'updated_at' => current_time(
                 'mysql'
             )
