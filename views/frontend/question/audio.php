@@ -287,8 +287,15 @@ function startCountdown(seconds, callback, label){
 
     formData.append(
         'nonce',
-        '<?php echo wp_create_nonce("eas_upload_audio"); ?>'
+        '<?php echo esc_js(wp_create_nonce("eas_upload_audio")); ?>'
     );
+
+    const attemptIdInput = document.querySelector(
+        '#eas-attempt-form input[name="attempt_id"]'
+    );
+
+    formData.append('attempt_id', attemptIdInput ? attemptIdInput.value : '');
+    formData.append('question_id', '<?php echo (int) $question['id']; ?>');
 
     formData.append(
         'audio',
