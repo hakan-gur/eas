@@ -986,11 +986,24 @@ exit;
 
             $question_id = (int) $question['id'];
 
-            $answer = (string) (
-                $_POST[
-                    'question_' . $question_id
-                ] ?? ''
-            );
+            $submitted_answer = $_POST[
+                'question_' . $question_id
+            ] ?? '';
+
+            // Answers may contain plain text or structured JSON, so preserve
+            // their content while rejecting malformed non-scalar request data.
+            if (!is_scalar($submitted_answer)) {
+                wp_die(
+                    esc_html__(
+                        'Invalid answer format.',
+                        'eas-quiz'
+                    ),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $answer = (string) wp_unslash($submitted_answer);
             $existing = $this->responses->find(
                 $attempt_id,
                 $question_id
