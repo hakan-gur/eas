@@ -264,6 +264,8 @@ class AttemptController
 
         $this->ensure_attempt_access($attempt);
 
+        $this->ensure_attempt_in_progress($attempt);
+
         $quiz = $this->quizzes->find(
             (int) $attempt['quiz_id']
         );
@@ -377,6 +379,8 @@ class AttemptController
 
         $this->ensure_attempt_access($attempt);
 
+        $this->ensure_attempt_in_progress($attempt);
+
         $quiz = $this->quizzes->find((int) $attempt['quiz_id']);
         if (!$quiz) {
             wp_die(esc_html__('Quiz not found.', 'eas-quiz'));
@@ -443,6 +447,8 @@ class AttemptController
         }
 
         $this->ensure_attempt_access($attempt);
+
+        $this->ensure_attempt_in_progress($attempt);
 
         $this->save_current_page_responses(
             $attempt_id,
@@ -538,6 +544,8 @@ class AttemptController
         }
 
         $this->ensure_attempt_access($attempt);
+
+        $this->ensure_attempt_in_progress($attempt);
 
         $this->save_current_page_responses(
             $attempt_id,
@@ -965,6 +973,23 @@ exit;
             wp_die(
                 esc_html__(
                     'You are not allowed to access this quiz attempt.',
+                    'eas-quiz'
+                ),
+                '',
+                array('response' => 403)
+            );
+        }
+    }
+
+    /**
+     * Prevent a completed attempt from being changed by replaying an old request.
+     */
+    private function ensure_attempt_in_progress(array $attempt): void
+    {
+        if (($attempt['status'] ?? '') !== 'in_progress') {
+            wp_die(
+                esc_html__(
+                    'This quiz attempt is no longer active.',
                     'eas-quiz'
                 ),
                 '',
