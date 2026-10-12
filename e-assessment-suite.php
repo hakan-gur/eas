@@ -81,6 +81,33 @@ add_action(
     5
 );
 
+/**
+ * Apply database updates after plugin upgrades as well as activation.
+ *
+ * The database schema version is independent of the plugin release version.
+ * Do not reset it for the first WordPress.org release: existing installations
+ * may already contain EAS data that must be upgraded in place.
+ */
+function eas_maybe_upgrade_database(): void
+{
+    $installed_version = (string) get_option('eas_db_version', '1.0');
+
+    if (version_compare($installed_version, EAS_DB_VERSION, '>=')) {
+        return;
+    }
+
+    \EAS\Core\Installer::install();
+    \EAS\Database\Upgrade::run();
+
+    update_option('eas_db_version', EAS_DB_VERSION);
+}
+
+add_action(
+    'plugins_loaded',
+    'eas_maybe_upgrade_database',
+    5
+);
+
 function eas_initialize_plugin(): void
 {
     $app = new \\EAS\\Core\\Application();
