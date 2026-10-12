@@ -38,7 +38,7 @@ class ResponseRepository
     float $points_awarded = 0
 ): int
 {
-    $result = $this->wpdb->insert(
+    $this->wpdb->insert(
 
         $this->table(),
 
@@ -68,27 +68,6 @@ class ResponseRepository
 
     );
 
-    error_log(
-        'CREATE RESPONSE: attempt=' . $attempt_id .
-        ' item=' . $item_id .
-        ' answer=' . $answer .
-        ' RESULT=' . var_export($result, true) .
-        ' INSERT_ID=' . $this->wpdb->insert_id .
-        ' DB_ERROR=' . $this->wpdb->last_error
-    );
-$stored_answer = $this->wpdb->get_var(
-    $this->wpdb->prepare(
-        "SELECT answer
-         FROM {$this->table()}
-         WHERE id = %d",
-        $this->wpdb->insert_id
-    )
-);
-
-error_log(
-    'STORED ANSWER AFTER INSERT: ' .
-    var_export($stored_answer, true)
-);
     return (int) $this->wpdb->insert_id;
 }
 
@@ -174,12 +153,6 @@ public function update_answer(
     string $answer
 ): bool
 {
-    error_log(
-        'UPDATE RESPONSE: attempt=' . $attempt_id .
-        ' item=' . $item_id .
-        ' answer=' . $answer
-    );
-
     $result = $this->wpdb->update(
         $this->table(),
 
@@ -203,20 +176,6 @@ public function update_answer(
             '%d'
         )
     );
-
-    error_log(
-        'UPDATE RESULT: ' .
-        var_export($result, true)
-    );
-
-    if ($result === false) {
-
-        error_log(
-            'UPDATE DB ERROR: ' .
-            $this->wpdb->last_error
-        );
-
-    }
 
     return $result !== false;
 }
