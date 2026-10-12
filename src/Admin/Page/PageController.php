@@ -73,6 +73,8 @@ class PageController
 
     public function save(): void
     {
+        $this->require_admin_capability();
+
         check_admin_referer('eas_save_page');
 
         $quiz_id = (int) ($_POST['quiz_id'] ?? 0);
@@ -103,6 +105,8 @@ class PageController
 
     public function delete(): void
     {
+        $this->require_admin_capability();
+
         $id = (int) ($_GET['id'] ?? 0);
         $quiz_id = (int) ($_GET['quiz_id'] ?? 0);
 
@@ -116,6 +120,8 @@ class PageController
 
     public function move(): void
     {
+        $this->require_admin_capability();
+
         $id = (int) ($_GET['id'] ?? 0);
         $quiz_id = (int) ($_GET['quiz_id'] ?? 0);
         $direction = sanitize_key($_GET['direction'] ?? '');
@@ -132,6 +138,8 @@ class PageController
 
     public function reorder(): void
     {
+        $this->require_admin_capability();
+
         $quiz_id = (int) ($_POST['quiz_id'] ?? 0);
 
         check_admin_referer('eas_reorder_pages_' . $quiz_id);
@@ -146,5 +154,16 @@ class PageController
 
         wp_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
         exit;
+    }
+
+    private function require_admin_capability(): void
+    {
+        if (!current_user_can('manage_options')) {
+            wp_die(
+                esc_html__('You do not have permission to perform this action.', 'eas-quiz'),
+                '',
+                array('response' => 403)
+            );
+        }
     }
 }
