@@ -442,6 +442,8 @@ class QuestionController
 
     public function save(): void
     {
+        $this->require_admin_capability();
+
         check_admin_referer(
             'eas_save_question'
         );
@@ -1054,6 +1056,8 @@ class QuestionController
 
     public function add_existing_question(): void
     {
+        $this->require_admin_capability();
+
         check_admin_referer(
             'eas_add_existing_question'
         );
@@ -1148,6 +1152,8 @@ class QuestionController
 
     public function move_up(): void
     {
+        $this->require_admin_capability();
+
         $id = (int) (
             $_GET['id'] ?? 0
         );
@@ -1218,6 +1224,8 @@ class QuestionController
 
     public function move_down(): void
     {
+        $this->require_admin_capability();
+
         $id = (int) (
             $_GET['id'] ?? 0
         );
@@ -1298,6 +1306,8 @@ class QuestionController
 
     public function delete(): void
     {
+        $this->require_admin_capability();
+
         $id = (int) (
             $_GET['id'] ?? 0
         );
@@ -1413,6 +1423,8 @@ class QuestionController
 
     public function preview(): void
     {
+        $this->require_admin_capability();
+
         $id = (int) (
             $_GET['id'] ?? 0
         );
@@ -1493,6 +1505,8 @@ class QuestionController
 
     public function import_questions(): void
     {
+        $this->require_admin_capability();
+
         check_admin_referer(
             'eas_import_questions'
         );
@@ -2154,6 +2168,8 @@ class QuestionController
 
     public function export_questions(): void
     {
+        $this->require_admin_capability();
+
         /*
          * ---------------------------------------------------------
          * SECURITY
@@ -2515,7 +2531,7 @@ class QuestionController
         $filename =
             'eas-quiz-' .
             $quiz_id .
-            '-gift.gift';
+            '-gift.txt';
 
         /*
          * Make sure nothing has been sent before the download
@@ -2554,5 +2570,16 @@ class QuestionController
         echo $output;
 
         exit;
+    }
+
+    private function require_admin_capability(): void
+    {
+        if (!current_user_can('manage_options')) {
+            wp_die(
+                esc_html__('You do not have permission to perform this action.', 'eas-quiz'),
+                '',
+                array('response' => 403)
+            );
+        }
     }
 }

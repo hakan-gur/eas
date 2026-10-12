@@ -153,6 +153,8 @@ class QuizController
 
     public function save(): void
     {
+        $this->require_admin_capability();
+
         check_admin_referer(
             'eas_save_quiz'
         );
@@ -211,6 +213,8 @@ class QuizController
 
     public function duplicate(): void
     {
+        $this->require_admin_capability();
+
         $id = (int) (
             $_GET['id'] ?? 0
         );
@@ -240,6 +244,8 @@ class QuizController
 
     public function delete(): void
     {
+        $this->require_admin_capability();
+
         $id = (int) (
             $_GET['id'] ?? 0
         );
@@ -259,5 +265,16 @@ class QuizController
         );
 
         exit;
+    }
+
+    private function require_admin_capability(): void
+    {
+        if (!current_user_can('manage_options')) {
+            wp_die(
+                esc_html__('You do not have permission to perform this action.', 'eas-quiz'),
+                '',
+                array('response' => 403)
+            );
+        }
     }
 }
