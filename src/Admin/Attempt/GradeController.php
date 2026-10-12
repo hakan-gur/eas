@@ -130,52 +130,82 @@ public function save(): void
 
 
 
+    $grades = array();
+
+    /*
+     * Validate every submitted grade before saving any of them.
+     * The form's min/max attributes are client-side only and can
+     * be bypassed by sending a direct request.
+     */
     foreach ($responses as $response) {
-
-
         $item_id = (int) $response['item_id'];
+        $submitted_points = $_POST['points_' . $item_id] ?? 0;
 
+        if (!is_scalar($submitted_points)) {
+            wp_die(
+                esc_html__('Invalid points value.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
+        // Preserve the existing behavior where an empty field means zero.
+        if ($submitted_points === '') {
+            $submitted_points = 0;
+        }
 
-        $points = (float) (
+        if (!is_numeric($submitted_points)) {
+            wp_die(
+                esc_html__('Invalid points value.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
-            $_POST[
+        $points = (float) $submitted_points;
+        $max_points = $response['max_points'] ?? null;
 
-                'points_' . $item_id
+        if (
+            !is_finite($points)
+            || $points < 0
+            || !is_numeric($max_points)
+            || !is_finite((float) $max_points)
+            || $points > (float) $max_points
+        ) {
+            wp_die(
+                esc_html__('Points must be between zero and the question maximum.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
-            ] ?? 0
+        $submitted_feedback = $_POST['feedback_' . $item_id] ?? '';
 
+        if (!is_scalar($submitted_feedback)) {
+            wp_die(
+                esc_html__('Invalid feedback value.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $grades[] = array(
+            'item_id' => $item_id,
+            'points' => $points,
+            'feedback' => sanitize_textarea_field(
+                wp_unslash((string) $submitted_feedback)
+            )
         );
+    }
 
-
-
-        $feedback = sanitize_textarea_field(
-
-            $_POST[
-
-                'feedback_' . $item_id
-
-            ] ?? ''
-
-        );
-
-
-
+    foreach ($grades as $grade) {
         $this->responses->update_grade(
-
             $attempt_id,
-
-            $item_id,
-
-            $points,
-
-            $feedback,
-
+            $grade['item_id'],
+            $grade['points'],
+            $grade['feedback'],
             get_current_user_id()
-
         );
-
-
     }
 
     $this->attempts->recalculate_score(
