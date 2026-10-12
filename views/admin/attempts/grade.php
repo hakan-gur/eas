@@ -102,13 +102,27 @@ href="<?php echo esc_url(admin_url(
 
 
 
+<?php if (($response['type'] ?? '') === 'description') : ?>
+
+<div class="eas-question-description">
+
+<?php echo wp_kses_post(
+    (string) ($response['question_text'] ?? '')
+); ?>
+
+</div>
+
+<?php else : ?>
+
 <h2>
 
 <?php echo esc_html(
-    $response['question_text']
+    $response['question_text'] ?? ''
 ); ?>
 
 </h2>
+
+<?php endif; ?>
 
 
 
