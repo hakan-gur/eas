@@ -31,6 +31,14 @@ class AttemptRenderer
         if (!$attempt) {
             return '<p>' . esc_html__('Attempt not found.', 'eas-quiz') . '</p>';
         }
+
+        if (!is_user_logged_in()) {
+            return '<p>' . esc_html__('Please log in to access this quiz attempt.', 'eas-quiz') . '</p>';
+        }
+
+        if ((int) ($attempt['user_id'] ?? 0) !== get_current_user_id()) {
+            return '<p>' . esc_html__('You are not allowed to access this quiz attempt.', 'eas-quiz') . '</p>';
+        }
         if (!empty($attempt['current_page_id'])) {
             $page = $this->pages->find(
                 (int) $attempt['current_page_id']
