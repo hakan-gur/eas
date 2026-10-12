@@ -159,6 +159,95 @@ class QuizController
             'eas_save_quiz'
         );
 
+        /*
+         * Validate quiz settings on the server. HTML form constraints
+         * can be bypassed by submitting a direct request.
+         */
+        $submitted_attempts = $_POST['attempts_allowed'] ?? 1;
+
+        if (!is_scalar($submitted_attempts)) {
+            wp_die(
+                esc_html__('Invalid attempts allowed value.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $attempts_allowed = filter_var(
+            (string) wp_unslash($submitted_attempts),
+            FILTER_VALIDATE_INT
+        );
+
+        if ($attempts_allowed === false || $attempts_allowed < 0) {
+            wp_die(
+                esc_html__('Attempts allowed must be a non-negative whole number.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $submitted_time_limit = $_POST['time_limit'] ?? 0;
+
+        if (!is_scalar($submitted_time_limit)) {
+            wp_die(
+                esc_html__('Invalid time limit.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $time_limit = filter_var(
+            (string) wp_unslash($submitted_time_limit),
+            FILTER_VALIDATE_INT
+        );
+
+        if ($time_limit === false || $time_limit < 0) {
+            wp_die(
+                esc_html__('Time limit must be a non-negative whole number.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        /*
+         * Validate the quiz ID separately from the settings. A missing ID
+         * means create; a supplied malformed ID must not become a new quiz.
+         */
+        if (array_key_exists('quiz_id', $_POST)) {
+            $submitted_quiz_id = $_POST['quiz_id'];
+
+            if (!is_scalar($submitted_quiz_id)) {
+                wp_die(
+                    esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $id = filter_var(
+                (string) wp_unslash($submitted_quiz_id),
+                FILTER_VALIDATE_INT
+            );
+
+            if ($id === false || $id < 0) {
+                wp_die(
+                    esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+        } else {
+            $id = 0;
+        }
+
+        if ($id > 0 && !$this->repository->find($id)) {
+            wp_die(
+                esc_html__('Quiz not found.', 'eas-quiz'),
+                '',
+                array('response' => 404)
+            );
+        }
+
         $data = array(
             'title' => sanitize_text_field(
                 $_POST['title'] ?? ''
@@ -166,10 +255,8 @@ class QuizController
             'description' => wp_kses_post(
                 $_POST['description'] ?? ''
             ),
-            'attempts_allowed' => (int)
-                ($_POST['attempts_allowed'] ?? 1),
-            'time_limit' => (int)
-                ($_POST['time_limit'] ?? 0),
+            'attempts_allowed' => $attempts_allowed,
+            'time_limit' => $time_limit,
             'backward_navigation' => isset(
                 $_POST['backward_navigation']
             ) ? 1 : 0,
@@ -180,10 +267,6 @@ class QuizController
                 'mysql'
             )
         );
-
-        $id = isset($_POST['quiz_id'])
-            ? (int) $_POST['quiz_id']
-            : 0;
 
         if ($id > 0) {
             $this->repository->update(
