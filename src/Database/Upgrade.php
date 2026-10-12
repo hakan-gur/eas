@@ -268,13 +268,7 @@ if (version_compare($current, '1.5', '<')) {
     {
 
 
-        error_log(
-            'EAS upgrade_1_3 started'
-        );
-
-
-
-        global $wpdb;
+global $wpdb;
 
 
         require_once ABSPATH .
@@ -320,20 +314,7 @@ if (version_compare($current, '1.5', '<')) {
 
 
 
-        error_log(
-            'EAS answers dbDelta result: ' .
-            print_r($result, true)
-        );
-
-
-
-        error_log(
-            'EAS answers database error: ' .
-            $wpdb->last_error
-        );
-
-
-    }
+}
 private static function upgrade_1_4(): void
 {
 
