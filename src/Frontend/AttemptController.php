@@ -1032,65 +1032,177 @@ exit;
 
     public function upload_audio(): void
     {
-        check_admin_referer(
-            'eas_upload_audio',
-            'nonce'
-        );
-
-        if (empty($_FILES['audio'])) {
-
+        if (
+            !isset($_POST['nonce'])
+            || !wp_verify_nonce(
+                sanitize_text_field(wp_unslash($_POST['nonce'])),
+                'eas_upload_audio'
+            )
+        ) {
             wp_send_json_error(
-                array(
-                    'message' => __(
-                        'No audio uploaded.',
-                        'eas-quiz'
-                    )
-                )
+                array('message' => __('Invalid upload security token.', 'eas-quiz')),
+                403
+            );
+        }
+
+        if (!is_user_logged_in()) {
+            wp_send_json_error(
+                array('message' => __('You must be logged in to upload audio.', 'eas-quiz')),
+                403
+            );
+        }
+
+        $attempt_id = absint($_POST['attempt_id'] ?? 0);
+        $question_id = absint($_POST['question_id'] ?? 0);
+
+        if ($attempt_id <= 0 || $question_id <= 0) {
+            wp_send_json_error(
+                array('message' => __('Invalid quiz attempt or question.', 'eas-quiz')),
+                400
+            );
+        }
+
+        $attempt = $this->repository->find($attempt_id);
+
+        if (
+            !$attempt
+            || (int) ($attempt['user_id'] ?? 0) !== get_current_user_id()
+        ) {
+            wp_send_json_error(
+                array('message' => __('You are not allowed to upload audio for this attempt.', 'eas-quiz')),
+                403
+            );
+        }
+
+        if (($attempt['status'] ?? '') !== 'in_progress') {
+            wp_send_json_error(
+                array('message' => __('This quiz attempt is no longer active.', 'eas-quiz')),
+                403
+            );
+        }
+
+        $question_is_on_current_page = false;
+
+        foreach (
+            $this->questions->all_by_page((int) ($attempt['current_page_id'] ?? 0))
+            as $page_question
+        ) {
+            if (
+                (int) ($page_question['id'] ?? 0) === $question_id
+                && ($page_question['type'] ?? '') === 'audio_response'
+            ) {
+                $question_is_on_current_page = true;
+                break;
+            }
+        }
+
+        $question = $this->questions->find($question_id);
+
+        if (
+            !$question_is_on_current_page
+            || !$question
+            || (int) ($question['quiz_id'] ?? 0) !== (int) ($attempt['quiz_id'] ?? 0)
+            || ($question['type'] ?? '') !== 'audio_response'
+        ) {
+            wp_send_json_error(
+                array('message' => __('The audio question does not belong to the active quiz page.', 'eas-quiz')),
+                403
+            );
+        }
+
+        if (
+            !isset($_FILES['audio'])
+            || !is_array($_FILES['audio'])
+        ) {
+            wp_send_json_error(
+                array('message' => __('No audio uploaded.', 'eas-quiz')),
+                400
+            );
+        }
+
+        $file = $_FILES['audio'];
+
+        if (
+            !isset($file['error'], $file['tmp_name'], $file['size'])
+            || (int) $file['error'] !== UPLOAD_ERR_OK
+            || !is_uploaded_file((string) $file['tmp_name'])
+        ) {
+            wp_send_json_error(
+                array('message' => __('The audio upload did not complete successfully.', 'eas-quiz')),
+                400
+            );
+        }
+
+        // Audio-only WebM recordings should remain comfortably below this limit.
+        $max_bytes = 20 * MB_IN_BYTES;
+
+        if (
+            (int) $file['size'] <= 0
+            || (int) $file['size'] > $max_bytes
+            || filesize((string) $file['tmp_name']) > $max_bytes
+        ) {
+            wp_send_json_error(
+                array('message' => __('The audio file is empty or exceeds the 20 MB upload limit.', 'eas-quiz')),
+                413
+            );
+        }
+
+        // Verify the WebM/Matroska container signature; never trust the supplied filename.
+        $handle = fopen((string) $file['tmp_name'], 'rb');
+        $signature = $handle !== false ? fread($handle, 4) : false;
+        if ($handle !== false) {
+            fclose($handle);
+        }
+
+        if ($signature !== "\x1A\x45\xDF\xA3") {
+            wp_send_json_error(
+                array('message' => __('The uploaded file is not a valid WebM audio recording.', 'eas-quiz')),
+                415
             );
         }
 
         $upload = wp_upload_dir();
 
-        $directory =
-            trailingslashit($upload['basedir'])
-            . 'eas-audio';
-
-        if (!file_exists($directory)) {
-            wp_mkdir_p($directory);
+        if (!empty($upload['error']) || empty($upload['basedir']) || empty($upload['baseurl'])) {
+            wp_send_json_error(
+                array('message' => __('The upload directory is unavailable.', 'eas-quiz')),
+                500
+            );
         }
 
-        $filename =
-            uniqid('audio_', true)
-            . '.webm';
+        $directory = trailingslashit($upload['basedir']) . 'eas-audio';
 
-        $destination =
-            trailingslashit($directory)
-            . $filename;
-
-        if (
-            !move_uploaded_file(
-                $_FILES['audio']['tmp_name'],
-                $destination
-            )
-        ) {
-
+        if (!is_dir($directory) && !wp_mkdir_p($directory)) {
             wp_send_json_error(
-                array(
-                    'message' => __(
-                        'Upload failed.',
-                        'eas-quiz'
-                    )
-                )
+                array('message' => __('The audio upload directory could not be created.', 'eas-quiz')),
+                500
+            );
+        }
+
+        if (!is_dir($directory) || !is_writable($directory)) {
+            wp_send_json_error(
+                array('message' => __('The audio upload directory is not writable.', 'eas-quiz')),
+                500
+            );
+        }
+
+        $filename = wp_unique_filename(
+            $directory,
+            'audio_' . wp_generate_password(32, false, false) . '.webm'
+        );
+        $destination = trailingslashit($directory) . $filename;
+
+        if (!move_uploaded_file((string) $file['tmp_name'], $destination)) {
+            wp_send_json_error(
+                array('message' => __('Upload failed.', 'eas-quiz')),
+                500
             );
         }
 
         wp_send_json_success(
             array(
                 'file' => $filename,
-                'url'  =>
-                    trailingslashit($upload['baseurl'])
-                    . 'eas-audio/'
-                    . $filename
+                'url' => trailingslashit($upload['baseurl']) . 'eas-audio/' . rawurlencode($filename)
             )
         );
     }
