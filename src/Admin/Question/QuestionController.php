@@ -580,7 +580,18 @@ class QuestionController
                 );
             }
 
-            $number = (int) $value;
+            $number = filter_var(
+                (string) $value,
+                FILTER_VALIDATE_INT
+            );
+
+            if ($number === false) {
+                wp_die(
+                    esc_html__('Invalid question setting.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
 
             if (
                 $number < $minimum
