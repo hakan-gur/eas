@@ -19,7 +19,7 @@ define(
 
 define(
     'EAS_DB_VERSION',
-    '1.7'
+    '1.5'
 );
 
 define(
@@ -35,7 +35,7 @@ define(
 require_once EAS_PLUGIN_DIR .
     'src/Core/Autoloader.php';
 
-\EAS\Core\Autoloader::register();
+\\EAS\\Core\\Autoloader::register();
 
 /**
  * Load EAS translations from the plugin languages directory.
@@ -54,9 +54,36 @@ add_action(
     'eas_load_textdomain'
 );
 
+/**
+ * Apply database updates after plugin upgrades as well as activation.
+ *
+ * The database schema version is independent of the plugin release version.
+ * Do not reset it for the first WordPress.org release: existing installations
+ * may already contain EAS data that must be upgraded in place.
+ */
+function eas_maybe_upgrade_database(): void
+{
+    $installed_version = (string) get_option('eas_db_version', '1.0');
+
+    if (version_compare($installed_version, EAS_DB_VERSION, '>=')) {
+        return;
+    }
+
+    \\EAS\\Core\\Installer::install();
+    \\EAS\\Database\\Upgrade::run();
+
+    update_option('eas_db_version', EAS_DB_VERSION);
+}
+
+add_action(
+    'plugins_loaded',
+    'eas_maybe_upgrade_database',
+    5
+);
+
 function eas_initialize_plugin(): void
 {
-    $app = new \EAS\Core\Application();
+    $app = new \\EAS\\Core\\Application();
     $app->run();
 
     /*
@@ -65,13 +92,13 @@ function eas_initialize_plugin(): void
      * replaces the old bare admin-post presentation without touching the
      * question renderer, scoring, or answer storage.
      */
-    new \EAS\Admin\Question\QuestionPreviewController();
+    new \\EAS\\Admin\\Question\\QuestionPreviewController();
 }
 
 register_activation_hook(
     __FILE__,
     array(
-        'EAS\\Core\\Activator',
+        'EAS\\\\Core\\\\Activator',
         'activate'
     )
 );
@@ -79,7 +106,7 @@ register_activation_hook(
 register_deactivation_hook(
     __FILE__,
     array(
-        'EAS\\Core\\Deactivator',
+        'EAS\\\\Core\\\\Deactivator',
         'deactivate'
     )
 );
