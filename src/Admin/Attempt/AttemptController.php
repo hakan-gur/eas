@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EAS\\Admin\\Attempt;
+namespace EAS\Admin\Attempt;
 
-use EAS\\Attempt\\AttemptRepository;
-use EAS\\Quiz\\QuizRepository;
+use EAS\Attempt\AttemptRepository;
+use EAS\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -151,7 +151,7 @@ class AttemptController
         }
 
         $value = (string) wp_unslash($source[$key]);
-        $pattern = $allow_zero ? '/\\A(?:0|[1-9][0-9]*)\\z/' : '/\\A[1-9][0-9]*\\z/';
+        $pattern = $allow_zero ? '/\A(?:0|[1-9][0-9]*)\z/' : '/\A[1-9][0-9]*\z/';
 
         if (!preg_match($pattern, $value)) {
             return null;
