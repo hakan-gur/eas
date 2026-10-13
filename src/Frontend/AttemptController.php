@@ -122,11 +122,9 @@ class AttemptController
             );
         }
 
-        $quiz_id = (int) (
-            $_POST['quiz_id'] ?? 0
-        );
+        $quiz_id = $this->validated_request_id($_POST, 'quiz_id');
 
-        if ($quiz_id <= 0) {
+        if ($quiz_id === null) {
             wp_die(
                 esc_html__(
                     'Invalid quiz.',
@@ -212,11 +210,9 @@ class AttemptController
 
     public function attempt_page(): string
     {
-        $attempt_id = (int) (
-            $_GET['attempt_id'] ?? 0
-        );
+        $attempt_id = $this->validated_request_id($_GET, 'attempt_id');
 
-        if ($attempt_id <= 0) {
+        if ($attempt_id === null) {
             return '<p>' .
                 esc_html__(
                     'No attempt selected.',
@@ -236,11 +232,9 @@ class AttemptController
             'eas_previous_page'
         );
 
-        $attempt_id = (int) (
-            $_POST['attempt_id'] ?? 0
-        );
+        $attempt_id = $this->validated_request_id($_POST, 'attempt_id');
 
-        if ($attempt_id <= 0) {
+        if ($attempt_id === null) {
             wp_die(
                 esc_html__(
                     'Invalid attempt.',
@@ -365,10 +359,10 @@ class AttemptController
     {
         check_admin_referer('eas_go_to_page');
 
-        $attempt_id = (int) ($_POST['attempt_id'] ?? 0);
-        $target_page_id = (int) ($_POST['go_to_page_id'] ?? 0);
+        $attempt_id = $this->validated_request_id($_POST, 'attempt_id');
+        $target_page_id = $this->validated_request_id($_POST, 'go_to_page_id');
 
-        if ($attempt_id <= 0 || $target_page_id <= 0) {
+        if ($attempt_id === null || $target_page_id === null) {
             wp_die(esc_html__('Invalid page navigation request.', 'eas-quiz'));
         }
 
@@ -420,11 +414,9 @@ class AttemptController
             'eas_next_page'
         );
 
-        $attempt_id = (int) (
-            $_POST['attempt_id'] ?? 0
-        );
+        $attempt_id = $this->validated_request_id($_POST, 'attempt_id');
 
-        if ($attempt_id <= 0) {
+        if ($attempt_id === null) {
             wp_die(
                 esc_html__(
                     'Invalid attempt.',
@@ -517,11 +509,9 @@ class AttemptController
             'eas_submit_attempt'
         );
 
-        $attempt_id = (int) (
-            $_POST['attempt_id'] ?? 0
-        );
+        $attempt_id = $this->validated_request_id($_POST, 'attempt_id');
 
-        if ($attempt_id <= 0) {
+        if ($attempt_id === null) {
             wp_die(
                 esc_html__(
                     'Invalid attempt.',
@@ -982,6 +972,31 @@ exit;
     }
 
     /**
+     * Validate a request ID without allowing PHP casts to reinterpret malformed input.
+     * Only canonical positive decimal integers within PHP's integer range are accepted.
+     */
+    private function validated_request_id(array $source, string $key): ?int
+    {
+        if (!array_key_exists($key, $source) || !is_scalar($source[$key])) {
+            return null;
+        }
+
+        $value = (string) wp_unslash($source[$key]);
+
+        if (!preg_match('/\\A[1-9][0-9]*\\z/', $value)) {
+            return null;
+        }
+
+        $id = filter_var(
+            $value,
+            FILTER_VALIDATE_INT,
+            array('options' => array('min_range' => 1))
+        );
+
+        return $id === false ? null : $id;
+    }
+
+    /**
      * Prevent a completed attempt from being changed by replaying an old request.
      */
     private function ensure_attempt_in_progress(array $attempt): void
@@ -1090,10 +1105,10 @@ exit;
             );
         }
 
-        $attempt_id = absint($_POST['attempt_id'] ?? 0);
-        $question_id = absint($_POST['question_id'] ?? 0);
+        $attempt_id = $this->validated_request_id($_POST, 'attempt_id');
+        $question_id = $this->validated_request_id($_POST, 'question_id');
 
-        if ($attempt_id <= 0 || $question_id <= 0) {
+        if ($attempt_id === null || $question_id === null) {
             wp_send_json_error(
                 array('message' => __('Invalid quiz attempt or question.', 'eas-quiz')),
                 400
