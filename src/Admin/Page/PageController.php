@@ -284,7 +284,7 @@ class PageController
 
         $value = (string) wp_unslash($source[$key]);
 
-        if (!preg_match('/\\A[1-9][0-9]*\\z/', $value)) {
+        if (!preg_match('/\A[1-9][0-9]*\z/', $value)) {
             return null;
         }
 
