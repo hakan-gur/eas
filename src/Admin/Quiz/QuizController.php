@@ -54,13 +54,8 @@ class QuizController
             &&
             isset($_GET['quiz_id'])
         ) {
-            $quiz_id = (int) $_GET['quiz_id'];
+            $quiz_id = $this->validated_positive_request_id('quiz_id', $_GET);
 
-            if ($quiz_id <= 0) {
-                wp_die(
-                    esc_html__('Invalid quiz.', 'eas-quiz')
-                );
-            }
 
             $quiz = $this->repository->find(
                 $quiz_id
@@ -127,15 +122,8 @@ class QuizController
 
     public function edit(): void
     {
-        $id = (int) (
-            $_GET['id'] ?? 0
-        );
+        $id = $this->validated_positive_request_id('id', $_GET);
 
-        if ($id <= 0) {
-            wp_die(
-                esc_html__('Invalid quiz.', 'eas-quiz')
-            );
-        }
 
         $quiz = $this->repository->find(
             $id
@@ -298,9 +286,7 @@ class QuizController
     {
         $this->require_admin_capability();
 
-        $id = (int) (
-            $_GET['id'] ?? 0
-        );
+        $id = $this->validated_positive_request_id('id', $_GET);
 
         check_admin_referer(
             'eas_duplicate_quiz_' . $id
@@ -329,9 +315,7 @@ class QuizController
     {
         $this->require_admin_capability();
 
-        $id = (int) (
-            $_GET['id'] ?? 0
-        );
+        $id = $this->validated_positive_request_id('id', $_GET);
 
         check_admin_referer(
             'eas_delete_quiz_' . $id
@@ -348,6 +332,39 @@ class QuizController
         );
 
         exit;
+    }
+
+
+    /**
+     * Read a strictly positive integer ID from a request array.
+     *
+     * Reject malformed values rather than allowing PHP casts to reinterpret
+     * decimals, negative numbers, arrays, or oversized numeric strings.
+     */
+    private function validated_positive_request_id(string $key, array $request): int
+    {
+        if (!array_key_exists($key, $request) || !is_scalar($request[$key])) {
+            wp_die(
+                esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $value = filter_var(
+            (string) wp_unslash($request[$key]),
+            FILTER_VALIDATE_INT
+        );
+
+        if ($value === false || $value <= 0) {
+            wp_die(
+                esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        return $value;
     }
 
     private function require_admin_capability(): void
