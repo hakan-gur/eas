@@ -187,14 +187,31 @@ class PageController
     {
         $this->require_admin_capability();
 
-        $id = (int) ($_GET['id'] ?? 0);
-        $quiz_id = (int) ($_GET['quiz_id'] ?? 0);
+        $id = $this->validated_positive_request_id($_GET, 'id');
+        $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
+
+        if ($id === null || $quiz_id === null) {
+            wp_die(
+                esc_html__('Invalid page or quiz ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
         check_admin_referer('eas_delete_page_' . $id);
 
+        $page = $this->repository->find($id);
+        if (!$page || (int) $page['quiz_id'] !== $quiz_id) {
+            wp_die(
+                esc_html__('Page not found in this quiz.', 'eas-quiz'),
+                '',
+                array('response' => 404)
+            );
+        }
+
         $this->repository->delete($id);
 
-        wp_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
@@ -202,17 +219,37 @@ class PageController
     {
         $this->require_admin_capability();
 
-        $id = (int) ($_GET['id'] ?? 0);
-        $quiz_id = (int) ($_GET['quiz_id'] ?? 0);
-        $direction = sanitize_key($_GET['direction'] ?? '');
+        $id = $this->validated_positive_request_id($_GET, 'id');
+        $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
+        $direction = $_GET['direction'] ?? null;
+
+        if (
+            $id === null
+            || $quiz_id === null
+            || !is_string($direction)
+            || !in_array($direction, array('up', 'down'), true)
+        ) {
+            wp_die(
+                esc_html__('Invalid page movement request.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
         check_admin_referer('eas_move_page_' . $id);
 
-        if ($id > 0 && $quiz_id > 0) {
-            $this->repository->move($id, $direction);
+        $page = $this->repository->find($id);
+        if (!$page || (int) $page['quiz_id'] !== $quiz_id) {
+            wp_die(
+                esc_html__('Page not found in this quiz.', 'eas-quiz'),
+                '',
+                array('response' => 404)
+            );
         }
 
-        wp_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        $this->repository->move($id, $direction);
+
+        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
@@ -234,6 +271,30 @@ class PageController
 
         wp_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
         exit;
+    }
+
+    /**
+     * Validate a positive request ID without allowing PHP casts to reinterpret malformed input.
+     */
+    private function validated_positive_request_id(array $source, string $key): ?int
+    {
+        if (!array_key_exists($key, $source) || !is_scalar($source[$key])) {
+            return null;
+        }
+
+        $value = (string) wp_unslash($source[$key]);
+
+        if (!preg_match('/\A[1-9][0-9]*\z/', $value)) {
+            return null;
+        }
+
+        $id = filter_var(
+            $value,
+            FILTER_VALIDATE_INT,
+            array('options' => array('min_range' => 1))
+        );
+
+        return $id === false ? null : $id;
     }
 
     private function require_admin_capability(): void
