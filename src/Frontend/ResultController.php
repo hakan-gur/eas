@@ -46,18 +46,37 @@ class ResultController
 
         }
 
+        /*
+         * Validate the request value before using it as an attempt ID.
+         * Reject arrays, malformed integers, zero, negatives, and overflow.
+         */
+        $submitted_attempt_id = $_GET['attempt_id'] ?? null;
 
-        $attempt_id = (int) (
-            $_GET['attempt_id'] ?? 0
-        );
-
-
-        if ($attempt_id <= 0) {
-
+        if (
+            !is_scalar($submitted_attempt_id)
+            || !preg_match('/\A[1-9][0-9]*\z/', (string) wp_unslash($submitted_attempt_id))
+        ) {
             return '<p>' . esc_html__('No attempt selected.', 'eas-quiz') . '</p>';
-
         }
 
+        $attempt_id = filter_var(
+            (string) wp_unslash($submitted_attempt_id),
+            FILTER_VALIDATE_INT,
+            array('options' => array('min_range' => 1))
+        );
+
+        if ($attempt_id === false) {
+            return '<p>' . esc_html__('No attempt selected.', 'eas-quiz') . '</p>';
+        }
+
+        /*
+         * Validate the optional review switch as a scalar request value.
+         */
+        $submitted_review = $_GET['review'] ?? null;
+
+        if ($submitted_review !== null && !is_scalar($submitted_review)) {
+            return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
+        }
 
         /*
          * Verify that the attempt exists.
@@ -67,13 +86,11 @@ class ResultController
                 $attempt_id
             );
 
-
         if (!$attempt) {
 
             return '<p>' . esc_html__('Attempt not found.', 'eas-quiz') . '</p>';
 
         }
-
 
         /*
          * SECURITY:
@@ -90,7 +107,6 @@ class ResultController
 
         }
 
-
         /*
          * Only completed attempts can be viewed.
          */
@@ -103,10 +119,7 @@ class ResultController
 
         }
 
-
-        $review =
-            !empty($_GET['review']);
-
+        $review = !empty($submitted_review);
 
         if ($review) {
 
@@ -115,7 +128,6 @@ class ResultController
             );
 
         }
-
 
         return $this->renderer->render_summary(
             $attempt_id
