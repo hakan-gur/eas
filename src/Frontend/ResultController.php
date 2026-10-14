@@ -46,6 +46,7 @@ class ResultController
 
         }
 
+
         /*
          * Validate the request value before using it as an attempt ID.
          * Reject arrays, malformed integers, zero, negatives, and overflow.
@@ -78,6 +79,7 @@ class ResultController
             return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
         }
 
+
         /*
          * Verify that the attempt exists.
          */
@@ -86,11 +88,13 @@ class ResultController
                 $attempt_id
             );
 
+
         if (!$attempt) {
 
             return '<p>' . esc_html__('Attempt not found.', 'eas-quiz') . '</p>';
 
         }
+
 
         /*
          * SECURITY:
@@ -107,6 +111,7 @@ class ResultController
 
         }
 
+
         /*
          * Only completed attempts can be viewed.
          */
@@ -119,7 +124,10 @@ class ResultController
 
         }
 
-        $review = !empty($submitted_review);
+
+        $review =
+            !empty($submitted_review);
+
 
         if ($review) {
 
@@ -128,6 +136,7 @@ class ResultController
             );
 
         }
+
 
         return $this->renderer->render_summary(
             $attempt_id
