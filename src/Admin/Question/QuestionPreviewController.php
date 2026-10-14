@@ -37,8 +37,30 @@ class QuestionPreviewController
             );
         }
 
-        $id = (int) ($_GET['id'] ?? 0);
-        $question = $id > 0 ? $this->repository->find($id) : null;
+        /*
+         * Validate the question ID before converting it to an integer.
+         * This rejects arrays, malformed values, zero, negatives, and overflow.
+         */
+        $submitted_id = $_GET['id'] ?? null;
+
+        if (
+            !is_scalar($submitted_id)
+            || !preg_match('/\A[1-9][0-9]*\z/', (string) wp_unslash($submitted_id))
+        ) {
+            wp_die(esc_html__('Question not found.', 'eas-quiz'));
+        }
+
+        $id = filter_var(
+            (string) wp_unslash($submitted_id),
+            FILTER_VALIDATE_INT,
+            array('options' => array('min_range' => 1))
+        );
+
+        if ($id === false) {
+            wp_die(esc_html__('Question not found.', 'eas-quiz'));
+        }
+
+        $question = $this->repository->find($id);
 
         if (!$question) {
             wp_die(esc_html__('Question not found.', 'eas-quiz'));
