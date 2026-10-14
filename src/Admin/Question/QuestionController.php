@@ -1285,19 +1285,10 @@ class QuestionController
             'eas_add_existing_question'
         );
 
-        $page_id = (int) (
-            $_POST['page_id'] ?? 0
-        );
+        $page_id = $this->validated_positive_request_id($_POST, 'page_id');
+        $question_id = $this->validated_positive_request_id($_POST, 'question_id');
 
-        $question_id = (int) (
-            $_POST['question_id'] ?? 0
-        );
-
-        if (
-            $page_id <= 0
-            ||
-            $question_id <= 0
-        ) {
+        if ($page_id === null || $question_id === null) {
 
             wp_die(
                 esc_html__(
@@ -1377,19 +1368,10 @@ class QuestionController
     {
         $this->require_admin_capability();
 
-        $id = (int) (
-            $_GET['id'] ?? 0
-        );
+        $id = $this->validated_positive_request_id($_GET, 'id');
+        $page_id = $this->validated_positive_request_id($_GET, 'page_id');
 
-        $page_id = (int) (
-            $_GET['page_id'] ?? 0
-        );
-
-        if (
-            $id <= 0
-            ||
-            $page_id <= 0
-        ) {
+        if ($id === null || $page_id === null) {
 
             wp_die(
                 esc_html__(
@@ -1449,19 +1431,10 @@ class QuestionController
     {
         $this->require_admin_capability();
 
-        $id = (int) (
-            $_GET['id'] ?? 0
-        );
+        $id = $this->validated_positive_request_id($_GET, 'id');
+        $page_id = $this->validated_positive_request_id($_GET, 'page_id');
 
-        $page_id = (int) (
-            $_GET['page_id'] ?? 0
-        );
-
-        if (
-            $id <= 0
-            ||
-            $page_id <= 0
-        ) {
+        if ($id === null || $page_id === null) {
 
             wp_die(
                 esc_html__(
@@ -1531,13 +1504,16 @@ class QuestionController
     {
         $this->require_admin_capability();
 
-        $id = (int) (
-            $_GET['id'] ?? 0
-        );
+        $id = $this->validated_positive_request_id($_GET, 'id');
+        $page_id = $this->validated_non_negative_request_id($_GET, 'page_id', 0);
 
-        $page_id = (int) (
-            $_GET['page_id'] ?? 0
-        );
+        if ($id === null || $page_id === null) {
+            wp_die(
+                esc_html__('Invalid question or page ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
         /*
          * A question ID is always required.
@@ -1584,6 +1560,21 @@ class QuestionController
          */
 
         if ($page_id > 0) {
+
+            $page = $this->pages->find($page_id);
+            $assignment = $this->repository->find_page_item($page_id, $id);
+
+            if (
+                !$page
+                || (int) $page['quiz_id'] !== (int) $question['quiz_id']
+                || !$assignment
+            ) {
+                wp_die(
+                    esc_html__('Question is not assigned to this page.', 'eas-quiz'),
+                    '',
+                    array('response' => 404)
+                );
+            }
 
             $this->repository->detach_from_page(
                 $page_id,
@@ -2793,6 +2784,58 @@ class QuestionController
         echo $output;
 
         exit;
+    }
+
+    /**
+     * Validate a positive request ID without allowing PHP casts to reinterpret malformed input.
+     */
+    private function validated_positive_request_id(array $source, string $key): ?int
+    {
+        if (!array_key_exists($key, $source) || !is_scalar($source[$key])) {
+            return null;
+        }
+
+        $value = (string) wp_unslash($source[$key]);
+
+        if (!preg_match('/\A[1-9][0-9]*\z/', $value)) {
+            return null;
+        }
+
+        $id = filter_var(
+            $value,
+            FILTER_VALIDATE_INT,
+            array('options' => array('min_range' => 1))
+        );
+
+        return $id === false ? null : $id;
+    }
+
+    /**
+     * Validate a non-negative request ID, allowing zero for question-bank deletion context.
+     */
+    private function validated_non_negative_request_id(array $source, string $key, int $default): ?int
+    {
+        if (!array_key_exists($key, $source)) {
+            return $default;
+        }
+
+        if (!is_scalar($source[$key])) {
+            return null;
+        }
+
+        $value = (string) wp_unslash($source[$key]);
+
+        if (!preg_match('/\A(?:0|[1-9][0-9]*)\z/', $value)) {
+            return null;
+        }
+
+        $id = filter_var(
+            $value,
+            FILTER_VALIDATE_INT,
+            array('options' => array('min_range' => 0))
+        );
+
+        return $id === false ? null : $id;
     }
 
     private function require_admin_capability(): void
