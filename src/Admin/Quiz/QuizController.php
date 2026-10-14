@@ -236,12 +236,44 @@ class QuizController
             );
         }
 
+        /*
+         * Reject array/object-shaped text fields before passing them to
+         * WordPress sanitizers, which expect strings.
+         */
+        $submitted_title = $_POST['title'] ?? '';
+        $submitted_description = $_POST['description'] ?? '';
+
+        if (!is_scalar($submitted_title) || !is_scalar($submitted_description)) {
+            wp_die(
+                esc_html__('Invalid quiz title or description.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        /*
+         * Checkbox fields may be omitted when unchecked, but if supplied
+         * they must be scalar values rather than crafted arrays.
+         */
+        foreach (array('backward_navigation', 'shuffle_options') as $checkbox_field) {
+            if (
+                array_key_exists($checkbox_field, $_POST)
+                && !is_scalar($_POST[$checkbox_field])
+            ) {
+                wp_die(
+                    esc_html__('Invalid quiz option.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+        }
+
         $data = array(
             'title' => sanitize_text_field(
-                $_POST['title'] ?? ''
+                (string) wp_unslash($submitted_title)
             ),
             'description' => wp_kses_post(
-                $_POST['description'] ?? ''
+                (string) wp_unslash($submitted_description)
             ),
             'attempts_allowed' => $attempts_allowed,
             'time_limit' => $time_limit,
