@@ -257,19 +257,98 @@ class PageController
     {
         $this->require_admin_capability();
 
-        $quiz_id = (int) ($_POST['quiz_id'] ?? 0);
+        $submitted_quiz_id = $_POST['quiz_id'] ?? null;
+        if (
+            !is_scalar($submitted_quiz_id)
+            || !preg_match('/\\A[1-9][0-9]*\\z/', (string) wp_unslash($submitted_quiz_id))
+        ) {
+            wp_die(
+                esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        $quiz_id = filter_var(
+            (string) wp_unslash($submitted_quiz_id),
+            FILTER_VALIDATE_INT,
+            array('options' => array('min_range' => 1))
+        );
+
+        if ($quiz_id === false || !$this->quizzes->find($quiz_id)) {
+            wp_die(
+                esc_html__('Quiz not found.', 'eas-quiz'),
+                '',
+                array('response' => 404)
+            );
+        }
 
         check_admin_referer('eas_reorder_pages_' . $quiz_id);
 
-        $page_ids = isset($_POST['page_ids']) ? (array) $_POST['page_ids'] : array();
-        $page_ids = array_map('absint', $page_ids);
-        $page_ids = array_values(array_filter($page_ids));
-
-        if ($quiz_id > 0 && !empty($page_ids)) {
-            $this->repository->reorder($quiz_id, $page_ids);
+        if (!isset($_POST['page_ids']) || !is_array($_POST['page_ids'])) {
+            wp_die(
+                esc_html__('Invalid page order.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
         }
 
-        wp_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        $submitted_page_ids = array();
+        foreach ($_POST['page_ids'] as $submitted_page_id) {
+            if (
+                !is_scalar($submitted_page_id)
+                || !preg_match('/\\A[1-9][0-9]*\\z/', (string) wp_unslash($submitted_page_id))
+            ) {
+                wp_die(
+                    esc_html__('Invalid page order.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $page_id = filter_var(
+                (string) wp_unslash($submitted_page_id),
+                FILTER_VALIDATE_INT,
+                array('options' => array('min_range' => 1))
+            );
+
+            if ($page_id === false || in_array($page_id, $submitted_page_ids, true)) {
+                wp_die(
+                    esc_html__('Invalid or duplicate page ID.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $submitted_page_ids[] = $page_id;
+        }
+
+        $quiz_pages = $this->repository->all_by_quiz($quiz_id);
+        $expected_page_ids = array_map(
+            static function (array $page): int {
+                return (int) $page['id'];
+            },
+            $quiz_pages
+        );
+
+        $actual_sorted = $submitted_page_ids;
+        $expected_sorted = $expected_page_ids;
+        sort($actual_sorted, SORT_NUMERIC);
+        sort($expected_sorted, SORT_NUMERIC);
+
+        if ($actual_sorted !== $expected_sorted) {
+            wp_die(
+                esc_html__('The page order must contain every page in this quiz exactly once.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        if (!empty($submitted_page_ids)) {
+            $this->repository->reorder($quiz_id, $submitted_page_ids);
+        }
+
+        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
