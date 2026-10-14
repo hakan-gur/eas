@@ -43,16 +43,52 @@ class MyResultsController
                 'eas-quiz'
             ) . '</p>';
         }
-        $review = isset($_GET['review'])
-        ? absint(wp_unslash($_GET['review']))
-        : 0;
-        $attempt_id = isset($_GET['attempt_id'])
-        ? absint(wp_unslash($_GET['attempt_id']))
-        : 0;
+        /*
+         * Validate optional result-navigation parameters before conversion.
+         * Reject arrays, malformed integers, zero/negative attempt IDs, and overflow.
+         */
+        $review = 0;
 
-if ($review === 1 && $attempt_id > 0) {
-    return $this->results->render();
-}
+        if (isset($_GET['review'])) {
+            $submitted_review = $_GET['review'];
+
+            if (!is_scalar($submitted_review)) {
+                return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
+            }
+
+            $submitted_review = (string) wp_unslash($submitted_review);
+
+            if (!preg_match('/\A[01]\z/', $submitted_review)) {
+                return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
+            }
+
+            $review = (int) $submitted_review;
+        }
+
+        if (isset($_GET['attempt_id'])) {
+            $submitted_attempt_id = $_GET['attempt_id'];
+
+            if (
+                !is_scalar($submitted_attempt_id)
+                || !preg_match('/\A[1-9][0-9]*\z/', (string) wp_unslash($submitted_attempt_id))
+            ) {
+                return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
+            }
+
+            $attempt_id = filter_var(
+                (string) wp_unslash($submitted_attempt_id),
+                FILTER_VALIDATE_INT,
+                array('options' => array('min_range' => 1))
+            );
+
+            if ($attempt_id === false) {
+                return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
+            }
+        }
+
+        if ($review === 1) {
+            return $this->results->render();
+        }
         $user_id = get_current_user_id();
 
         $attempts = $this->attempts->all_by_user(
