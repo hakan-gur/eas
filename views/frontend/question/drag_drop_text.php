@@ -218,7 +218,6 @@ if (
     );
 
 
-    // Output is sanitized with wp_kses() below.
 
     ?>
 
