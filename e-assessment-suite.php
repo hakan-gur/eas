@@ -5,6 +5,8 @@
  * Description: Test preparation and management platform for standardized tests like the TOEFL iBT and the TOEIC.
  * Version: 1.0
  * Author: hakangur
+ * License: GPL-2.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: eas-quiz
  * Domain Path: /languages
  */
@@ -35,7 +37,7 @@ define(
 require_once EAS_PLUGIN_DIR .
     'src/Core/Autoloader.php';
 
-\EAS\Core\Autoloader::register();
+\\EAS\\Core\\Autoloader::register();
 
 /**
  * Load EAS translations from the plugin languages directory.
@@ -69,8 +71,8 @@ function eas_maybe_upgrade_database(): void
         return;
     }
 
-    \EAS\Core\Installer::install();
-    \EAS\Database\Upgrade::run();
+    \\EAS\\Core\\Installer::install();
+    \\EAS\\Database\\Upgrade::run();
 
     update_option('eas_db_version', EAS_DB_VERSION);
 }
@@ -83,7 +85,7 @@ add_action(
 
 function eas_initialize_plugin(): void
 {
-    $app = new \EAS\Core\Application();
+    $app = new \\EAS\\Core\\Application();
     $app->run();
 
     /*
@@ -92,13 +94,13 @@ function eas_initialize_plugin(): void
      * replaces the old bare admin-post presentation without touching the
      * question renderer, scoring, or answer storage.
      */
-    new \EAS\Admin\Question\QuestionPreviewController();
+    new \\EAS\\Admin\\Question\\QuestionPreviewController();
 }
 
 register_activation_hook(
     __FILE__,
     array(
-        'EAS\\Core\\Activator',
+        'EAS\\\\Core\\\\Activator',
         'activate'
     )
 );
@@ -106,7 +108,7 @@ register_activation_hook(
 register_deactivation_hook(
     __FILE__,
     array(
-        'EAS\\Core\\Deactivator',
+        'EAS\\\\Core\\\\Deactivator',
         'deactivate'
     )
 );
