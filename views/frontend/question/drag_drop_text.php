@@ -218,13 +218,6 @@ if (
     );
 
 
-    $text = wp_kses(
-
-        $text,
-
-        $allowed_html
-
-    );
 
     ?>
 
@@ -234,7 +227,7 @@ if (
              $question['question_text']
          ); ?>">
 
-        <?php echo $text; ?>
+        <?php echo wp_kses($text, $allowed_html); ?>
 
     </div>
 
