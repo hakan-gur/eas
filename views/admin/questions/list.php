@@ -58,13 +58,13 @@ settings_errors(
 <p>
 
 <a class="button"
-href="<?php echo admin_url(
+href="<?php echo esc_url(admin_url(
 
     'admin.php?page=eas-pages&quiz_id='
     .
     $page['quiz_id']
 
-); ?>">
+)); ?>">
 
 ← <?php esc_html_e('Back to Pages', 'eas-quiz'); ?>
 
@@ -74,23 +74,23 @@ href="<?php echo admin_url(
 
 
 <a class="button button-primary"
-href="<?php echo admin_url(
+href="<?php echo esc_url(admin_url(
 
 'admin.php?page=eas-questions&page_id=' .
 $page_id .
 '&action=add'
 
-); ?>">
+)); ?>">
 
 <?php esc_html_e('Add New Question', 'eas-quiz'); ?>
 
 </a>
 <a class="button"
-   href="<?php echo admin_url(
+   href="<?php echo esc_url(admin_url(
        'admin.php?page=eas-questions&page_id=' .
        $page_id .
        '&action=add_existing'
-   ); ?>">
+   )); ?>">
 
     <?php esc_html_e('Add Existing Question', 'eas-quiz'); ?>
 
@@ -164,7 +164,7 @@ $page_id .
     <?php if ($current_order > 1): ?>
 
         <a
-            href="<?php echo wp_nonce_url(
+            href="<?php echo esc_url(wp_nonce_url(
                 admin_url(
                     'admin-post.php?action=eas_move_question_up'
                     . '&id='
@@ -173,7 +173,7 @@ $page_id .
                     . $page_id
                 ),
                 'eas_move_question_up_' . $question['id']
-            ); ?>"
+            )); ?>"
             class="button"
             title="<?php esc_attr_e('Move question up', 'eas-quiz'); ?>"
         >↑</a>
@@ -181,7 +181,7 @@ $page_id .
     <?php endif; ?>
 
     <a
-        href="<?php echo wp_nonce_url(
+        href="<?php echo esc_url(wp_nonce_url(
             admin_url(
                 'admin-post.php?action=eas_move_question_down'
                 . '&id='
@@ -190,7 +190,7 @@ $page_id .
                 . $page_id
             ),
             'eas_move_question_down_' . $question['id']
-        ); ?>"
+        )); ?>"
         class="button"
         title="<?php esc_attr_e('Move question down', 'eas-quiz'); ?>"
     >↓</a>
@@ -321,26 +321,26 @@ font-weight:600;
 
 
 
-<a href="<?php echo admin_url(
+<a href="<?php echo esc_url(admin_url(
 
 'admin.php?page=eas-questions&page_id=' .
 $page_id .
 '&action=edit&id=' .
 $question['id']
 
-); ?>">
+)); ?>">
 
 <?php esc_html_e('Edit', 'eas-quiz'); ?>
 
 </a>
 
 |
-<a href="<?php echo admin_url(
+<a href="<?php echo esc_url(admin_url(
 
 'admin-post.php?action=eas_preview_question&id=' .
 $question['id']
 
-); ?>"
+)); ?>"
 target="_blank">
 
 <?php esc_html_e('Preview', 'eas-quiz'); ?>
@@ -350,7 +350,7 @@ target="_blank">
 |
 
 
-<a href="<?php echo wp_nonce_url(
+<a href="<?php echo esc_url(wp_nonce_url(
 
 admin_url(
 
@@ -363,7 +363,7 @@ $page_id
 
 'eas_delete_question_' . $question['id']
 
-); ?>"
+)); ?>"
 onclick="return confirm('<?php echo esc_js(__('Remove this question from the page?', 'eas-quiz')); ?>');">
 
 <?php esc_html_e('Remove', 'eas-quiz'); ?>
