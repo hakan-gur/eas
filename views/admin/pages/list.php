@@ -191,7 +191,7 @@ if ($page_time_limit > 0) {
 
     printf(
         esc_html__('%d sec', 'eas-quiz'),
-        $page_time_limit
+        esc_html($page_time_limit)
     );
 
 } else {
