@@ -10,8 +10,8 @@ if (!defined('ABSPATH')) {
 
     <div class="eas-description-content">
 
-        <?php echo wp_kses_post(
-            $question['question_text']
+        <?php echo do_shortcode(
+            wp_kses_post($question['question_text'])
         ); ?>
 
     </div>
