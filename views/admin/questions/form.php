@@ -231,16 +231,16 @@ if ($question) {
                                 <?php
                                 printf(
                                     esc_html__('%s %d', 'eas-quiz'),
-                                    __('Option', 'eas-quiz'),
+                                    esc_html__('Option', 'eas-quiz'),
                                     $i
                                 );
                                 ?>
                             </label>
                         </th>
                         <td>
-                            <input type="text" name="answer_<?php echo $i; ?>" class="regular-text" value="<?php echo esc_attr($answer_text); ?>">
+                            <input type="text" name="answer_<?php echo esc_attr($i); ?>" class="regular-text" value="<?php echo esc_attr($answer_text); ?>">
                             <label>
-                                <input type="radio" name="correct" value="<?php echo $i; ?>" <?php checked($checked); ?>>
+                                <input type="radio" name="correct" value="<?php echo esc_attr($i); ?>" <?php checked($checked); ?>>
                                 <?php esc_html_e('Correct', 'eas-quiz'); ?>
                             </label>
                         </td>
@@ -278,14 +278,14 @@ if ($question) {
                                 <?php
                                 printf(
                                     esc_html__('%s %d', 'eas-quiz'),
-                                    __('Option', 'eas-quiz'),
+                                    esc_html__('Option', 'eas-quiz'),
                                     $i
                                 );
                                 ?>
                             </label>
                         </th>
                         <td>
-                            <input type="text" name="answer_<?php echo $i; ?>" class="regular-text" value="<?php echo esc_attr($answer_text); ?>">
+                            <input type="text" name="answer_<?php echo esc_attr($i); ?>" class="regular-text" value="<?php echo esc_attr($answer_text); ?>">
                         </td>
                     </tr>
                 <?php endfor; ?>
