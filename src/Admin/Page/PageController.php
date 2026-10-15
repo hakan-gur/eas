@@ -42,20 +42,82 @@ class PageController
 
     public function index(): void
     {
-        $quiz_id = isset($_GET['quiz_id']) ? (int) $_GET['quiz_id'] : 0;
+        $quiz_id = 0;
+        $quiz = null;
 
-        if (isset($_GET['action']) && $_GET['action'] === 'add') {
+        if (array_key_exists('quiz_id', $_GET)) {
+            $validated_quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
+
+            if ($validated_quiz_id === null) {
+                wp_die(
+                    esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $quiz_id = $validated_quiz_id;
+            $quiz = $this->quizzes->find($quiz_id);
+
+            if (!$quiz) {
+                wp_die(
+                    esc_html__('Quiz not found.', 'eas-quiz'),
+                    '',
+                    array('response' => 404)
+                );
+            }
+        }
+
+        $action = $_GET['action'] ?? '';
+
+        if (!is_string($action)) {
+            wp_die(
+                esc_html__('Invalid page request.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
+        if ($action === 'add') {
+            if ($quiz_id <= 0 || !$quiz) {
+                wp_die(
+                    esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
             $this->form($quiz_id);
             return;
         }
 
-        if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['id'])) {
-            $this->form($quiz_id, (int) $_GET['id']);
+        if ($action === 'edit') {
+            $page_id = $this->validated_positive_request_id($_GET, 'id');
+
+            if ($quiz_id <= 0 || !$quiz || $page_id === null) {
+                wp_die(
+                    esc_html__('Invalid page or quiz ID.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $page = $this->repository->find($page_id);
+
+            if (!$page || (int) $page['quiz_id'] !== $quiz_id) {
+                wp_die(
+                    esc_html__('Page not found in this quiz.', 'eas-quiz'),
+                    '',
+                    array('response' => 404)
+                );
+            }
+
+            $this->form($quiz_id, $page_id);
             return;
         }
 
         $pages = $this->repository->all_by_quiz($quiz_id);
-        $quiz = $this->quizzes->find($quiz_id);
+        $quiz = $quiz ?? $this->quizzes->find($quiz_id);
 
         require EAS_PLUGIN_DIR . 'views/admin/pages/list.php';
     }
