@@ -11,7 +11,9 @@ if (!defined('ABSPATH')) {
     <div class="eas-description-content">
 
         <?php echo do_shortcode(
-            wp_kses_post($question['question_text'])
+            wp_kses_post(
+                $question['question_text']
+            )
         ); ?>
 
     </div>
