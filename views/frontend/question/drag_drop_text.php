@@ -218,13 +218,7 @@ if (
     );
 
 
-    $text = wp_kses(
-
-        $text,
-
-        $allowed_html
-
-    );
+    // Output is sanitized with wp_kses() below.
 
     ?>
 
@@ -234,7 +228,7 @@ if (
              $question['question_text']
          ); ?>">
 
-        <?php echo $text; ?>
+        <?php echo wp_kses($text, $allowed_html); ?>
 
     </div>
 
