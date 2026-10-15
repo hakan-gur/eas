@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
                 <?php
                 printf(
                     esc_html__('Page %d', 'eas-quiz'),
-                    $page_index + 1
+                    esc_html($page_index + 1)
                 );
                 ?>
                 <?php if (!empty($page['title'])): ?>
@@ -51,7 +51,7 @@ if (!defined('ABSPATH')) {
                             <?php
                             printf(
                                 esc_html__('Question %d', 'eas-quiz'),
-                                $review_question_number
+                                esc_html($review_question_number)
                             );
                             ?>
                         </h3>
