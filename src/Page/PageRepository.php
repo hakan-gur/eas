@@ -416,19 +416,49 @@ public function reorder(
 
     public function delete(int $id): bool
     {
+        $page = $this->find($id);
 
-        return (bool) $this->wpdb->delete(
+        if (!$page) {
+            return false;
+        }
 
+        $quiz_id = (int) $page['quiz_id'];
+
+        $deleted = $this->wpdb->delete(
             $this->table(),
-
-            array(
-
-                'id' => $id
-
-            )
-
+            array('id' => $id),
+            array('%d')
         );
 
+        if ($deleted === false || $deleted === 0) {
+            return false;
+        }
+
+        $remaining_pages = $this->wpdb->get_results(
+            $this->wpdb->prepare(
+                "SELECT id
+                 FROM {$this->table()}
+                 WHERE quiz_id = %d
+                 ORDER BY page_number ASC, id ASC",
+                $quiz_id
+            ),
+            ARRAY_A
+        );
+
+        foreach ($remaining_pages as $index => $remaining_page) {
+            $this->wpdb->update(
+                $this->table(),
+                array('page_number' => $index + 1),
+                array(
+                    'id' => (int) $remaining_page['id'],
+                    'quiz_id' => $quiz_id
+                ),
+                array('%d'),
+                array('%d', '%d')
+            );
+        }
+
+        return true;
     }
 public function duplicate_pages(
 
