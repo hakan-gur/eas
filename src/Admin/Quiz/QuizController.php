@@ -305,7 +305,7 @@ class QuizController
             );
         }
 
-        wp_redirect(
+        wp_safe_redirect(
             admin_url(
                 'admin.php?page=eas-quizzes'
             )
@@ -334,7 +334,7 @@ class QuizController
             );
         }
 
-        wp_redirect(
+        wp_safe_redirect(
             admin_url(
                 'admin.php?page=eas-quizzes'
             )
@@ -357,7 +357,7 @@ class QuizController
             $id
         );
 
-        wp_redirect(
+        wp_safe_redirect(
             admin_url(
                 'admin.php?page=eas-quizzes'
             )
