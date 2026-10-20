@@ -306,7 +306,7 @@ function startCountdown(seconds, callback, label){
     status.textContent = "<?php echo esc_js(__('Uploading...', 'eas-quiz')); ?>";
 
     fetch(
-        '<?php echo admin_url("admin-post.php"); ?>',
+        '<?php echo esc_url(admin_url('admin-post.php')); ?>',
         {
             method: 'POST',
             body: formData,
