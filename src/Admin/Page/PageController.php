@@ -78,6 +78,8 @@ class PageController
             );
         }
 
+        $action = sanitize_key(wp_unslash($action));
+
         if ($action === 'add') {
             if ($quiz_id <= 0 || !$quiz) {
                 wp_die(
