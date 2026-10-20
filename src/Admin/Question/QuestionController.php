@@ -552,7 +552,7 @@ class QuestionController
              * Question-bank question.
              */
 
-            if ($quiz_id === null) {
+            if ($quiz_id <= 0) {
                 wp_die(
                     esc_html__(
                         'Invalid quiz.',
@@ -1232,7 +1232,7 @@ class QuestionController
 
         $quiz_id = (int) $page['quiz_id'];
 
-        if ($quiz_id === null) {
+        if ($quiz_id <= 0) {
             wp_die(
                 esc_html__(
                     'Invalid quiz.',
@@ -1729,7 +1729,7 @@ class QuestionController
             $_POST['quiz_id'] ?? 0
         );
 
-        if ($quiz_id === null) {
+        if ($quiz_id <= 0) {
             wp_die(
                 esc_html__(
                     'Invalid quiz.',
@@ -2394,7 +2394,7 @@ class QuestionController
             $_GET['quiz_id'] ?? 0
         );
 
-        if ($quiz_id === null) {
+        if ($quiz_id <= 0) {
             wp_die(
                 esc_html__(
                     'Invalid quiz.',
