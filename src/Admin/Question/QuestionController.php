@@ -2331,7 +2331,7 @@ class QuestionController
          * ---------------------------------------------------------
          */
 
-        wp_redirect(
+        wp_safe_redirect(
             admin_url(
                 'admin.php?page=eas-questions' .
                 '&quiz_id=' .
