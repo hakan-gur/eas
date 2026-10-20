@@ -82,6 +82,7 @@ class AttemptController
                 $remaining_seconds = $seconds % 60;
 
                 $attempt['duration'] = sprintf(
+                    /* translators: 1: duration in minutes, 2: remaining duration in seconds. */
                     esc_html__('%1$d min %2$d sec', 'eas-quiz'),
                     $minutes,
                     $remaining_seconds
