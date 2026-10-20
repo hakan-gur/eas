@@ -185,7 +185,7 @@ function startCountdown(seconds, callback, label){
     function startRecording(){
 
     startCountdown(
-        <?php echo $duration; ?>,
+        <?php echo esc_js($duration); ?>,
         function(){
 
         },
@@ -243,7 +243,7 @@ function startCountdown(seconds, callback, label){
                     "<?php echo esc_js(__('Uploading...', 'eas-quiz')); ?>";
 
 
-            }, <?php echo $duration * 1000; ?>);
+            }, <?php echo esc_js($duration * 1000); ?>);
 
 
 
@@ -402,7 +402,7 @@ function startCountdown(seconds, callback, label){
     setTimeout(function(){
 
     startCountdown(
-        <?php echo $prepare; ?>,
+        <?php echo esc_js($prepare); ?>,
         function(){
 
             startRecording();
@@ -412,7 +412,7 @@ function startCountdown(seconds, callback, label){
 
     );
 
-}, <?php echo $delay * 1000; ?>);
+}, <?php echo esc_js($delay * 1000); ?>);
 
 
 })();
