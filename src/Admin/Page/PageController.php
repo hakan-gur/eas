@@ -226,7 +226,7 @@ class PageController
         }
 
         $data = array(
-            'title' => sanitize_text_field($_POST['title'] ?? ''),
+            'title' => sanitize_text_field(wp_unslash($_POST['title'] ?? '')),
             'content' => wp_kses_post(
                 wp_unslash(
                     $_POST['content'] ?? ''
