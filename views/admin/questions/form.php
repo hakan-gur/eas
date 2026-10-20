@@ -230,7 +230,7 @@ if ($question) {
                             <label>
                                 <?php
                                 printf(
-                                    esc_html__('%s %d', 'eas-quiz'),
+                                    esc_html__('%1$s %2$d', 'eas-quiz'),
                                     esc_html__('Option', 'eas-quiz'),
                                     $i
                                 );
@@ -277,7 +277,7 @@ if ($question) {
                             <label>
                                 <?php
                                 printf(
-                                    esc_html__('%s %d', 'eas-quiz'),
+                                    esc_html__('%1$s %2$d', 'eas-quiz'),
                                     esc_html__('Option', 'eas-quiz'),
                                     $i
                                 );
