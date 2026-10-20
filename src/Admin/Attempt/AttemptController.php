@@ -54,7 +54,7 @@ class AttemptController
         }
 
         $status = sanitize_text_field(
-            $_GET['status'] ?? ''
+            wp_unslash($_GET['status'] ?? '')
         );
 
         $attempts = $this->attempts->all_completed_filtered(
