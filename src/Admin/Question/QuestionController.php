@@ -104,9 +104,9 @@ class QuestionController
             isset($_GET['quiz_id'])
         ) {
 
-            $quiz_id = (int) $_GET['quiz_id'];
+            $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
 
-            if ($quiz_id <= 0) {
+            if ($quiz_id === null) {
                 wp_die(
                     esc_html__(
                         'Invalid quiz.',
@@ -162,9 +162,9 @@ class QuestionController
             isset($_GET['quiz_id'])
         ) {
 
-            $quiz_id = (int) $_GET['quiz_id'];
+            $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
 
-            if ($quiz_id <= 0) {
+            if ($quiz_id === null) {
                 wp_die(
                     esc_html__(
                         'Invalid quiz.',
@@ -207,9 +207,9 @@ class QuestionController
             isset($_GET['quiz_id'])
         ) {
 
-            $quiz_id = (int) $_GET['quiz_id'];
+            $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
 
-            if ($quiz_id <= 0) {
+            if ($quiz_id === null) {
                 wp_die(
                     esc_html__(
                         'Invalid quiz.',
@@ -252,10 +252,10 @@ class QuestionController
             isset($_GET['id'])
         ) {
 
-            $quiz_id = (int) $_GET['quiz_id'];
+            $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
             $question_id = (int) $_GET['id'];
 
-            if ($quiz_id <= 0) {
+            if ($quiz_id === null) {
                 wp_die(
                     esc_html__(
                         'Invalid quiz.',
