@@ -2239,7 +2239,7 @@ class QuestionController
                     esc_html(
                         sprintf(
                             __(
-                                'Question %d must have exactly one correct answer. Found: %d.',
+                                'Question %1$d must have exactly one correct answer. Found: %2$d.',
                                 'eas-quiz'
                             ),
                             $question_index + 1,
