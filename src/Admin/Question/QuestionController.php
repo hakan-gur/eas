@@ -1199,7 +1199,7 @@ class QuestionController
             );
         }
 
-        wp_redirect(
+        wp_safe_redirect(
             $redirect_url
         );
 
