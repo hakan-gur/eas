@@ -24,6 +24,7 @@ if (!defined('ABSPATH')) {
         <div class="eas-result-page">
             <h2 class="eas-result-page-title">
                 <?php
+                /* translators: %d: page number. */
                 printf(
                     esc_html__('Page %d', 'eas-quiz'),
                     esc_html($page_index + 1)
@@ -49,6 +50,7 @@ if (!defined('ABSPATH')) {
                     <div class="eas-result-question">
                         <h3>
                             <?php
+                            /* translators: %d: question number. */
                             printf(
                                 esc_html__('Question %d', 'eas-quiz'),
                                 esc_html($review_question_number)
