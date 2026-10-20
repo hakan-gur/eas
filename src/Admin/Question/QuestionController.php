@@ -1919,6 +1919,7 @@ class QuestionController
                     wp_die(
                         esc_html(
                             sprintf(
+                                /* translators: %d: question number in the imported GIFT file. */
                                 __(
                                     'Description question %d could not be imported.',
                                     'eas-quiz'
@@ -1967,6 +1968,7 @@ class QuestionController
                 wp_die(
                     esc_html(
                         sprintf(
+                            /* translators: %d: question number in the imported GIFT file. */
                             __(
                                 'Question %d has an invalid GIFT answer block.',
                                 'eas-quiz'
@@ -2012,6 +2014,7 @@ class QuestionController
                 wp_die(
                     esc_html(
                         sprintf(
+                            /* translators: %d: question number in the imported GIFT file. */
                             __(
                                 'Question %d has no question text.',
                                 'eas-quiz'
@@ -2112,6 +2115,7 @@ class QuestionController
                 wp_die(
                     esc_html(
                         sprintf(
+                            /* translators: %d: question number in the imported GIFT file. */
                             __(
                                 'Question %d contains no valid answer options.',
                                 'eas-quiz'
@@ -2221,6 +2225,7 @@ class QuestionController
                 wp_die(
                     esc_html(
                         sprintf(
+                            /* translators: %d: question number in the imported GIFT file. */
                             __(
                                 'Question %d must contain at least two answer options.',
                                 'eas-quiz'
@@ -2238,6 +2243,7 @@ class QuestionController
                 wp_die(
                     esc_html(
                         sprintf(
+                            /* translators: 1: question number in the imported GIFT file, 2: number of correct answers found. */
                             __(
                                 'Question %1$d must have exactly one correct answer. Found: %2$d.',
                                 'eas-quiz'
@@ -2303,6 +2309,7 @@ class QuestionController
                 wp_die(
                     esc_html(
                         sprintf(
+                            /* translators: %d: question number in the imported GIFT file. */
                             __(
                                 'Multiple-choice question %d could not be imported.',
                                 'eas-quiz'
