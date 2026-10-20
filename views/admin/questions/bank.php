@@ -16,6 +16,18 @@ $type_labels = array(
 ?>
 
 <div class="wrap">
+    <?php if (
+        isset($_GET['eas_warning'])
+        &&
+        sanitize_key(wp_unslash($_GET['eas_warning'])) === 'missing_correct_answer'
+    ) : ?>
+        <div class="notice notice-warning is-dismissible">
+            <p>
+                <?php esc_html_e('Warning: This question has no correct answer selected. It has been saved, but it cannot be graded correctly.', 'eas-quiz'); ?>
+            </p>
+        </div>
+    <?php endif; ?>
+
     <h1><?php esc_html_e('Question Bank', 'eas-quiz'); ?></h1>
 
     <p>
