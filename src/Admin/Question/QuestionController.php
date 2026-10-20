@@ -1417,7 +1417,7 @@ class QuestionController
             );
         }
 
-        wp_redirect(
+        wp_safe_redirect(
             admin_url(
                 'admin.php?page=eas-questions&page_id='
                 . $page_id
@@ -1490,7 +1490,7 @@ class QuestionController
             );
         }
 
-        wp_redirect(
+        wp_safe_redirect(
             admin_url(
                 'admin.php?page=eas-questions&page_id='
                 . $page_id
