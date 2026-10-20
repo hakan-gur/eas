@@ -46,7 +46,7 @@ class QuizController
     public function index(): void
     {
         $action = sanitize_key(
-            $_GET['action'] ?? ''
+            wp_unslash($_GET['action'] ?? '')
         );
 
         if (
