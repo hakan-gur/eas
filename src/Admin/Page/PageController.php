@@ -241,7 +241,7 @@ class PageController
             $this->repository->create($quiz_id, $data);
         }
 
-        wp_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
