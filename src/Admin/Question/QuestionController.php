@@ -485,11 +485,11 @@ class QuestionController
          * Malformed values must not silently become zero and change the
          * operation from editing a page question to creating a bank question.
          */
-        $submitted_page_id = $_POST['page_id'] ?? '0';
+        $submitted_page_id = $post['page_id'] ?? '0';
 
         if (
             !is_scalar($submitted_page_id)
-            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) wp_unslash($submitted_page_id))
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_page_id)
         ) {
             wp_die(
                 esc_html__('Invalid page ID.', 'eas-quiz'),
@@ -499,7 +499,7 @@ class QuestionController
         }
 
         $page_id = filter_var(
-            (string) wp_unslash($submitted_page_id),
+            (string) $submitted_page_id,
             FILTER_VALIDATE_INT
         );
 
@@ -511,11 +511,11 @@ class QuestionController
             );
         }
 
-        $submitted_quiz_id = $_POST['quiz_id'] ?? '0';
+        $submitted_quiz_id = $post['quiz_id'] ?? '0';
 
         if (
             !is_scalar($submitted_quiz_id)
-            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) wp_unslash($submitted_quiz_id))
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_quiz_id)
         ) {
             wp_die(
                 esc_html__('Invalid quiz ID.', 'eas-quiz'),
@@ -525,7 +525,7 @@ class QuestionController
         }
 
         $quiz_id = filter_var(
-            (string) wp_unslash($submitted_quiz_id),
+            (string) $submitted_quiz_id,
             FILTER_VALIDATE_INT
         );
 
@@ -599,7 +599,7 @@ class QuestionController
         /*
          * Validate the submitted question type before using it.
          */
-        $submitted_type = $_POST['type'] ?? 'multiple_choice';
+        $submitted_type = $post['type'] ?? 'multiple_choice';
         $allowed_types = array(
             'multiple_choice',
             'drag_drop_text',
@@ -627,8 +627,8 @@ class QuestionController
          */
         foreach (array('question_text', 'feedback') as $text_field) {
             if (
-                isset($_POST[$text_field])
-                && !is_string($_POST[$text_field])
+                isset($post[$text_field])
+                && !is_string($post[$text_field])
             ) {
                 wp_die(
                     esc_html__('Invalid question content.', 'eas-quiz'),
@@ -646,8 +646,8 @@ class QuestionController
             $answer_field = 'answer_' . $answer_index;
 
             if (
-                isset($_POST[$answer_field])
-                && !is_string($_POST[$answer_field])
+                isset($post[$answer_field])
+                && !is_string($post[$answer_field])
             ) {
                 wp_die(
                     esc_html__('Invalid answer content.', 'eas-quiz'),
@@ -663,10 +663,10 @@ class QuestionController
          * case the existing missing-correct-answer warning is preserved.
          */
         if (
-            isset($_POST['correct'])
+            isset($post['correct'])
             && (
-                !is_string($_POST['correct'])
-                || !preg_match('/^[1-5]$/', $_POST['correct'])
+                !is_string($post['correct'])
+                || !preg_match('/^[1-5]$/', $post['correct'])
             )
         ) {
             wp_die(
@@ -686,7 +686,7 @@ class QuestionController
             int $minimum,
             ?int $maximum = null
         ): int {
-            $value = $_POST[$field] ?? $default;
+            $value = $post[$field] ?? $default;
 
             if (
                 !is_scalar($value)
@@ -734,7 +734,7 @@ class QuestionController
         $points = 0.0;
 
         if ($submitted_type !== 'description') {
-            $submitted_points = $_POST['points'] ?? 1;
+            $submitted_points = $post['points'] ?? 1;
 
             if (
                 !is_scalar($submitted_points)
@@ -765,18 +765,18 @@ class QuestionController
         $data = array(
             'quiz_id' => $quiz_id,
             'type' => sanitize_key(
-                $_POST['type']
+                $post['type']
                 ?? 'multiple_choice'
             ),
             'question_text' => wp_kses_post(
                 wp_unslash(
-                    $_POST['question_text']
+                    $post['question_text']
                     ?? ''
                 )
             ),
             'settings' => '',
             'feedback' => wp_kses_post(
-                $_POST['feedback']
+                $post['feedback']
                 ?? ''
             ),
             'points' => $points,
@@ -848,7 +848,7 @@ class QuestionController
          * Existing question or new question?
          */
 
-        $submitted_question_id = $_POST['question_id'] ?? '0';
+        $submitted_question_id = $post['question_id'] ?? '0';
 
         if (
             !is_scalar($submitted_question_id)
@@ -962,7 +962,7 @@ class QuestionController
             ) {
 
                 $text = trim(
-                    $_POST[
+                    $post[
                         'answer_' . $i
                     ]
                     ?? ''
@@ -982,7 +982,7 @@ class QuestionController
              */
 
             $distractor = trim(
-                $_POST['answer_8']
+                $post['answer_8']
                 ?? ''
             );
 
@@ -1085,7 +1085,7 @@ class QuestionController
                 $answers[] = array(
                     'text' =>
                         wp_unslash(
-                            $_POST[
+                            $post[
                                 'answer_' . $i
                             ]
                             ?? ''
@@ -1093,10 +1093,10 @@ class QuestionController
 
                     'correct' =>
                         isset(
-                            $_POST['correct']
+                            $post['correct']
                         )
                         &&
-                        (int) $_POST['correct']
+                        (int) $post['correct']
                             === $i
                 );
             }
