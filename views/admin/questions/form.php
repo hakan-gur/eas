@@ -7,7 +7,15 @@ if (!defined('ABSPATH')) {
 $question_id = 0;
 $question_text = '';
 $points = 0;
-$type = $_GET['type'] ?? 'multiple_choice';
+$type = (
+    isset($_GET['type']) && is_string($_GET['type'])
+        ? sanitize_key(wp_unslash($_GET['type']))
+        : 'multiple_choice'
+);
+
+if (!in_array($type, array('multiple_choice', 'drag_drop_text', 'fill_blank', 'description', 'essay', 'audio_response'), true)) {
+    $type = 'multiple_choice';
+}
 $audio_delay_seconds = 0;
 $audio_prepare_seconds = 5;
 $audio_duration_seconds = 45;
@@ -66,6 +74,7 @@ if ($question) {
         <p>
             <?php
             printf(
+                /* translators: %s: the Question Bank name, displayed in bold. */
                 wp_kses_post(__('This question will be saved in the %s and will not be assigned to a page yet.', 'eas-quiz')),
                 '<strong>' . esc_html__('Question Bank', 'eas-quiz') . '</strong>'
             );
@@ -229,10 +238,13 @@ if ($question) {
                         <th>
                             <label>
                                 <?php
-                                printf(
-                                    esc_html__('%1$s %2$d', 'eas-quiz'),
-                                    esc_html__('Option', 'eas-quiz'),
-                                    $i
+                                echo esc_html(
+                                    sprintf(
+                                        /* translators: 1: answer option label, 2: option number. */
+                                        __('%1$s %2$d', 'eas-quiz'),
+                                        __('Option', 'eas-quiz'),
+                                        $i
+                                    )
                                 );
                                 ?>
                             </label>
@@ -276,10 +288,13 @@ if ($question) {
                         <th>
                             <label>
                                 <?php
-                                printf(
-                                    esc_html__('%1$s %2$d', 'eas-quiz'),
-                                    esc_html__('Option', 'eas-quiz'),
-                                    $i
+                                echo esc_html(
+                                    sprintf(
+                                        /* translators: 1: answer option label, 2: option number. */
+                                        __('%1$s %2$d', 'eas-quiz'),
+                                        __('Option', 'eas-quiz'),
+                                        $i
+                                    )
                                 );
                                 ?>
                             </label>
