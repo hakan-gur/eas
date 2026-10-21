@@ -1,3 +1,11 @@
+<?php
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+?>
+
 <p>
 
 <a class="button"
