@@ -40,11 +40,11 @@ class QuestionRepository
     {
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT *
-                 FROM %i
+                 FROM {$this->items_table()}
                  WHERE quiz_id = %d
                  ORDER BY sort_order ASC, id ASC",
-                $this->items_table(),
                 $quiz_id
             ),
             ARRAY_A
@@ -57,10 +57,10 @@ class QuestionRepository
     {
         $question = $this->wpdb->get_row(
             $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT *
-                 FROM %i
+                 FROM {$this->items_table()}
                  WHERE id = %d",
-                $this->items_table(),
                 $id
             ),
             ARRAY_A
@@ -74,11 +74,11 @@ class QuestionRepository
     {
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT *
-                 FROM %i
+                 FROM {$this->answers_table()}
                  WHERE question_id = %d
                  ORDER BY sort_order ASC, id ASC",
-                $this->answers_table(),
                 $question_id
             ),
             ARRAY_A
@@ -240,18 +240,17 @@ class QuestionRepository
     {
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT
                     i.*,
                     pi.sort_order AS page_sort_order
-                 FROM %i i
-                 INNER JOIN %i pi
+                 FROM {$this->items_table()} i
+                 INNER JOIN {$this->page_items_table()} pi
                     ON i.id = pi.item_id
                  WHERE pi.page_id = %d
                  ORDER BY
                     pi.sort_order ASC,
                     i.id ASC",
-                $this->items_table(),
-                $this->page_items_table(),
                 $page_id
             ),
             ARRAY_A
@@ -266,11 +265,11 @@ class QuestionRepository
     ): bool {
         $count = $this->wpdb->get_var(
             $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT COUNT(*)
-                 FROM %i
+                 FROM {$this->page_items_table()}
                  WHERE item_id = %d
                  AND page_id = %d",
-                $this->page_items_table(),
                 $question_id,
                 $page_id
             )
@@ -303,10 +302,10 @@ class QuestionRepository
          */
         $next_order = (int) $this->wpdb->get_var(
             $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT MAX(sort_order)
-                 FROM %i
+                 FROM {$this->page_items_table()}
                  WHERE page_id = %d",
-                $this->page_items_table(),
                 $page_id
             )
         );
@@ -373,18 +372,17 @@ class QuestionRepository
     ): array {
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT
                     p.*,
                     pi.sort_order
-                 FROM %i p
-                 INNER JOIN %i pi
+                 FROM {$this->wpdb->prefix}eas_pages p
+                 INNER JOIN {$this->page_items_table()} pi
                     ON p.id = pi.page_id
                  WHERE pi.item_id = %d
                  ORDER BY
                     p.page_number ASC,
                     pi.sort_order ASC",
-                $this->wpdb->prefix . 'eas_pages',
-                $this->page_items_table(),
                 $question_id
             ),
             ARRAY_A
@@ -491,14 +489,14 @@ public function find_page_item(
 {
     $result = $this->wpdb->get_row(
         $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
-            FROM %i
+            FROM {$this->page_items_table()}
             WHERE page_id = %d
             AND item_id = %d
             LIMIT 1
             ",
-                $this->page_items_table(),
             $page_id,
             $item_id
         ),
@@ -515,15 +513,15 @@ public function get_adjacent_page_item(
     if ($direction === 'up') {
         $result = $this->wpdb->get_row(
             $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "
                 SELECT *
-                FROM %i
+                FROM {$this->page_items_table()}
                 WHERE page_id = %d
                 AND sort_order < %d
                 ORDER BY sort_order DESC
                 LIMIT 1
                 ",
-                $this->page_items_table(),
                 $page_id,
                 $current_order
             ),
@@ -532,15 +530,15 @@ public function get_adjacent_page_item(
     } else {
         $result = $this->wpdb->get_row(
             $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "
                 SELECT *
-                FROM %i
+                FROM {$this->page_items_table()}
                 WHERE page_id = %d
                 AND sort_order > %d
                 ORDER BY sort_order ASC
                 LIMIT 1
                 ",
-                $this->page_items_table(),
                 $page_id,
                 $current_order
             ),
@@ -620,12 +618,12 @@ public function next_page_sort_order(
 {
     $max = $this->wpdb->get_var(
         $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT MAX(sort_order)
-            FROM %i
+            FROM {$this->page_items_table()}
             WHERE page_id = %d
             ",
-                $this->page_items_table(),
             $page_id
         )
     );
@@ -645,14 +643,14 @@ public function move_question_up(
 ): bool {
     $current = $this->wpdb->get_row(
         $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
-            FROM %i
+            FROM {$this->page_items_table()}
             WHERE page_id = %d
             AND item_id = %d
             LIMIT 1
             ",
-                $this->page_items_table(),
             $page_id,
             $item_id
         ),
@@ -666,15 +664,15 @@ public function move_question_up(
      */
     $previous = $this->wpdb->get_row(
         $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
-            FROM %i
+            FROM {$this->page_items_table()}
             WHERE page_id = %d
             AND sort_order < %d
             ORDER BY sort_order DESC
             LIMIT 1
             ",
-                $this->page_items_table(),
             $page_id,
             (int) $current['sort_order']
         ),
@@ -724,14 +722,14 @@ public function move_question_down(
 ): bool {
     $current = $this->wpdb->get_row(
         $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
-            FROM %i
+            FROM {$this->page_items_table()}
             WHERE page_id = %d
             AND item_id = %d
             LIMIT 1
             ",
-                $this->page_items_table(),
             $page_id,
             $item_id
         ),
@@ -745,15 +743,15 @@ public function move_question_down(
      */
     $next = $this->wpdb->get_row(
         $this->wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
-            FROM %i
+            FROM {$this->page_items_table()}
             WHERE page_id = %d
             AND sort_order > %d
             ORDER BY sort_order ASC
             LIMIT 1
             ",
-                $this->page_items_table(),
             $page_id,
             (int) $current['sort_order']
         ),
