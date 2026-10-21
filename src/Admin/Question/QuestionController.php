@@ -1596,7 +1596,7 @@ class QuestionController
                 $id
             );
 
-            wp_redirect(
+            wp_safe_redirect(
                 admin_url(
                     'admin.php?page=eas-questions&page_id='
                     . $page_id
@@ -1629,7 +1629,7 @@ class QuestionController
 
         if ($quiz_id > 0) {
 
-            wp_redirect(
+            wp_safe_redirect(
                 admin_url(
                     'admin.php?page=eas-questions'
                     . '&quiz_id='
@@ -1640,7 +1640,7 @@ class QuestionController
 
         } else {
 
-            wp_redirect(
+            wp_safe_redirect(
                 admin_url(
                     'admin.php?page=eas-quizzes'
                 )
