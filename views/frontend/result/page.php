@@ -24,8 +24,8 @@ if (!defined('ABSPATH')) {
         <div class="eas-result-page">
             <h2 class="eas-result-page-title">
                 <?php
-                /* translators: %d: page number. */
                 printf(
+                    /* translators: %d: page number. */
                     esc_html__('Page %d', 'eas-quiz'),
                     esc_html($page_index + 1)
                 );
@@ -50,8 +50,8 @@ if (!defined('ABSPATH')) {
                     <div class="eas-result-question">
                         <h3>
                             <?php
-                            /* translators: %d: question number. */
                             printf(
+                                /* translators: %d: question number. */
                                 esc_html__('Question %d', 'eas-quiz'),
                                 esc_html($review_question_number)
                             );
@@ -145,24 +145,6 @@ if (!defined('ABSPATH')) {
 
                                         echo esc_html(
                                             $option_label
-                                        );
-                                    } elseif (is_numeric($answer)) {
-                                        global $wpdb;
-
-                                        $answer_text =
-                                            $wpdb->get_var(
-                                                $wpdb->prepare(
-                                                    "SELECT answer_text
-                                                     FROM {$wpdb->prefix}eas_answers
-                                                     WHERE id = %d",
-                                                    intval($answer)
-                                                )
-                                            );
-
-                                        echo esc_html(
-                                            !empty($answer_text)
-                                                ? $answer_text
-                                                : $answer
                                         );
                                     } else {
                                         echo esc_html($answer);
