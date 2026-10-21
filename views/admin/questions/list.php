@@ -4,21 +4,22 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- This only selects a read-only notice and does not perform an action or change data.
+$eas_warning = (
+    isset($_GET['eas_warning'])
+    && is_string($_GET['eas_warning'])
+)
+    ? sanitize_key(wp_unslash($_GET['eas_warning']))
+    : '';
+// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
 ?>
 
 
 <div class="wrap">
 
 
-<?php if (
-
-    isset($_GET['eas_warning'])
-
-    &&
-
-    $_GET['eas_warning'] === 'missing_correct_answer'
-
-) : ?>
+<?php if ($eas_warning === 'missing_correct_answer') : ?>
 
 
 <div class="notice notice-warning is-dismissible">
