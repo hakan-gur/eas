@@ -463,6 +463,9 @@ class QuestionController
             'eas_save_question'
         );
 
+        // WordPress slashes request data; unslash once before validation and sanitization.
+        $post = wp_unslash($_POST);
+
         /*
          * A question can be saved in two contexts:
          *
@@ -852,7 +855,7 @@ class QuestionController
 
         if (
             !is_scalar($submitted_question_id)
-            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) wp_unslash($submitted_question_id))
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_question_id)
         ) {
             wp_die(
                 esc_html__('Invalid question ID.', 'eas-quiz'),
@@ -862,7 +865,7 @@ class QuestionController
         }
 
         $id = filter_var(
-            (string) wp_unslash($submitted_question_id),
+            (string) $submitted_question_id,
             FILTER_VALIDATE_INT
         );
 
