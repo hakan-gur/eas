@@ -146,8 +146,6 @@ if (!defined('ABSPATH')) {
                                         echo esc_html(
                                             $option_label
                                         );
-                                    } elseif (is_numeric($answer)) {
-                                        echo esc_html($answer);
                                     } else {
                                         echo esc_html($answer);
                                     }
