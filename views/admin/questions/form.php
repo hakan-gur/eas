@@ -8,10 +8,11 @@ $question_id = 0;
 $question_text = '';
 $points = 0;
 // This GET value only selects which question form to display; it does not perform an action.
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only form selection; no state-changing action.
+$request_type = $_GET['type'] ?? null;
 $type = (
-    isset($_GET['type']) && is_string($_GET['type'])
-        ? sanitize_key(wp_unslash($_GET['type']))
+    is_string($request_type)
+        ? sanitize_key(wp_unslash($request_type))
         : 'multiple_choice'
 );
 
