@@ -253,7 +253,7 @@ class QuestionController
         ) {
 
             $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
-            $question_id = (int) $_GET['id'];
+            $question_id = $this->validated_positive_request_id($_GET, 'id');
 
             if ($quiz_id === null) {
                 wp_die(
@@ -264,12 +264,14 @@ class QuestionController
                 );
             }
 
-            if ($question_id <= 0) {
+            if ($question_id === null) {
                 wp_die(
                     esc_html__(
                         'Invalid question.',
                         'eas-quiz'
-                    )
+                    ),
+                    '',
+                    array('response' => 400)
                 );
             }
 
