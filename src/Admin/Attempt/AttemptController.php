@@ -33,11 +33,14 @@ class AttemptController
 
     public function index(): void
     {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Query parameters only filter the read-only attempts list; no state changes occur here.
+        $request = $_GET;
         $quiz_id = 0;
 
-        if (array_key_exists('quiz_id', $_GET)) {
+        if (array_key_exists('quiz_id', $request)) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- The helper unslashes and strictly validates this ID before use.
             $validated_quiz_id = $this->validated_request_id(
-                $_GET,
+                $request,
                 'quiz_id',
                 true
             );
@@ -54,7 +57,7 @@ class AttemptController
         }
 
         $status = sanitize_text_field(
-            wp_unslash($_GET['status'] ?? '')
+            wp_unslash($request['status'] ?? '')
         );
 
         $attempts = $this->attempts->all_completed_filtered(
@@ -107,7 +110,10 @@ class AttemptController
             );
         }
 
-        $attempt_id = $this->validated_request_id($_GET, 'id');
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The request ID is needed to construct the action-specific nonce; deletion proceeds only after that nonce is verified below.
+        $request = $_GET;
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- The helper unslashes and strictly validates this ID before use.
+        $attempt_id = $this->validated_request_id($request, 'id');
 
         if ($attempt_id === null) {
             wp_die(
