@@ -45,15 +45,19 @@ class QuizController
 
     public function index(): void
     {
+        // This only selects which read-only admin view to display; it does not change data.
         $action = sanitize_key(
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only view selection; no state-changing action.
             wp_unslash($_GET['action'] ?? '')
         );
 
         if (
             $action === 'bank'
             &&
-            isset($_GET['quiz_id'])
+            isset($_GET['quiz_id']) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only bank view; no state-changing action.
         ) {
+            // The bank view is read-only; the helper unslashes and validates the ID.
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             $quiz_id = $this->validated_positive_request_id('quiz_id', $_GET);
 
 
@@ -122,6 +126,8 @@ class QuizController
 
     public function edit(): void
     {
+        // Loading the edit form is read-only; the helper unslashes and validates the ID.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $id = $this->validated_positive_request_id('id', $_GET);
 
 
@@ -147,11 +153,14 @@ class QuizController
             'eas_save_quiz'
         );
 
+        // WordPress slashes request data; unslash once before validation and sanitization.
+        $post = wp_unslash($_POST);
+
         /*
          * Validate quiz settings on the server. HTML form constraints
          * can be bypassed by submitting a direct request.
          */
-        $submitted_attempts = $_POST['attempts_allowed'] ?? 1;
+        $submitted_attempts = $post['attempts_allowed'] ?? 1;
 
         if (!is_scalar($submitted_attempts)) {
             wp_die(
@@ -162,7 +171,7 @@ class QuizController
         }
 
         $attempts_allowed = filter_var(
-            (string) wp_unslash($submitted_attempts),
+            (string) $submitted_attempts,
             FILTER_VALIDATE_INT
         );
 
@@ -174,7 +183,7 @@ class QuizController
             );
         }
 
-        $submitted_time_limit = $_POST['time_limit'] ?? 0;
+        $submitted_time_limit = $post['time_limit'] ?? 0;
 
         if (!is_scalar($submitted_time_limit)) {
             wp_die(
@@ -185,7 +194,7 @@ class QuizController
         }
 
         $time_limit = filter_var(
-            (string) wp_unslash($submitted_time_limit),
+            (string) $submitted_time_limit,
             FILTER_VALIDATE_INT
         );
 
@@ -201,8 +210,8 @@ class QuizController
          * Validate the quiz ID separately from the settings. A missing ID
          * means create; a supplied malformed ID must not become a new quiz.
          */
-        if (array_key_exists('quiz_id', $_POST)) {
-            $submitted_quiz_id = $_POST['quiz_id'];
+        if (array_key_exists('quiz_id', $post)) {
+            $submitted_quiz_id = $post['quiz_id'];
 
             if (!is_scalar($submitted_quiz_id)) {
                 wp_die(
@@ -213,7 +222,7 @@ class QuizController
             }
 
             $id = filter_var(
-                (string) wp_unslash($submitted_quiz_id),
+                (string) $submitted_quiz_id,
                 FILTER_VALIDATE_INT
             );
 
@@ -240,8 +249,8 @@ class QuizController
          * Reject array/object-shaped text fields before passing them to
          * WordPress sanitizers, which expect strings.
          */
-        $submitted_title = $_POST['title'] ?? '';
-        $submitted_description = $_POST['description'] ?? '';
+        $submitted_title = $post['title'] ?? '';
+        $submitted_description = $post['description'] ?? '';
 
         if (!is_scalar($submitted_title) || !is_scalar($submitted_description)) {
             wp_die(
@@ -257,8 +266,8 @@ class QuizController
          */
         foreach (array('backward_navigation', 'shuffle_options') as $checkbox_field) {
             if (
-                array_key_exists($checkbox_field, $_POST)
-                && !is_scalar($_POST[$checkbox_field])
+                array_key_exists($checkbox_field, $post)
+                && !is_scalar($post[$checkbox_field])
             ) {
                 wp_die(
                     esc_html__('Invalid quiz option.', 'eas-quiz'),
@@ -270,18 +279,18 @@ class QuizController
 
         $data = array(
             'title' => sanitize_text_field(
-                (string) wp_unslash($submitted_title)
+                (string) $submitted_title
             ),
             'description' => wp_kses_post(
-                (string) wp_unslash($submitted_description)
+                (string) $submitted_description
             ),
             'attempts_allowed' => $attempts_allowed,
             'time_limit' => $time_limit,
             'backward_navigation' => isset(
-                $_POST['backward_navigation']
+                $post['backward_navigation']
             ) ? 1 : 0,
             'shuffle_options' => isset(
-                $_POST['shuffle_options']
+                $post['shuffle_options']
             ) ? 1 : 0,
             'updated_at' => current_time(
                 'mysql'
@@ -318,6 +327,9 @@ class QuizController
     {
         $this->require_admin_capability();
 
+        // The ID is validated before it is used to build the action-specific nonce;
+        // the nonce is verified before duplication occurs.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $id = $this->validated_positive_request_id('id', $_GET);
 
         check_admin_referer(
@@ -347,6 +359,9 @@ class QuizController
     {
         $this->require_admin_capability();
 
+        // The ID is validated before it is used to build the action-specific nonce;
+        // the nonce is verified before deletion occurs.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $id = $this->validated_positive_request_id('id', $_GET);
 
         check_admin_referer(
