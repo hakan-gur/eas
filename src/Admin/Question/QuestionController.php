@@ -772,10 +772,7 @@ class QuestionController
                 ?? 'multiple_choice'
             ),
             'question_text' => wp_kses_post(
-                wp_unslash(
-                    $post['question_text']
-                    ?? ''
-                )
+                $post['question_text'] ?? ''
             ),
             'settings' => '',
             'feedback' => wp_kses_post(
@@ -1087,12 +1084,7 @@ class QuestionController
 
                 $answers[] = array(
                     'text' =>
-                        wp_unslash(
-                            $post[
-                                'answer_' . $i
-                            ]
-                            ?? ''
-                        ),
+                        $post['answer_' . $i] ?? '',
 
                     'correct' =>
                         isset(
