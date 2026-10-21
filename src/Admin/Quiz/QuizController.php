@@ -45,6 +45,8 @@ class QuizController
 
     public function index(): void
     {
+        // This only selects which read-only admin view to display; it does not change data.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $action = sanitize_key(
             wp_unslash($_GET['action'] ?? '')
         );
@@ -54,6 +56,8 @@ class QuizController
             &&
             isset($_GET['quiz_id'])
         ) {
+            // The bank view is read-only; the helper unslashes and validates the ID.
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             $quiz_id = $this->validated_positive_request_id('quiz_id', $_GET);
 
 
@@ -122,6 +126,8 @@ class QuizController
 
     public function edit(): void
     {
+        // Loading the edit form is read-only; the helper unslashes and validates the ID.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $id = $this->validated_positive_request_id('id', $_GET);
 
 
@@ -321,6 +327,9 @@ class QuizController
     {
         $this->require_admin_capability();
 
+        // The ID is validated before it is used to build the action-specific nonce;
+        // the nonce is verified before duplication occurs.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $id = $this->validated_positive_request_id('id', $_GET);
 
         check_admin_referer(
@@ -350,6 +359,9 @@ class QuizController
     {
         $this->require_admin_capability();
 
+        // The ID is validated before it is used to build the action-specific nonce;
+        // the nonce is verified before deletion occurs.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         $id = $this->validated_positive_request_id('id', $_GET);
 
         check_admin_referer(
