@@ -1234,18 +1234,23 @@ exit;
 
         add_filter('upload_dir', $upload_dir_filter);
 
+        // wp_handle_upload() takes its file argument by reference, so pass a variable.
+        $upload_file = array_merge(
+            $file,
+            array(
+                'name' => 'recording.webm',
+            )
+        );
+
         try {
             $uploaded = wp_handle_upload(
-                array_merge(
-                    $file,
-                    array(
-                        'name' => 'recording.webm',
-                    )
-                ),
+                $upload_file,
                 array(
                     'test_form' => false,
+                    // The WebM signature was verified above. Hosts may identify WebM as
+                    // audio/webm, video/webm, or application/octet-stream.
                     'mimes' => array(
-                        'webm' => 'audio/webm|video/webm',
+                        'webm' => 'audio/webm|video/webm|application/octet-stream',
                     ),
                     'unique_filename_callback' => static function (
                         string $directory,
