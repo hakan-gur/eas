@@ -41,9 +41,10 @@ class QuestionRepository
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
                 "SELECT *
-                 FROM {$this->items_table()}
+                 FROM %i
                  WHERE quiz_id = %d
                  ORDER BY sort_order ASC, id ASC",
+                $this->items_table(),
                 $quiz_id
             ),
             ARRAY_A
@@ -57,8 +58,9 @@ class QuestionRepository
         $question = $this->wpdb->get_row(
             $this->wpdb->prepare(
                 "SELECT *
-                 FROM {$this->items_table()}
+                 FROM %i
                  WHERE id = %d",
+                $this->items_table(),
                 $id
             ),
             ARRAY_A
@@ -73,9 +75,10 @@ class QuestionRepository
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
                 "SELECT *
-                 FROM {$this->answers_table()}
+                 FROM %i
                  WHERE question_id = %d
                  ORDER BY sort_order ASC, id ASC",
+                $this->answers_table(),
                 $question_id
             ),
             ARRAY_A
@@ -240,13 +243,15 @@ class QuestionRepository
                 "SELECT
                     i.*,
                     pi.sort_order AS page_sort_order
-                 FROM {$this->items_table()} i
-                 INNER JOIN {$this->page_items_table()} pi
+                 FROM %i i
+                 INNER JOIN %i pi
                     ON i.id = pi.item_id
                  WHERE pi.page_id = %d
                  ORDER BY
                     pi.sort_order ASC,
                     i.id ASC",
+                $this->items_table(),
+                $this->page_items_table(),
                 $page_id
             ),
             ARRAY_A
@@ -262,9 +267,10 @@ class QuestionRepository
         $count = $this->wpdb->get_var(
             $this->wpdb->prepare(
                 "SELECT COUNT(*)
-                 FROM {$this->page_items_table()}
+                 FROM %i
                  WHERE item_id = %d
                  AND page_id = %d",
+                $this->page_items_table(),
                 $question_id,
                 $page_id
             )
@@ -298,8 +304,9 @@ class QuestionRepository
         $next_order = (int) $this->wpdb->get_var(
             $this->wpdb->prepare(
                 "SELECT MAX(sort_order)
-                 FROM {$this->page_items_table()}
+                 FROM %i
                  WHERE page_id = %d",
+                $this->page_items_table(),
                 $page_id
             )
         );
@@ -369,13 +376,15 @@ class QuestionRepository
                 "SELECT
                     p.*,
                     pi.sort_order
-                 FROM {$this->wpdb->prefix}eas_pages p
-                 INNER JOIN {$this->page_items_table()} pi
+                 FROM %i p
+                 INNER JOIN %i pi
                     ON p.id = pi.page_id
                  WHERE pi.item_id = %d
                  ORDER BY
                     p.page_number ASC,
                     pi.sort_order ASC",
+                $this->wpdb->prefix . 'eas_pages',
+                $this->page_items_table(),
                 $question_id
             ),
             ARRAY_A
@@ -484,11 +493,12 @@ public function find_page_item(
         $this->wpdb->prepare(
             "
             SELECT *
-            FROM {$this->page_items_table()}
+            FROM %i
             WHERE page_id = %d
             AND item_id = %d
             LIMIT 1
             ",
+                $this->page_items_table(),
             $page_id,
             $item_id
         ),
@@ -507,12 +517,13 @@ public function get_adjacent_page_item(
             $this->wpdb->prepare(
                 "
                 SELECT *
-                FROM {$this->page_items_table()}
+                FROM %i
                 WHERE page_id = %d
                 AND sort_order < %d
                 ORDER BY sort_order DESC
                 LIMIT 1
                 ",
+                $this->page_items_table(),
                 $page_id,
                 $current_order
             ),
@@ -523,12 +534,13 @@ public function get_adjacent_page_item(
             $this->wpdb->prepare(
                 "
                 SELECT *
-                FROM {$this->page_items_table()}
+                FROM %i
                 WHERE page_id = %d
                 AND sort_order > %d
                 ORDER BY sort_order ASC
                 LIMIT 1
                 ",
+                $this->page_items_table(),
                 $page_id,
                 $current_order
             ),
@@ -610,9 +622,10 @@ public function next_page_sort_order(
         $this->wpdb->prepare(
             "
             SELECT MAX(sort_order)
-            FROM {$this->page_items_table()}
+            FROM %i
             WHERE page_id = %d
             ",
+                $this->page_items_table(),
             $page_id
         )
     );
@@ -634,11 +647,12 @@ public function move_question_up(
         $this->wpdb->prepare(
             "
             SELECT *
-            FROM {$this->page_items_table()}
+            FROM %i
             WHERE page_id = %d
             AND item_id = %d
             LIMIT 1
             ",
+                $this->page_items_table(),
             $page_id,
             $item_id
         ),
@@ -654,12 +668,13 @@ public function move_question_up(
         $this->wpdb->prepare(
             "
             SELECT *
-            FROM {$this->page_items_table()}
+            FROM %i
             WHERE page_id = %d
             AND sort_order < %d
             ORDER BY sort_order DESC
             LIMIT 1
             ",
+                $this->page_items_table(),
             $page_id,
             (int) $current['sort_order']
         ),
@@ -711,11 +726,12 @@ public function move_question_down(
         $this->wpdb->prepare(
             "
             SELECT *
-            FROM {$this->page_items_table()}
+            FROM %i
             WHERE page_id = %d
             AND item_id = %d
             LIMIT 1
             ",
+                $this->page_items_table(),
             $page_id,
             $item_id
         ),
@@ -731,12 +747,13 @@ public function move_question_down(
         $this->wpdb->prepare(
             "
             SELECT *
-            FROM {$this->page_items_table()}
+            FROM %i
             WHERE page_id = %d
             AND sort_order > %d
             ORDER BY sort_order ASC
             LIMIT 1
             ",
+                $this->page_items_table(),
             $page_id,
             (int) $current['sort_order']
         ),
