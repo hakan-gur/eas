@@ -91,6 +91,9 @@ class QuestionController
 
     public function index(): void
     {
+        // This method only routes read-only GET navigation to admin screens and forms.
+        // State-changing operations use dedicated callbacks with nonce verification.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $action = sanitize_key(
             wp_unslash($_GET['action'] ?? '')
         );
@@ -406,6 +409,8 @@ class QuestionController
             return;
         }
 
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
+
         $questions = $this->repository->all_by_page(
             $page_id
         );
@@ -463,6 +468,9 @@ class QuestionController
             'eas_save_question'
         );
 
+        // WordPress slashes request data; unslash once before validation and sanitization.
+        $post = wp_unslash($_POST);
+
         /*
          * A question can be saved in two contexts:
          *
@@ -485,11 +493,11 @@ class QuestionController
          * Malformed values must not silently become zero and change the
          * operation from editing a page question to creating a bank question.
          */
-        $submitted_page_id = $_POST['page_id'] ?? '0';
+        $submitted_page_id = $post['page_id'] ?? '0';
 
         if (
             !is_scalar($submitted_page_id)
-            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) wp_unslash($submitted_page_id))
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_page_id)
         ) {
             wp_die(
                 esc_html__('Invalid page ID.', 'eas-quiz'),
@@ -499,7 +507,7 @@ class QuestionController
         }
 
         $page_id = filter_var(
-            (string) wp_unslash($submitted_page_id),
+            (string) $submitted_page_id,
             FILTER_VALIDATE_INT
         );
 
@@ -511,11 +519,11 @@ class QuestionController
             );
         }
 
-        $submitted_quiz_id = $_POST['quiz_id'] ?? '0';
+        $submitted_quiz_id = $post['quiz_id'] ?? '0';
 
         if (
             !is_scalar($submitted_quiz_id)
-            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) wp_unslash($submitted_quiz_id))
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_quiz_id)
         ) {
             wp_die(
                 esc_html__('Invalid quiz ID.', 'eas-quiz'),
@@ -525,7 +533,7 @@ class QuestionController
         }
 
         $quiz_id = filter_var(
-            (string) wp_unslash($submitted_quiz_id),
+            (string) $submitted_quiz_id,
             FILTER_VALIDATE_INT
         );
 
@@ -599,7 +607,7 @@ class QuestionController
         /*
          * Validate the submitted question type before using it.
          */
-        $submitted_type = $_POST['type'] ?? 'multiple_choice';
+        $submitted_type = $post['type'] ?? 'multiple_choice';
         $allowed_types = array(
             'multiple_choice',
             'drag_drop_text',
@@ -627,8 +635,8 @@ class QuestionController
          */
         foreach (array('question_text', 'feedback') as $text_field) {
             if (
-                isset($_POST[$text_field])
-                && !is_string($_POST[$text_field])
+                isset($post[$text_field])
+                && !is_string($post[$text_field])
             ) {
                 wp_die(
                     esc_html__('Invalid question content.', 'eas-quiz'),
@@ -646,8 +654,8 @@ class QuestionController
             $answer_field = 'answer_' . $answer_index;
 
             if (
-                isset($_POST[$answer_field])
-                && !is_string($_POST[$answer_field])
+                isset($post[$answer_field])
+                && !is_string($post[$answer_field])
             ) {
                 wp_die(
                     esc_html__('Invalid answer content.', 'eas-quiz'),
@@ -663,10 +671,10 @@ class QuestionController
          * case the existing missing-correct-answer warning is preserved.
          */
         if (
-            isset($_POST['correct'])
+            isset($post['correct'])
             && (
-                !is_string($_POST['correct'])
-                || !preg_match('/^[1-5]$/', $_POST['correct'])
+                !is_string($post['correct'])
+                || !preg_match('/^[1-5]$/', $post['correct'])
             )
         ) {
             wp_die(
@@ -686,7 +694,7 @@ class QuestionController
             int $minimum,
             ?int $maximum = null
         ): int {
-            $value = $_POST[$field] ?? $default;
+            $value = $post[$field] ?? $default;
 
             if (
                 !is_scalar($value)
@@ -734,7 +742,7 @@ class QuestionController
         $points = 0.0;
 
         if ($submitted_type !== 'description') {
-            $submitted_points = $_POST['points'] ?? 1;
+            $submitted_points = $post['points'] ?? 1;
 
             if (
                 !is_scalar($submitted_points)
@@ -765,18 +773,15 @@ class QuestionController
         $data = array(
             'quiz_id' => $quiz_id,
             'type' => sanitize_key(
-                $_POST['type']
+                $post['type']
                 ?? 'multiple_choice'
             ),
             'question_text' => wp_kses_post(
-                wp_unslash(
-                    $_POST['question_text']
-                    ?? ''
-                )
+                $post['question_text'] ?? ''
             ),
             'settings' => '',
             'feedback' => wp_kses_post(
-                $_POST['feedback']
+                $post['feedback']
                 ?? ''
             ),
             'points' => $points,
@@ -848,11 +853,11 @@ class QuestionController
          * Existing question or new question?
          */
 
-        $submitted_question_id = $_POST['question_id'] ?? '0';
+        $submitted_question_id = $post['question_id'] ?? '0';
 
         if (
             !is_scalar($submitted_question_id)
-            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) wp_unslash($submitted_question_id))
+            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_question_id)
         ) {
             wp_die(
                 esc_html__('Invalid question ID.', 'eas-quiz'),
@@ -862,7 +867,7 @@ class QuestionController
         }
 
         $id = filter_var(
-            (string) wp_unslash($submitted_question_id),
+            (string) $submitted_question_id,
             FILTER_VALIDATE_INT
         );
 
@@ -962,7 +967,7 @@ class QuestionController
             ) {
 
                 $text = trim(
-                    $_POST[
+                    $post[
                         'answer_' . $i
                     ]
                     ?? ''
@@ -982,7 +987,7 @@ class QuestionController
              */
 
             $distractor = trim(
-                $_POST['answer_8']
+                $post['answer_8']
                 ?? ''
             );
 
@@ -1084,19 +1089,14 @@ class QuestionController
 
                 $answers[] = array(
                     'text' =>
-                        wp_unslash(
-                            $_POST[
-                                'answer_' . $i
-                            ]
-                            ?? ''
-                        ),
+                        $post['answer_' . $i] ?? '',
 
                     'correct' =>
                         isset(
-                            $_POST['correct']
+                            $post['correct']
                         )
                         &&
-                        (int) $_POST['correct']
+                        (int) $post['correct']
                             === $i
                 );
             }
@@ -1383,7 +1383,10 @@ class QuestionController
     {
         $this->require_admin_capability();
 
+        // The nonce action includes the validated question ID, so read the IDs before checking it.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $page_id = $this->validated_positive_request_id($_GET, 'page_id');
 
         if ($id === null || $page_id === null) {
@@ -1446,7 +1449,10 @@ class QuestionController
     {
         $this->require_admin_capability();
 
+        // The nonce action includes the validated question ID, so read the IDs before checking it.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $page_id = $this->validated_positive_request_id($_GET, 'page_id');
 
         if ($id === null || $page_id === null) {
@@ -1519,7 +1525,10 @@ class QuestionController
     {
         $this->require_admin_capability();
 
+        // The nonce action includes the validated question ID, so read the IDs before checking it.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $page_id = $this->validated_non_negative_request_id($_GET, 'page_id', 0);
 
         if ($id === null || $page_id === null) {
@@ -1654,9 +1663,9 @@ class QuestionController
     {
         $this->require_admin_capability();
 
-        $id = (int) (
-            $_GET['id'] ?? 0
-        );
+        // Preview is read-only; its ID is still unslashed and validated before lookup.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $id = absint(wp_unslash($_GET['id'] ?? 0));
 
         if ($id <= 0) {
             wp_die(
@@ -1700,6 +1709,8 @@ class QuestionController
 
             <?php
 
+            // This renderer returns question-template HTML with context-specific escaping.
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo $renderer->render(
                 $question,
                 1
@@ -1740,9 +1751,7 @@ class QuestionController
             'eas_import_questions'
         );
 
-        $quiz_id = (int) (
-            $_POST['quiz_id'] ?? 0
-        );
+        $quiz_id = absint(wp_unslash($_POST['quiz_id'] ?? 0));
 
         if ($quiz_id <= 0) {
             wp_die(
@@ -1759,9 +1768,17 @@ class QuestionController
          * ---------------------------------------------------------
          */
 
-        $import_text = wp_unslash(
-            $_POST['import_text'] ?? ''
-        );
+        // Preserve GIFT syntax exactly; sanitizing it would change the imported source.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $import_text = wp_unslash($_POST['import_text'] ?? '');
+
+        if (!is_string($import_text)) {
+            wp_die(
+                esc_html__('Invalid import content.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
         if (trim($import_text) === '') {
             wp_die(
@@ -2369,6 +2386,8 @@ class QuestionController
 
     public function import_success_notice(): void
     {
+        // These GET values only decide whether to display a status notice.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         if (
             !isset($_GET['page'])
             ||
@@ -2400,6 +2419,7 @@ class QuestionController
         </div>
 
         <?php
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
     }
 
     public function export_questions(): void
@@ -2412,9 +2432,9 @@ class QuestionController
          * ---------------------------------------------------------
          */
 
-        $quiz_id = (int) (
-            $_GET['quiz_id'] ?? 0
-        );
+        // The nonce action includes the quiz ID, which must be read before nonce verification.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $quiz_id = absint(wp_unslash($_GET['quiz_id'] ?? 0));
 
         if ($quiz_id <= 0) {
             wp_die(
@@ -2803,6 +2823,8 @@ class QuestionController
             strlen($output)
         );
 
+        // This is a plain-text GIFT export; HTML escaping would corrupt the download.
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo $output;
 
         exit;
