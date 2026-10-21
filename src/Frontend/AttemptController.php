@@ -1223,20 +1223,6 @@ exit;
             );
         }
 
-        // Log WordPress's MIME decision when a validated WebM upload is rejected.
-        // The container signature was checked above; this diagnostic helps identify
-        // host-specific MIME detection without logging file contents or user data.
-        $mime_check = wp_check_filetype_and_ext(
-            (string) $file['tmp_name'],
-            'recording.webm',
-            array(
-                'webm' => 'audio/webm|video/webm|application/octet-stream',
-            )
-        );
-        $detected_mime = function_exists('mime_content_type')
-            ? mime_content_type((string) $file['tmp_name'])
-            : 'unavailable';
-
         // Keep recordings in the plugin's dedicated uploads subdirectory.
         $upload_dir_filter = static function (array $uploads): array {
             $uploads['path'] = trailingslashit($uploads['basedir']) . 'eas-audio';
@@ -1261,8 +1247,10 @@ exit;
                 $upload_file,
                 array(
                     'test_form' => false,
-                    // The WebM signature was verified above. Hosts may identify WebM as
-                    // audio/webm, video/webm, or application/octet-stream.
+                    // WordPress MIME detection rejects valid WebM on some hosts.
+                    // The file signature was verified above and the filename is forced
+                    // to .webm, so skip only the duplicate generic MIME check.
+                    'test_type' => false,
                     'mimes' => array(
                         'webm' => 'audio/webm|video/webm|application/octet-stream',
                     ),
@@ -1289,13 +1277,7 @@ exit;
             || empty($uploaded['url'])
         ) {
             if (is_array($uploaded) && !empty($uploaded['error'])) {
-                error_log(
-                    'EAS audio upload failed: ' . sanitize_text_field($uploaded['error'])
-                    . '; reported MIME=' . sanitize_text_field((string) ($file['type'] ?? 'missing'))
-                    . '; detected MIME=' . sanitize_text_field((string) $detected_mime)
-                    . '; WordPress type=' . sanitize_text_field((string) ($mime_check['type'] ?? 'missing'))
-                    . '; WordPress ext=' . sanitize_text_field((string) ($mime_check['ext'] ?? 'missing'))
-                );
+                error_log('EAS audio upload failed: ' . sanitize_text_field($uploaded['error']));
             }
 
             wp_send_json_error(
