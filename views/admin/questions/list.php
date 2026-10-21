@@ -4,13 +4,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This only selects a read-only notice and does not perform an action or change data.
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- This only selects a read-only notice and does not perform an action or change data.
 $eas_warning = (
     isset($_GET['eas_warning'])
     && is_string($_GET['eas_warning'])
 )
     ? sanitize_key(wp_unslash($_GET['eas_warning']))
     : '';
+// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 ?>
 
