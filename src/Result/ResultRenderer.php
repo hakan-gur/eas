@@ -237,6 +237,31 @@ class ResultRenderer
                 $response['student_answer'] =
                     $response['answer'] ?? '';
             }
+
+            /*
+             * Resolve numeric answer IDs before rendering the view.
+             * The template should not query the database directly.
+             */
+            if (
+                empty($response['answer_text'])
+                && is_numeric($response['answer'] ?? null)
+                && (
+                    empty($response['options'])
+                    || !is_array($response['options'])
+                )
+            ) {
+                $answer_record = $this->answers->find(
+                    (int) $response['answer']
+                );
+
+                if (
+                    $answer_record
+                    && !empty($answer_record['answer_text'])
+                ) {
+                    $response['answer_text'] =
+                        $answer_record['answer_text'];
+                }
+            }
         }
 
         unset($response);
