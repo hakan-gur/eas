@@ -1223,39 +1223,77 @@ exit;
             );
         }
 
-        $directory = trailingslashit($upload['basedir']) . 'eas-audio';
+        // Keep recordings in the plugin's dedicated uploads subdirectory.
+        $upload_dir_filter = static function (array $uploads): array {
+            $uploads['path'] = trailingslashit($uploads['basedir']) . 'eas-audio';
+            $uploads['url'] = trailingslashit($uploads['baseurl']) . 'eas-audio';
+            $uploads['subdir'] = '/eas-audio';
 
-        if (!is_dir($directory) && !wp_mkdir_p($directory)) {
-            wp_send_json_error(
-                array('message' => __('The audio upload directory could not be created.', 'eas-quiz')),
-                500
-            );
-        }
+            return $uploads;
+        };
 
-        if (!is_dir($directory) || !is_writable($directory)) {
-            wp_send_json_error(
-                array('message' => __('The audio upload directory is not writable.', 'eas-quiz')),
-                500
-            );
-        }
+        add_filter('upload_dir', $upload_dir_filter);
 
-        $filename = wp_unique_filename(
-            $directory,
-            'audio_' . wp_generate_password(32, false, false) . '.webm'
+        // wp_handle_upload() takes its file argument by reference, so pass a variable.
+        $upload_file = array_merge(
+            $file,
+            array(
+                'name' => 'recording.webm',
+            )
         );
-        $destination = trailingslashit($directory) . $filename;
 
-        if (!move_uploaded_file((string) $file['tmp_name'], $destination)) {
+        try {
+            $uploaded = wp_handle_upload(
+                $upload_file,
+                array(
+                    'test_form' => false,
+                    // WordPress MIME detection rejects valid WebM on some hosts.
+                    // The file signature was verified above and the filename is forced
+                    // to .webm, so skip only the duplicate generic MIME check.
+                    'test_type' => false,
+                    'mimes' => array(
+                        'webm' => 'audio/webm|video/webm|application/octet-stream',
+                    ),
+                    'unique_filename_callback' => static function (
+                        string $directory,
+                        string $name,
+                        string $extension
+                    ): string {
+                        return wp_unique_filename(
+                            $directory,
+                            'audio_' . wp_generate_password(32, false, false) . $extension
+                        );
+                    },
+                )
+            );
+        } finally {
+            remove_filter('upload_dir', $upload_dir_filter);
+        }
+
+        if (
+            !is_array($uploaded)
+            || !empty($uploaded['error'])
+            || empty($uploaded['file'])
+            || empty($uploaded['url'])
+        ) {
+            if (is_array($uploaded) && !empty($uploaded['error'])) {
+                error_log('EAS audio upload failed: ' . sanitize_text_field($uploaded['error']));
+            }
+
             wp_send_json_error(
-                array('message' => __('Upload failed.', 'eas-quiz')),
+                array(
+                    'message' => __('Upload failed. Please check the server log for details.', 'eas-quiz'),
+                ),
                 500
             );
         }
+
+        $filename = basename($uploaded['file']);
 
         wp_send_json_success(
             array(
                 'file' => $filename,
-                'url' => trailingslashit($upload['baseurl']) . 'eas-audio/' . rawurlencode($filename)
+                'url' => $uploaded['url'],
             )
         );
     }
