@@ -40,23 +40,6 @@ require_once EAS_PLUGIN_DIR .
 \EAS\Core\Autoloader::register();
 
 /**
- * Load EAS translations from the plugin languages directory.
- */
-function eas_load_textdomain(): void
-{
-    load_plugin_textdomain(
-        'eas-quiz',
-        false,
-        dirname(plugin_basename(__FILE__)) . '/languages'
-    );
-}
-
-add_action(
-    'init',
-    'eas_load_textdomain'
-);
-
-/**
  * Apply database updates after plugin upgrades as well as activation.
  *
  * The database schema version is independent of the plugin release version.
