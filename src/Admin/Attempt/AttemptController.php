@@ -36,6 +36,8 @@ class AttemptController
         $quiz_id = 0;
 
         if (array_key_exists('quiz_id', $_GET)) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a read-only list filter; it does not change data.
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- The helper unslashes and strictly validates this ID before use.
             $validated_quiz_id = $this->validated_request_id(
                 $_GET,
                 'quiz_id',
@@ -53,6 +55,7 @@ class AttemptController
             $quiz_id = $validated_quiz_id;
         }
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a read-only list filter; it does not change data.
         $status = sanitize_text_field(
             wp_unslash($_GET['status'] ?? '')
         );
@@ -107,6 +110,7 @@ class AttemptController
             );
         }
 
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- The helper unslashes and strictly validates this ID before use.
         $attempt_id = $this->validated_request_id($_GET, 'id');
 
         if ($attempt_id === null) {
