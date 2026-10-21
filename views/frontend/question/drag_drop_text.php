@@ -227,7 +227,8 @@ if (
              $question['question_text']
          ); ?>">
 
-        <?php echo wp_kses($text, $allowed_html); ?>
+        <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_kses() sanitizes the question HTML with the post allowlist and required drag-and-drop span attributes.
+        echo wp_kses($text, $allowed_html); ?>
 
     </div>
 
