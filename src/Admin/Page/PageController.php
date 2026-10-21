@@ -145,7 +145,15 @@ class PageController
          * Validate page identifiers and editable fields before any database writes.
          */
         $submitted_quiz_id = $_POST['quiz_id'] ?? null;
-        if (!is_string($submitted_quiz_id) || !preg_match('/^[1-9][0-9]*$/', $submitted_quiz_id)) {
+        if (!is_string($submitted_quiz_id)) {
+            wp_die(
+                esc_html__('Invalid quiz ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+        $submitted_quiz_id = wp_unslash($submitted_quiz_id);
+        if (!preg_match('/^[1-9][0-9]*$/', $submitted_quiz_id)) {
             wp_die(
                 esc_html__('Invalid quiz ID.', 'eas-quiz'),
                 '',
@@ -173,9 +181,16 @@ class PageController
         }
 
         $submitted_time_limit = $_POST['page_time_limit'] ?? '0';
+        if (!is_scalar($submitted_time_limit)) {
+            wp_die(
+                esc_html__('Page time limit must be a non-negative whole number.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+        $submitted_time_limit = wp_unslash((string) $submitted_time_limit);
         if (
-            !is_scalar($submitted_time_limit)
-            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_time_limit)
+            !preg_match('/^(0|[1-9][0-9]*)$/', $submitted_time_limit)
         ) {
             wp_die(
                 esc_html__('Page time limit must be a non-negative whole number.', 'eas-quiz'),
@@ -194,9 +209,16 @@ class PageController
         }
 
         $submitted_page_id = $_POST['page_id'] ?? '0';
+        if (!is_scalar($submitted_page_id)) {
+            wp_die(
+                esc_html__('Invalid page ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+        $submitted_page_id = wp_unslash((string) $submitted_page_id);
         if (
-            !is_scalar($submitted_page_id)
-            || !preg_match('/^(0|[1-9][0-9]*)$/', (string) $submitted_page_id)
+            !preg_match('/^(0|[1-9][0-9]*)$/', $submitted_page_id)
         ) {
             wp_die(
                 esc_html__('Invalid page ID.', 'eas-quiz'),
@@ -205,7 +227,7 @@ class PageController
             );
         }
 
-        $id = filter_var((string) $submitted_page_id, FILTER_VALIDATE_INT);
+        $id = filter_var($submitted_page_id, FILTER_VALIDATE_INT);
         if ($id === false) {
             wp_die(
                 esc_html__('Invalid page ID.', 'eas-quiz'),
@@ -286,6 +308,9 @@ class PageController
         $id = $this->validated_positive_request_id($_GET, 'id');
         $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
         $direction = $_GET['direction'] ?? null;
+        if (is_string($direction)) {
+            $direction = wp_unslash($direction);
+        }
 
         if (
             $id === null
