@@ -1245,7 +1245,7 @@ exit;
                 array(
                     'test_form' => false,
                     'mimes' => array(
-                        'webm' => 'video/webm',
+                        'webm' => 'audio/webm|video/webm',
                     ),
                     'unique_filename_callback' => static function (
                         string $directory,
@@ -1269,9 +1269,13 @@ exit;
             || empty($uploaded['file'])
             || empty($uploaded['url'])
         ) {
+            if (is_array($uploaded) && !empty($uploaded['error'])) {
+                error_log('EAS audio upload failed: ' . sanitize_text_field($uploaded['error']));
+            }
+
             wp_send_json_error(
                 array(
-                    'message' => __('Upload failed.', 'eas-quiz'),
+                    'message' => __('Upload failed. Please check the server log for details.', 'eas-quiz'),
                 ),
                 500
             );
