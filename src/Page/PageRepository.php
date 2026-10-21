@@ -47,9 +47,9 @@ class PageRepository
     // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- Joined table names use the trusted WordPress prefix and fixed EAS table suffixes.
     return $this->wpdb->get_results(
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
         $this->wpdb->prepare(
 
-                            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
 "
             SELECT
                 p.*,
@@ -74,6 +74,7 @@ class PageRepository
             $quiz_id
 
         ),
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
         ARRAY_A
 
@@ -89,10 +90,10 @@ class PageRepository
 
         $page = $this->wpdb->get_row(
 
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
             $this->wpdb->prepare(
 
-                                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
-"SELECT *
+    "SELECT *
                  FROM {$this->table()}
                  WHERE quiz_id = %d
                  ORDER BY page_number ASC, id ASC
@@ -101,6 +102,7 @@ class PageRepository
                 $quiz_id
 
             ),
+            // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
             ARRAY_A
 
@@ -120,16 +122,17 @@ class PageRepository
 
         $page = $this->wpdb->get_row(
 
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
             $this->wpdb->prepare(
 
-                                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
-"SELECT *
+    "SELECT *
                  FROM {$this->table()}
                  WHERE id = %d",
 
                 $id
 
             ),
+            // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
             ARRAY_A
 
@@ -156,10 +159,10 @@ class PageRepository
 
         $page = $this->wpdb->get_row(
 
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
             $this->wpdb->prepare(
 
-                                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
-"SELECT *
+    "SELECT *
                  FROM {$this->table()}
                  WHERE quiz_id = %d
                  AND page_number > %d
@@ -171,6 +174,7 @@ class PageRepository
                 $current_page_number
 
             ),
+            // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
             ARRAY_A
 
@@ -198,10 +202,10 @@ class PageRepository
 
         $page = $this->wpdb->get_row(
 
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
             $this->wpdb->prepare(
 
-                                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
-"SELECT *
+    "SELECT *
                  FROM {$this->table()}
                  WHERE quiz_id = %d
                  AND page_number < %d
@@ -213,6 +217,7 @@ class PageRepository
                 $current_page_number
 
             ),
+            // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
             ARRAY_A
 
@@ -240,16 +245,17 @@ class PageRepository
 
         $next_number = (int) $this->wpdb->get_var(
 
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
             $this->wpdb->prepare(
 
-                                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
-"SELECT MAX(page_number)
+    "SELECT MAX(page_number)
                  FROM {$this->table()}
                  WHERE quiz_id = %d",
 
                 $quiz_id
 
             )
+            // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
         );
 
@@ -319,9 +325,9 @@ public function move(int $id, string $direction): bool
     if ($direction === 'up') {
 
         $neighbor = $this->wpdb->get_row(
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
             $this->wpdb->prepare(
-                                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
-"SELECT *
+    "SELECT *
                  FROM {$this->table()}
                  WHERE quiz_id = %d
                  AND page_number < %d
@@ -330,15 +336,16 @@ public function move(int $id, string $direction): bool
                 $quiz_id,
                 $current_number
             ),
+            // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             ARRAY_A
         );
 
     } elseif ($direction === 'down') {
 
         $neighbor = $this->wpdb->get_row(
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
             $this->wpdb->prepare(
-                                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
-"SELECT *
+    "SELECT *
                  FROM {$this->table()}
                  WHERE quiz_id = %d
                  AND page_number > %d
@@ -347,6 +354,7 @@ public function move(int $id, string $direction): bool
                 $quiz_id,
                 $current_number
             ),
+            // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             ARRAY_A
         );
 
@@ -444,14 +452,15 @@ public function reorder(
         }
 
         $remaining_pages = $this->wpdb->get_results(
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
             $this->wpdb->prepare(
-                                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
-"SELECT id
+    "SELECT id
                  FROM {$this->table()}
                  WHERE quiz_id = %d
                  ORDER BY page_number ASC, id ASC",
                 $quiz_id
             ),
+            // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
             ARRAY_A
         );
 
@@ -481,9 +490,9 @@ public function duplicate_pages(
 
     $pages = $this->wpdb->get_results(
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
         $this->wpdb->prepare(
 
-                            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
 "SELECT *
              FROM {$this->table()}
              WHERE quiz_id = %d
@@ -492,6 +501,7 @@ public function duplicate_pages(
             $old_quiz_id
 
         ),
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
         ARRAY_A
 
@@ -542,9 +552,9 @@ public function get_pages_with_time_limit(
 
     return $this->wpdb->get_results(
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Dynamic table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; all data values remain prepared.
         $this->wpdb->prepare(
 
-                            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
 "SELECT id
              FROM {$this->table()}
              WHERE quiz_id = %d
@@ -553,6 +563,7 @@ public function get_pages_with_time_limit(
             $quiz_id
 
         ),
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
         ARRAY_A
 
