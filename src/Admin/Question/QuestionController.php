@@ -385,9 +385,22 @@ class QuestionController
             isset($_GET['id'])
         ) {
 
+            $question_id = $this->validated_positive_request_id($_GET, 'id');
+
+            if ($question_id === null) {
+                wp_die(
+                    esc_html__(
+                        'Invalid question.',
+                        'eas-quiz'
+                    ),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
             $this->form(
                 $page_id,
-                (int) $_GET['id']
+                $question_id
             );
 
             return;
