@@ -54,7 +54,7 @@ class QuizController
         if (
             $action === 'bank'
             &&
-            isset($_GET['quiz_id'])
+            isset($_GET['quiz_id']) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only bank view; no state-changing action.
         ) {
             // The bank view is read-only; the helper unslashes and validates the ID.
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended
