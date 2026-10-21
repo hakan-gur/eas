@@ -185,7 +185,7 @@ function startCountdown(seconds, callback, label){
     function startRecording(){
 
     startCountdown(
-        <?php echo esc_js($duration); ?>,
+        <?php echo (int) $duration; ?>,
         function(){
 
         },
@@ -243,7 +243,7 @@ function startCountdown(seconds, callback, label){
                     "<?php echo esc_js(__('Uploading...', 'eas-quiz')); ?>";
 
 
-            }, <?php echo esc_js($duration * 1000); ?>);
+            }, <?php echo (int) ($duration * 1000); ?>);
 
 
 
@@ -287,7 +287,7 @@ function startCountdown(seconds, callback, label){
 
     formData.append(
         'nonce',
-        '<?php echo esc_js(wp_create_nonce("eas_upload_audio")); ?>'
+        '<?php echo esc_js(wp_create_nonce('eas_upload_audio')); ?>'
     );
 
     const attemptIdInput = document.querySelector(
