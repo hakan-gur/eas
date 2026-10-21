@@ -91,6 +91,9 @@ class QuestionController
 
     public function index(): void
     {
+        // This method only routes read-only GET navigation to admin screens and forms.
+        // State-changing operations use dedicated callbacks with nonce verification.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $action = sanitize_key(
             wp_unslash($_GET['action'] ?? '')
         );
@@ -405,6 +408,8 @@ class QuestionController
 
             return;
         }
+
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         $questions = $this->repository->all_by_page(
             $page_id
@@ -1378,7 +1383,10 @@ class QuestionController
     {
         $this->require_admin_capability();
 
+        // The nonce action includes the validated question ID, so read the IDs before checking it.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $page_id = $this->validated_positive_request_id($_GET, 'page_id');
 
         if ($id === null || $page_id === null) {
@@ -1441,7 +1449,10 @@ class QuestionController
     {
         $this->require_admin_capability();
 
+        // The nonce action includes the validated question ID, so read the IDs before checking it.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $page_id = $this->validated_positive_request_id($_GET, 'page_id');
 
         if ($id === null || $page_id === null) {
@@ -1514,7 +1525,10 @@ class QuestionController
     {
         $this->require_admin_capability();
 
+        // The nonce action includes the validated question ID, so read the IDs before checking it.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $page_id = $this->validated_non_negative_request_id($_GET, 'page_id', 0);
 
         if ($id === null || $page_id === null) {
@@ -1649,9 +1663,9 @@ class QuestionController
     {
         $this->require_admin_capability();
 
-        $id = (int) (
-            $_GET['id'] ?? 0
-        );
+        // Preview is read-only; its ID is still unslashed and validated before lookup.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $id = absint(wp_unslash($_GET['id'] ?? 0));
 
         if ($id <= 0) {
             wp_die(
@@ -1737,9 +1751,7 @@ class QuestionController
             'eas_import_questions'
         );
 
-        $quiz_id = (int) (
-            $_POST['quiz_id'] ?? 0
-        );
+        $quiz_id = absint(wp_unslash($_POST['quiz_id'] ?? 0));
 
         if ($quiz_id <= 0) {
             wp_die(
@@ -1756,9 +1768,17 @@ class QuestionController
          * ---------------------------------------------------------
          */
 
-        $import_text = wp_unslash(
-            $_POST['import_text'] ?? ''
-        );
+        // Preserve GIFT syntax exactly; sanitizing it would change the imported source.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $import_text = wp_unslash($_POST['import_text'] ?? '');
+
+        if (!is_string($import_text)) {
+            wp_die(
+                esc_html__('Invalid import content.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
         if (trim($import_text) === '') {
             wp_die(
@@ -2366,6 +2386,8 @@ class QuestionController
 
     public function import_success_notice(): void
     {
+        // These GET values only decide whether to display a status notice.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         if (
             !isset($_GET['page'])
             ||
@@ -2397,6 +2419,7 @@ class QuestionController
         </div>
 
         <?php
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
     }
 
     public function export_questions(): void
@@ -2409,9 +2432,9 @@ class QuestionController
          * ---------------------------------------------------------
          */
 
-        $quiz_id = (int) (
-            $_GET['quiz_id'] ?? 0
-        );
+        // The nonce action includes the quiz ID, which must be read before nonce verification.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $quiz_id = absint(wp_unslash($_GET['quiz_id'] ?? 0));
 
         if ($quiz_id <= 0) {
             wp_die(
