@@ -44,6 +44,7 @@ class PageRepository
 
     public function all_by_quiz(int $quiz_id): array
 {
+    // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- Joined table names use the trusted WordPress prefix and fixed EAS table suffixes.
     return $this->wpdb->get_results(
 
         $this->wpdb->prepare(
