@@ -1695,6 +1695,7 @@ class QuestionController
 
             <?php
 
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- QuestionRenderer returns rendered question-template HTML with context-specific escaping.
             echo $renderer->render(
                 $question,
                 1
@@ -2798,6 +2799,7 @@ class QuestionController
             strlen($output)
         );
 
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $output is the generated plain-text GIFT export; HTML escaping would corrupt the download.
         echo $output;
 
         exit;
