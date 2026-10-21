@@ -37,7 +37,7 @@ define(
 require_once EAS_PLUGIN_DIR .
     'src/Core/Autoloader.php';
 
-\\EAS\\Core\\Autoloader::register();
+\EAS\\Core\\Autoloader::register();
 
 /**
  * Apply database updates after plugin upgrades as well as activation.
@@ -54,8 +54,8 @@ function eas_maybe_upgrade_database(): void
         return;
     }
 
-    \\EAS\\Core\\Installer::install();
-    \\EAS\\Database\\Upgrade::run();
+    \EAS\\Core\\Installer::install();
+    \EAS\\Database\\Upgrade::run();
 
     update_option('eas_db_version', EAS_DB_VERSION);
 }
@@ -68,7 +68,7 @@ add_action(
 
 function eas_initialize_plugin(): void
 {
-    $app = new \\EAS\\Core\\Application();
+    $app = new \EAS\\Core\\Application();
     $app->run();
 
     /*
@@ -77,7 +77,7 @@ function eas_initialize_plugin(): void
      * replaces the old bare admin-post presentation without touching the
      * question renderer, scoring, or answer storage.
      */
-    new \\EAS\\Admin\\Question\\QuestionPreviewController();
+    new \EAS\\Admin\\Question\\QuestionPreviewController();
 }
 
 register_activation_hook(
