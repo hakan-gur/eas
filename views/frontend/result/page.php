@@ -147,23 +147,7 @@ if (!defined('ABSPATH')) {
                                             $option_label
                                         );
                                     } elseif (is_numeric($answer)) {
-                                        global $wpdb;
-
-                                        $answer_text =
-                                            $wpdb->get_var(
-                                                $wpdb->prepare(
-                                                    "SELECT answer_text
-                                                     FROM {$wpdb->prefix}eas_answers
-                                                     WHERE id = %d",
-                                                    intval($answer)
-                                                )
-                                            );
-
-                                        echo esc_html(
-                                            !empty($answer_text)
-                                                ? $answer_text
-                                                : $answer
-                                        );
+                                        echo esc_html($answer);
                                     } else {
                                         echo esc_html($answer);
                                     }
