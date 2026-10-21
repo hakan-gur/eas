@@ -7,11 +7,9 @@ if (!defined('ABSPATH')) {
 $question_id = 0;
 $question_text = '';
 $points = 0;
-$type = (
-    isset($_GET['type']) && is_string($_GET['type'])
-        ? sanitize_key(wp_unslash($_GET['type']))
-        : 'multiple_choice'
-);
+// This GET value only selects which question form to display; it does not perform an action.
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only form selection; no state-changing action.
+$type = isset($_GET['type']) && is_string($_GET['type']) ? sanitize_key(wp_unslash($_GET['type'])) : 'multiple_choice';
 
 if (!in_array($type, array('multiple_choice', 'drag_drop_text', 'fill_blank', 'description', 'essay', 'audio_response'), true)) {
     $type = 'multiple_choice';
