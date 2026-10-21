@@ -204,7 +204,7 @@ class QuizController
          * Validate the quiz ID separately from the settings. A missing ID
          * means create; a supplied malformed ID must not become a new quiz.
          */
-        if (array_key_exists('quiz_id', $_POST)) {
+        if (array_key_exists('quiz_id', $post)) {
             $submitted_quiz_id = $post['quiz_id'];
 
             if (!is_scalar($submitted_quiz_id)) {
@@ -260,7 +260,7 @@ class QuizController
          */
         foreach (array('backward_navigation', 'shuffle_options') as $checkbox_field) {
             if (
-                array_key_exists($checkbox_field, $_POST)
+                array_key_exists($checkbox_field, $post)
                 && !is_scalar($post[$checkbox_field])
             ) {
                 wp_die(
