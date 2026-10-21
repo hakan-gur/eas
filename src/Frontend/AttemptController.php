@@ -196,7 +196,7 @@ class AttemptController
             );
         }
 
-        wp_redirect(
+        wp_safe_redirect(
             add_query_arg(
                 array(
                     'attempt_id' => $attempt_id
@@ -318,7 +318,7 @@ class AttemptController
         );
 
         if (!$previous_page) {
-            wp_redirect(
+            wp_safe_redirect(
                 add_query_arg(
                     array(
                         'attempt_id' => $attempt_id
@@ -339,7 +339,7 @@ class AttemptController
             (int) $previous_page['id']
         );
 
-        wp_redirect(
+        wp_safe_redirect(
             add_query_arg(
                 array(
                     'attempt_id' => $attempt_id
@@ -399,7 +399,7 @@ class AttemptController
             $target_page_id
         );
 
-        wp_redirect(
+        wp_safe_redirect(
             add_query_arg(
                 array('attempt_id' => $attempt_id),
                 get_permalink((int) get_option('eas_attempt_page_id'))
@@ -466,7 +466,7 @@ class AttemptController
         );
 
         if (!$next_page) {
-            wp_redirect(
+            wp_safe_redirect(
                 add_query_arg(
                     array(
                         'attempt_id' => $attempt_id
@@ -487,7 +487,7 @@ class AttemptController
             (int) $next_page['id']
         );
 
-        wp_redirect(
+        wp_safe_redirect(
             add_query_arg(
                 array(
                     'attempt_id' => $attempt_id
@@ -938,7 +938,7 @@ if ($my_results_page_url === false) {
     );
 }
 
-wp_redirect(
+wp_safe_redirect(
     add_query_arg(
         array(
             'attempt_id' => $attempt_id
