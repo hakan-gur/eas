@@ -46,8 +46,8 @@ class QuizController
     public function index(): void
     {
         // This only selects which read-only admin view to display; it does not change data.
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $action = sanitize_key(
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only view selection; no state-changing action.
             wp_unslash($_GET['action'] ?? '')
         );
 
