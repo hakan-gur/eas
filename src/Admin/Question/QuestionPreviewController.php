@@ -72,6 +72,26 @@ class QuestionPreviewController
         $frontend_css = EAS_PLUGIN_URL . 'assets/css/frontend.css';
         $preview_css = EAS_PLUGIN_URL . 'assets/css/question-preview.css';
         $preview_js = EAS_PLUGIN_URL . 'assets/js/question-preview.js';
+
+        wp_enqueue_style(
+            'eas-question-preview-frontend',
+            $frontend_css,
+            array(),
+            EAS_VERSION
+        );
+        wp_enqueue_style(
+            'eas-question-preview',
+            $preview_css,
+            array('eas-question-preview-frontend'),
+            EAS_VERSION
+        );
+        wp_enqueue_script(
+            'eas-question-preview',
+            $preview_js,
+            array(),
+            EAS_VERSION,
+            false
+        );
         ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -79,8 +99,7 @@ class QuestionPreviewController
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo esc_html($title); ?></title>
-    <link rel="stylesheet" href="<?php echo esc_url($frontend_css . '?ver=' . EAS_VERSION); ?>">
-    <link rel="stylesheet" href="<?php echo esc_url($preview_css . '?ver=' . EAS_VERSION); ?>">
+    <?php wp_print_styles(array('eas-question-preview-frontend', 'eas-question-preview')); ?>
 </head>
 <body class="eas-question-preview-page">
     <main class="eas-question-preview">
@@ -103,7 +122,7 @@ class QuestionPreviewController
             </section>
         </div>
     </main>
-    <script src="<?php echo esc_url($preview_js . '?ver=' . EAS_VERSION); ?>"></script>
+    <?php wp_print_scripts(array('eas-question-preview')); ?>
 </body>
 </html>
 <?php
