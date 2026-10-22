@@ -49,14 +49,15 @@ class MyResultsController
          */
         $review = 0;
 
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- These GET parameters only select read-only result navigation; they do not change stored data.
         if (isset($_GET['review'])) {
-            $submitted_review = $_GET['review'];
-
-            if (!is_scalar($submitted_review)) {
+            if (!is_scalar($_GET['review'])) {
                 return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
             }
 
-            $submitted_review = (string) wp_unslash($submitted_review);
+            $submitted_review = sanitize_text_field(
+                wp_unslash((string) $_GET['review'])
+            );
 
             if (!preg_match('/\A[01]\z/', $submitted_review)) {
                 return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
@@ -66,17 +67,20 @@ class MyResultsController
         }
 
         if (isset($_GET['attempt_id'])) {
-            $submitted_attempt_id = $_GET['attempt_id'];
+            if (!is_scalar($_GET['attempt_id'])) {
+                return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
+            }
 
-            if (
-                !is_scalar($submitted_attempt_id)
-                || !preg_match('/\A[1-9][0-9]*\z/', (string) wp_unslash($submitted_attempt_id))
-            ) {
+            $submitted_attempt_id = sanitize_text_field(
+                wp_unslash((string) $_GET['attempt_id'])
+            );
+
+            if (!preg_match('/\A[1-9][0-9]*\z/', $submitted_attempt_id)) {
                 return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
             }
 
             $attempt_id = filter_var(
-                (string) wp_unslash($submitted_attempt_id),
+                $submitted_attempt_id,
                 FILTER_VALIDATE_INT,
                 array('options' => array('min_range' => 1))
             );
@@ -85,6 +89,7 @@ class MyResultsController
                 return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
             }
         }
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         if ($review === 1) {
             return $this->results->render();
@@ -383,6 +388,7 @@ class MyResultsController
         $items_table =
             $wpdb->prefix . 'eas_items';
 
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Trusted prefixed table identifiers and prepared attempt ID; this aggregate read is kept as a direct query.
         $manual_count =
             $wpdb->get_var(
                 $wpdb->prepare(
@@ -400,6 +406,7 @@ class MyResultsController
                     $attempt_id
                 )
             );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
         if ((int) $manual_count > 0) {
             return 'Graded';
@@ -422,6 +429,7 @@ class MyResultsController
         $items_table =
             $wpdb->prefix . 'eas_items';
 
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Trusted prefixed table identifiers and prepared quiz ID; this aggregate read is kept as a direct query.
         $max_points =
             $wpdb->get_var(
                 $wpdb->prepare(
@@ -441,6 +449,7 @@ class MyResultsController
                     $quiz_id
                 )
             );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
         return (float) $max_points;
     }
