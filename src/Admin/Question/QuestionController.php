@@ -693,7 +693,7 @@ class QuestionController
             int $default,
             int $minimum,
             ?int $maximum = null
-        ): int {
+        ) use ($post): int {
             $value = $post[$field] ?? $default;
 
             if (
