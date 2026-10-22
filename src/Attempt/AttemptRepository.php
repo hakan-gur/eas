@@ -377,7 +377,7 @@ public function all_completed_filtered(
         $params
     );
     return $this->wpdb->get_results(
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $sql contains the prepared query above.
+        // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql has been prepared with $wpdb->prepare() immediately above.
         $sql,
         ARRAY_A
     );
