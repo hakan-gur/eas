@@ -124,11 +124,13 @@ if (version_compare($current, '1.5', '<')) {
 
 
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name is built from the trusted WordPress prefix and a fixed EAS table suffix.
         $columns = $wpdb->get_results(
 
             "SHOW COLUMNS FROM {$table}"
 
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 
 
@@ -147,6 +149,7 @@ if (version_compare($current, '1.5', '<')) {
         if (!in_array('title', $existing, true)) {
 
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name is built from the trusted WordPress prefix and a fixed EAS table suffix.
             $wpdb->query(
 
                 "ALTER TABLE {$table}
@@ -154,6 +157,7 @@ if (version_compare($current, '1.5', '<')) {
                  AFTER page_number"
 
             );
+            // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 
         }
@@ -163,6 +167,7 @@ if (version_compare($current, '1.5', '<')) {
         if (!in_array('content', $existing, true)) {
 
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name is built from the trusted WordPress prefix and a fixed EAS table suffix.
             $wpdb->query(
 
                 "ALTER TABLE {$table}
@@ -170,6 +175,7 @@ if (version_compare($current, '1.5', '<')) {
                  AFTER title"
 
             );
+            // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 
         }
@@ -179,6 +185,7 @@ if (version_compare($current, '1.5', '<')) {
         if (!in_array('created_at', $existing, true)) {
 
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name is built from the trusted WordPress prefix and a fixed EAS table suffix.
             $wpdb->query(
 
                 "ALTER TABLE {$table}
@@ -186,6 +193,7 @@ if (version_compare($current, '1.5', '<')) {
                  AFTER content"
 
             );
+            // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 
         }
@@ -195,6 +203,7 @@ if (version_compare($current, '1.5', '<')) {
         if (!in_array('updated_at', $existing, true)) {
 
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name is built from the trusted WordPress prefix and a fixed EAS table suffix.
             $wpdb->query(
 
                 "ALTER TABLE {$table}
@@ -202,6 +211,7 @@ if (version_compare($current, '1.5', '<')) {
                  AFTER created_at"
 
             );
+            // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 
         }
@@ -325,11 +335,13 @@ private static function upgrade_1_4(): void
 
 
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name is built from the trusted WordPress prefix and a fixed EAS table suffix.
     $columns = $wpdb->get_results(
 
         "SHOW COLUMNS FROM {$table}"
 
     );
+    // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 
 
@@ -348,6 +360,7 @@ private static function upgrade_1_4(): void
     if (!in_array('page_time_limit', $existing, true)) {
 
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name is built from the trusted WordPress prefix and a fixed EAS table suffix.
         $wpdb->query(
 
             "ALTER TABLE {$table}
@@ -355,6 +368,7 @@ private static function upgrade_1_4(): void
              AFTER content"
 
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 
     }
@@ -367,9 +381,11 @@ private static function upgrade_1_5(): void
 
     $table = $wpdb->prefix . 'eas_answers';
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name is built from the trusted WordPress prefix and a fixed EAS table suffix.
     $columns = $wpdb->get_results(
         "SHOW COLUMNS FROM {$table}"
     );
+    // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
     $existing = array();
 
@@ -379,11 +395,13 @@ private static function upgrade_1_5(): void
 
     if (!in_array('correct_position', $existing, true)) {
 
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name is built from the trusted WordPress prefix and a fixed EAS table suffix.
         $wpdb->query(
             "ALTER TABLE {$table}
              ADD correct_position int(11) NOT NULL DEFAULT 0
              AFTER is_correct"
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
     }
 }
