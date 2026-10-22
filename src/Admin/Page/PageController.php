@@ -359,7 +359,7 @@ class PageController
         }
 
         $quiz_id = filter_var(
-            (string) wp_unslash($submitted_quiz_id),
+            (string) $submitted_quiz_id,
             FILTER_VALIDATE_INT,
             array('options' => array('min_range' => 1))
         );
@@ -383,10 +383,10 @@ class PageController
         }
 
         $submitted_page_ids = array();
-        foreach ($_POST['page_ids'] as $submitted_page_id) {
+        foreach ($post['page_ids'] as $submitted_page_id) {
             if (
                 !is_scalar($submitted_page_id)
-                || !preg_match('/\\A[1-9][0-9]*\\z/', (string) wp_unslash($submitted_page_id))
+                || !preg_match('/\\A[1-9][0-9]*\\z/', (string) $submitted_page_id)
             ) {
                 wp_die(
                     esc_html__('Invalid page order.', 'eas-quiz'),
