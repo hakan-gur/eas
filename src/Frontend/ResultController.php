@@ -48,20 +48,31 @@ class ResultController
 
 
         /*
-         * Validate the request value before using it as an attempt ID.
-         * Reject arrays, malformed integers, zero, negatives, and overflow.
+         * These GET parameters only select read-only result navigation.
+         * Access is checked against the logged-in user and attempt owner below.
          */
-        $submitted_attempt_id = $_GET['attempt_id'] ?? null;
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only result navigation; no data is changed.
+        $submitted_attempt_id = null;
+
+        if (isset($_GET['attempt_id'])) {
+            if (!is_scalar($_GET['attempt_id'])) {
+                return '<p>' . esc_html__('No attempt selected.', 'eas-quiz') . '</p>';
+            }
+
+            $submitted_attempt_id = sanitize_text_field(
+                wp_unslash((string) $_GET['attempt_id'])
+            );
+        }
 
         if (
-            !is_scalar($submitted_attempt_id)
-            || !preg_match('/\A[1-9][0-9]*\z/', (string) wp_unslash($submitted_attempt_id))
+            !is_string($submitted_attempt_id)
+            || !preg_match('/\A[1-9][0-9]*\z/', $submitted_attempt_id)
         ) {
             return '<p>' . esc_html__('No attempt selected.', 'eas-quiz') . '</p>';
         }
 
         $attempt_id = filter_var(
-            (string) wp_unslash($submitted_attempt_id),
+            $submitted_attempt_id,
             FILTER_VALIDATE_INT,
             array('options' => array('min_range' => 1))
         );
@@ -71,14 +82,24 @@ class ResultController
         }
 
         /*
-         * Validate the optional review switch as a scalar request value.
+         * Validate the optional review switch as a scalar containing 0 or 1.
          */
-        $submitted_review = $_GET['review'] ?? null;
+        $submitted_review = null;
 
-        if ($submitted_review !== null && !is_scalar($submitted_review)) {
-            return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
+        if (isset($_GET['review'])) {
+            if (!is_scalar($_GET['review'])) {
+                return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
+            }
+
+            $submitted_review = sanitize_text_field(
+                wp_unslash((string) $_GET['review'])
+            );
+
+            if (!preg_match('/\A[01]\z/', $submitted_review)) {
+                return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
+            }
         }
-
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         /*
          * Verify that the attempt exists.
