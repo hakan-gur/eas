@@ -371,13 +371,13 @@ public function all_completed_filtered(
         ) . "
         ORDER BY a.completed_at DESC
     ";
-    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Prepare the assembled query immediately before execution.
     $sql = $wpdb->prepare(
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- The assembled query is prepared immediately after construction.
         $sql,
         $params
     );
-    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $sql contains the prepared query above.
     return $this->wpdb->get_results(
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $sql contains the prepared query above.
         $sql,
         ARRAY_A
     );
