@@ -189,8 +189,8 @@ $page_time_limit = (int) ($page['page_time_limit'] ?? 0);
 
 if ($page_time_limit > 0) {
 
-    /* translators: %d: page time limit in seconds. */
     printf(
+        /* translators: %d: page time limit in seconds. */
         esc_html__('%d sec', 'eas-quiz'),
         esc_html($page_time_limit)
     );
