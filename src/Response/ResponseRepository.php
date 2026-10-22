@@ -78,6 +78,7 @@ public function all_by_attempt(
 {
 
 
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; query values are prepared.
     return $this->wpdb->get_results(
 
 
@@ -109,6 +110,7 @@ public function all_by_attempt(
 
 
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 
 }
@@ -122,6 +124,7 @@ public function all_by_attempt(
     ): ?array
     {
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; query values are prepared.
         $response = $this->wpdb->get_row(
 
             $this->wpdb->prepare(
@@ -141,6 +144,7 @@ public function all_by_attempt(
             ARRAY_A
 
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 
         return $response ?: null;
@@ -214,6 +218,7 @@ public function update_answer(
     ): int
     {
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; query values are prepared.
         return (int) $this->wpdb->get_var(
 
             $this->wpdb->prepare(
@@ -227,6 +232,7 @@ public function update_answer(
             )
 
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
     }
 public function update_points(
