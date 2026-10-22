@@ -263,7 +263,7 @@ class QuizMenu
                         admin_url('admin.php')
                     ),
                     'eas_delete_quiz_' . absint($quiz['id'])
-                )) . '" onclick="return confirm(\\''
+                )) . '" onclick="return confirm(\''
                     . esc_js(__('Delete this quiz?', 'eas-quiz'))
                     . '\')">'
                     . esc_html__('Delete', 'eas-quiz')
