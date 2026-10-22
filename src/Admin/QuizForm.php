@@ -66,13 +66,17 @@ class QuizForm
 
 
 
+        $post = wp_unslash($_POST);
+
+
         if (
-            isset($_POST['eas_save_quiz'])
+            isset($post['eas_save_quiz'])
         ) {
 
 
             $this->save(
-                $id
+                $id,
+                $post
             );
 
 
@@ -298,25 +302,19 @@ class QuizForm
 
 
     private function save(
-        ?int $id
+        ?int $id,
+        array $post
     ): void
     {
 
 
+        $nonce = isset($post['eas_nonce']) && is_string($post['eas_nonce'])
+            ? sanitize_text_field($post['eas_nonce'])
+            : '';
+
         if (
-
-            !isset($_POST['eas_nonce'])
-
-            ||
-
-            !wp_verify_nonce(
-
-                $_POST['eas_nonce'],
-
-                'eas_save_quiz'
-
-            )
-
+            '' === $nonce
+            || !wp_verify_nonce($nonce, 'eas_save_quiz')
         ) {
 
             return;
@@ -325,40 +323,38 @@ class QuizForm
 
 
 
+        $title = isset($post['title']) && is_string($post['title'])
+            ? sanitize_text_field($post['title'])
+            : '';
+
+        $description = isset($post['description']) && is_string($post['description'])
+            ? wp_kses_post($post['description'])
+            : '';
+
+        $attempts_allowed = isset($post['attempts_allowed']) && is_scalar($post['attempts_allowed'])
+            ? (int) $post['attempts_allowed']
+            : 1;
+        $attempts_allowed = in_array($attempts_allowed, array(0, 1), true)
+            ? $attempts_allowed
+            : 1;
+
+        $time_limit = isset($post['time_limit']) && is_scalar($post['time_limit'])
+            ? absint($post['time_limit'])
+            : 0;
+
+        $backward_navigation = isset($post['backward_navigation']) && is_scalar($post['backward_navigation'])
+            ? (int) $post['backward_navigation']
+            : 1;
+        $backward_navigation = in_array($backward_navigation, array(0, 1), true)
+            ? $backward_navigation
+            : 1;
+
         $data = array(
-
-
-            'title' => sanitize_text_field(
-
-                $_POST['title']
-
-            ),
-
-
-
-            'description' => wp_kses_post(
-
-                $_POST['description']
-
-            ),
-
-
-
-            'attempts_allowed' => (int)
-
-                $_POST['attempts_allowed'],
-
-
-
-            'time_limit' => (int)
-
-                $_POST['time_limit'],
-
-
-
-            'backward_navigation' => (int)
-
-                $_POST['backward_navigation'],
+            'title' => $title,
+            'description' => $description,
+            'attempts_allowed' => $attempts_allowed,
+            'time_limit' => $time_limit,
+            'backward_navigation' => $backward_navigation,
 
 
 
