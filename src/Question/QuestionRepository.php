@@ -38,9 +38,9 @@ class QuestionRepository
      */
     public function all_by_quiz(int $quiz_id): array
     {
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT *
                  FROM {$this->items_table()}
                  WHERE quiz_id = %d
@@ -49,15 +49,16 @@ class QuestionRepository
             ),
             ARRAY_A
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     }
     /**
      * Find a single question.
      */
     public function find(int $id): ?array
     {
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
         $question = $this->wpdb->get_row(
             $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT *
                  FROM {$this->items_table()}
                  WHERE id = %d",
@@ -65,6 +66,7 @@ class QuestionRepository
             ),
             ARRAY_A
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
         return $question ?: null;
     }
     /**
@@ -72,9 +74,9 @@ class QuestionRepository
      */
     public function get_answers(int $question_id): array
     {
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT *
                  FROM {$this->answers_table()}
                  WHERE question_id = %d
@@ -83,6 +85,7 @@ class QuestionRepository
             ),
             ARRAY_A
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     }
     /**
      * Create a new question in the quiz question bank.
@@ -238,9 +241,9 @@ class QuestionRepository
      */
     public function all_by_page(int $page_id): array
     {
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT
                     i.*,
                     pi.sort_order AS page_sort_order
@@ -255,6 +258,7 @@ class QuestionRepository
             ),
             ARRAY_A
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     }
     /**
      * Check whether a question is already assigned to a page.
@@ -263,9 +267,9 @@ class QuestionRepository
         int $question_id,
         int $page_id
     ): bool {
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
         $count = $this->wpdb->get_var(
             $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT COUNT(*)
                  FROM {$this->page_items_table()}
                  WHERE item_id = %d
@@ -274,6 +278,7 @@ class QuestionRepository
                 $page_id
             )
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
         return ((int) $count > 0);
     }
     /**
@@ -300,15 +305,16 @@ class QuestionRepository
         /*
          * Find the next position on this page.
          */
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
         $next_order = (int) $this->wpdb->get_var(
             $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT MAX(sort_order)
                  FROM {$this->page_items_table()}
                  WHERE page_id = %d",
                 $page_id
             )
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
         $next_order++;
         return (bool) $this->wpdb->insert(
             $this->page_items_table(),
@@ -370,9 +376,9 @@ class QuestionRepository
     public function pages_for_question(
         int $question_id
     ): array {
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
         return $this->wpdb->get_results(
             $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "SELECT
                     p.*,
                     pi.sort_order
@@ -387,6 +393,7 @@ class QuestionRepository
             ),
             ARRAY_A
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     }
     /*
      * ---------------------------------------------------------
@@ -487,9 +494,9 @@ public function find_page_item(
     int $item_id
 ): ?array
 {
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
     $result = $this->wpdb->get_row(
         $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
             FROM {$this->page_items_table()}
@@ -502,6 +509,7 @@ public function find_page_item(
         ),
         ARRAY_A
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     return $result ?: null;
 }
 public function get_adjacent_page_item(
@@ -511,9 +519,9 @@ public function get_adjacent_page_item(
 ): ?array
 {
     if ($direction === 'up') {
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
         $result = $this->wpdb->get_row(
             $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "
                 SELECT *
                 FROM {$this->page_items_table()}
@@ -527,10 +535,11 @@ public function get_adjacent_page_item(
             ),
             ARRAY_A
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     } else {
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
         $result = $this->wpdb->get_row(
             $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
                 "
                 SELECT *
                 FROM {$this->page_items_table()}
@@ -544,6 +553,7 @@ public function get_adjacent_page_item(
             ),
             ARRAY_A
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     }
     return $result ?: null;
 }
@@ -616,9 +626,9 @@ public function next_page_sort_order(
     int $page_id
 ): int
 {
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
     $max = $this->wpdb->get_var(
         $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT MAX(sort_order)
             FROM {$this->page_items_table()}
@@ -627,6 +637,7 @@ public function next_page_sort_order(
             $page_id
         )
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     return ((int) $max) + 1;
 }
 /*
@@ -641,9 +652,9 @@ public function move_question_up(
     int $page_id,
     int $item_id
 ): bool {
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
     $current = $this->wpdb->get_row(
         $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
             FROM {$this->page_items_table()}
@@ -656,15 +667,16 @@ public function move_question_up(
         ),
         ARRAY_A
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     if (!$current) {
         return false;
     }
     /*
      * Find the question immediately above this one.
      */
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
     $previous = $this->wpdb->get_row(
         $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
             FROM {$this->page_items_table()}
@@ -678,6 +690,7 @@ public function move_question_up(
         ),
         ARRAY_A
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     /*
      * Already at the top.
      */
@@ -720,9 +733,9 @@ public function move_question_down(
     int $page_id,
     int $item_id
 ): bool {
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
     $current = $this->wpdb->get_row(
         $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
             FROM {$this->page_items_table()}
@@ -735,15 +748,16 @@ public function move_question_down(
         ),
         ARRAY_A
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     if (!$current) {
         return false;
     }
     /*
      * Find the question immediately below this one.
      */
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; query values are prepared.
     $next = $this->wpdb->get_row(
         $this->wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS table suffixes; data values remain prepared.
             "
             SELECT *
             FROM {$this->page_items_table()}
@@ -757,6 +771,7 @@ public function move_question_down(
         ),
         ARRAY_A
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
     /*
      * Already at the bottom.
      */
