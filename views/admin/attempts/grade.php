@@ -5,7 +5,8 @@ if (!defined('ABSPATH')) {
 }
 
 ?>
-<?php if (isset($_GET['graded'])) : ?>
+<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This GET flag only displays a success notice and does not perform an action.
+if (isset($_GET['graded'])) : ?>
 
 <div class="notice notice-success">
 
