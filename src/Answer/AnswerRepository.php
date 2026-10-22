@@ -42,6 +42,7 @@ class AnswerRepository
     {
 
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- The table name uses the trusted WordPress prefix and fixed EAS suffix; the question ID is prepared.
         return $this->wpdb->get_results(
 
             $this->wpdb->prepare(
@@ -58,6 +59,7 @@ class AnswerRepository
             ARRAY_A
 
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 
     }
@@ -68,6 +70,7 @@ class AnswerRepository
     {
 
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- The table name uses the trusted WordPress prefix and fixed EAS suffix; the answer ID is prepared.
         $answer = $this->wpdb->get_row(
 
             $this->wpdb->prepare(
@@ -83,6 +86,7 @@ class AnswerRepository
             ARRAY_A
 
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 
         return $answer ?: null;
@@ -100,6 +104,7 @@ class AnswerRepository
     {
 
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- The table name uses the trusted WordPress prefix and fixed EAS suffix; the question ID is prepared.
         $sort_order = (int) $this->wpdb->get_var(
 
             $this->wpdb->prepare(
@@ -113,6 +118,7 @@ class AnswerRepository
             )
 
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 
         $sort_order++;
