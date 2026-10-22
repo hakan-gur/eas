@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 }
 class AttemptRepository
 {
+    // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers are escaped with esc_sql(); %i requires WordPress 6.2+.
     private \wpdb $wpdb;
     private PageRepository $pages;
     public function __construct()
@@ -370,10 +371,12 @@ public function all_completed_filtered(
         ) . "
         ORDER BY a.completed_at DESC
     ";
+    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Prepare the assembled query immediately before execution.
     $sql = $wpdb->prepare(
         $sql,
         $params
     );
+    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $sql contains the prepared query above.
     return $this->wpdb->get_results(
         $sql,
         ARRAY_A
@@ -462,4 +465,5 @@ public function delete(
         )
     );
 }
+    // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 }
