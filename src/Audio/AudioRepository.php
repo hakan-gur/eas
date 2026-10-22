@@ -101,6 +101,7 @@ class AudioRepository
     {
 
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- The table name uses the trusted WordPress prefix and fixed EAS suffix; the response ID is prepared.
         $audio = $this->wpdb->get_row(
 
             $this->wpdb->prepare(
@@ -117,6 +118,7 @@ class AudioRepository
             ARRAY_A
 
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 
         return $audio ?: null;
