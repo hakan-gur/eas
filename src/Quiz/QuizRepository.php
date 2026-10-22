@@ -128,8 +128,8 @@ class QuizRepository
              * Delete responses belonging to attempts
              * of this quiz.
              */
-                        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->query(
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+            $this->wpdb->query(
                 $this->wpdb->prepare(
                     "
                     DELETE r
@@ -166,8 +166,8 @@ $this->wpdb->query(
              * Delete page-question relationships
              * for pages belonging to this quiz.
              */
-                        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->query(
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+            $this->wpdb->query(
                 $this->wpdb->prepare(
                     "
                     DELETE pi
@@ -185,8 +185,8 @@ $this->wpdb->query(
              * Delete answers belonging to the
              * questions in this quiz's question bank.
              */
-                        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->query(
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+            $this->wpdb->query(
                 $this->wpdb->prepare(
                     "
                     DELETE a
@@ -207,8 +207,8 @@ $this->wpdb->query(
              * Questions are owned by the quiz, not
              * by individual pages.
              */
-            $deleted_items =             // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->query(
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+            $deleted_items = $this->wpdb->query(
                 $this->wpdb->prepare(
                     "
                     DELETE FROM {$this->items_table()}
@@ -281,8 +281,8 @@ $this->wpdb->query(
 
     public function max_points(int $quiz_id): float
     {
-        return (float)         // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->get_var(
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+        return (float) $this->wpdb->get_var(
             $this->wpdb->prepare(
                 "
                 SELECT COALESCE(SUM(i.points), 0)
@@ -402,8 +402,8 @@ $this->wpdb->get_var(
          * of pages.
          */
         $questions =
-                        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->get_results(
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+            $this->wpdb->get_results(
                 $this->wpdb->prepare(
                     "
                     SELECT *
@@ -470,8 +470,8 @@ $this->wpdb->get_results(
              * Copy answers.
              */
             $answers =
-                                // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->get_results(
+                // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+                $this->wpdb->get_results(
                     $this->wpdb->prepare(
                         "
                         SELECT *
@@ -524,8 +524,8 @@ $this->wpdb->get_results(
         foreach ($page_map as $old_page_id => $new_page_id) {
 
             $relationships =
-                                // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->get_results(
+                // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+                $this->wpdb->get_results(
                     $this->wpdb->prepare(
                         "
                         SELECT *
@@ -575,8 +575,8 @@ $this->wpdb->get_results(
 
     public function page_count(int $quiz_id): int
     {
-        return (int)         // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->get_var(
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+        return (int) $this->wpdb->get_var(
             $this->wpdb->prepare(
                 "
                 SELECT COUNT(*)
@@ -591,8 +591,8 @@ $this->wpdb->get_var(
 
     public function question_count(int $quiz_id): int
     {
-        return (int)         // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
-$this->wpdb->get_var(
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
+        return (int) $this->wpdb->get_var(
             $this->wpdb->prepare(
                 "
                 SELECT COUNT(*)
