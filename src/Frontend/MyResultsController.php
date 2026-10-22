@@ -383,6 +383,7 @@ class MyResultsController
         $items_table =
             $wpdb->prefix . 'eas_items';
 
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; the attempt ID remains prepared.
         $manual_count =
             $wpdb->get_var(
                 $wpdb->prepare(
@@ -400,6 +401,7 @@ class MyResultsController
                     $attempt_id
                 )
             );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
         if ((int) $manual_count > 0) {
             return 'Graded';
@@ -422,6 +424,7 @@ class MyResultsController
         $items_table =
             $wpdb->prefix . 'eas_items';
 
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffixes; the quiz ID remains prepared.
         $max_points =
             $wpdb->get_var(
                 $wpdb->prepare(
@@ -441,6 +444,7 @@ class MyResultsController
                     $quiz_id
                 )
             );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
         return (float) $max_points;
     }
