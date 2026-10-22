@@ -210,7 +210,10 @@ class AttemptController
 
     public function attempt_page(): string
     {
+        // This is a read-only page request; the attempt ID is validated and access is checked by the renderer.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- A nonce is not required for this read-only GET request; the attempt identifier is validated and access-controlled.
         $attempt_id = $this->validated_request_id($_GET, 'attempt_id');
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         if ($attempt_id === null) {
             return '<p>' .
@@ -1026,9 +1029,15 @@ exit;
 
             $question_id = (int) $question['id'];
 
-            $submitted_answer = $_POST[
-                'question_' . $question_id
-            ] ?? '';
+            // The caller verifies the action-specific nonce. Preserve free text and JSON answer payloads;
+            // sanitize/escaping is applied at the point where data is displayed.
+            // phpcs:disable WordPress.Security.NonceVerification.Missing -- All callers are action handlers that verify their specific nonce before saving responses.
+            // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Answer values may be plain text or structured JSON and are unslashed and scalar-validated below.
+            $submitted_answer = wp_unslash(
+                $_POST['question_' . $question_id] ?? ''
+            );
+            // phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            // phpcs:enable WordPress.Security.NonceVerification.Missing
 
             // Answers may contain plain text or structured JSON, so preserve
             // their content while rejecting malformed non-scalar request data.
@@ -1043,7 +1052,7 @@ exit;
                 );
             }
 
-            $answer = (string) wp_unslash($submitted_answer);
+            $answer = (string) $submitted_answer;
             $existing = $this->responses->find(
                 $attempt_id,
                 $question_id
@@ -1173,7 +1182,11 @@ exit;
             );
         }
 
+        // PHP upload metadata is validated below, including is_uploaded_file() for tmp_name.
+        // Keep the server-provided upload structure intact for wp_handle_upload().
+        // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- Uploaded-file fields are validated structurally and the temporary path is checked with is_uploaded_file().
         $file = $_FILES['audio'];
+        // phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
         if (
             !isset($file['error'], $file['tmp_name'], $file['size'])
@@ -1201,11 +1214,14 @@ exit;
         }
 
         // Verify the WebM/Matroska container signature; never trust the supplied filename.
+        // The PHP upload temporary file must be read directly before WordPress handles the upload.
+        // phpcs:disable WordPress.WP.AlternativeFunctions.file_system_read_fopen, WordPress.WP.AlternativeFunctions.file_system_read_fread, WordPress.WP.AlternativeFunctions.file_system_read_fclose, WordPress.WP.AlternativeFunctions.file_system_operations_fopen, WordPress.WP.AlternativeFunctions.file_system_operations_fread, WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Read only four bytes from the verified PHP upload temporary file to validate its container signature.
         $handle = fopen((string) $file['tmp_name'], 'rb');
         $signature = $handle !== false ? fread($handle, 4) : false;
         if ($handle !== false) {
             fclose($handle);
         }
+        // phpcs:enable WordPress.WP.AlternativeFunctions.file_system_read_fopen, WordPress.WP.AlternativeFunctions.file_system_read_fread, WordPress.WP.AlternativeFunctions.file_system_read_fclose, WordPress.WP.AlternativeFunctions.file_system_operations_fopen, WordPress.WP.AlternativeFunctions.file_system_operations_fread, WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 
         if ($signature !== "\x1A\x45\xDF\xA3") {
             wp_send_json_error(
@@ -1277,7 +1293,9 @@ exit;
             || empty($uploaded['url'])
         ) {
             if (is_array($uploaded) && !empty($uploaded['error'])) {
+                // phpcs:disable WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Keep the sanitized upload failure detail in the server log for troubleshooting.
                 error_log('EAS audio upload failed: ' . sanitize_text_field($uploaded['error']));
+                // phpcs:enable WordPress.PHP.DevelopmentFunctions.error_log_error_log
             }
 
             wp_send_json_error(
