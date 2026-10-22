@@ -66,21 +66,30 @@ class QuizForm
 
 
 
-        $post = wp_unslash($_POST);
-
-
         if (
-            isset($post['eas_save_quiz'])
+            isset($_SERVER['REQUEST_METHOD'])
+            && 'POST' === $_SERVER['REQUEST_METHOD']
         ) {
 
-
-            $this->save(
-                $id,
-                $post
+            check_admin_referer(
+                'eas_save_quiz',
+                'eas_nonce'
             );
 
+            $post = wp_unslash($_POST);
 
-            return;
+            if (
+                isset($post['eas_save_quiz'])
+            ) {
+
+                $this->save(
+                    $id,
+                    $post
+                );
+
+                return;
+
+            }
 
         }
 
