@@ -70,6 +70,7 @@ class PageController
             }
         }
 
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Type-checked and unslashed/sanitized immediately below.
         $action = $_GET['action'] ?? '';
 
         if (!is_string($action)) {
