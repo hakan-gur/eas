@@ -376,11 +376,12 @@ public function all_completed_filtered(
         $sql,
         $params
     );
+    // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql is prepared with $wpdb->prepare() immediately above.
     return $this->wpdb->get_results(
-        // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql has been prepared with $wpdb->prepare() immediately above.
         $sql,
         ARRAY_A
     );
+    // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 }
 public function recalculate_score(int $attempt_id): bool
 {
