@@ -159,7 +159,6 @@ class PageController
                 array('response' => 400)
             );
         }
-        $submitted_quiz_id = $submitted_quiz_id;
         if (!preg_match('/^[1-9][0-9]*$/', $submitted_quiz_id)) {
             wp_die(
                 esc_html__('Invalid quiz ID.', 'eas-quiz'),
