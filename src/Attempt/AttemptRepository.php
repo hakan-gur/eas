@@ -55,10 +55,12 @@ class AttemptRepository
     }
     public function find(int $id): ?array
     {
+        $wpdb = $this->wpdb;
+        $attempts_table = esc_sql($this->table());
         $attempt = $this->wpdb->get_row(
-            $this->wpdb->prepare(
+            $wpdb->prepare(
                 "SELECT *
-                 FROM {$this->table()}
+                 FROM {$attempts_table}
                  WHERE id = %d",
                 $id
             ),
@@ -68,10 +70,12 @@ class AttemptRepository
     }
     public function all_by_user(int $user_id): array
     {
+        $wpdb = $this->wpdb;
+        $attempts_table = esc_sql($this->table());
         return $this->wpdb->get_results(
-            $this->wpdb->prepare(
+            $wpdb->prepare(
                 "SELECT *
-                 FROM {$this->table()}
+                 FROM {$attempts_table}
                  WHERE user_id = %d
                  ORDER BY started_at DESC",
                 $user_id
@@ -83,14 +87,19 @@ class AttemptRepository
     int $user_id
 ): array
 {
+    $wpdb = $this->wpdb;
+    $attempts_table = esc_sql($this->table());
     $responses_table =
-        $this->wpdb->prefix . 'eas_responses';
+        $wpdb->prefix . 'eas_responses';
+    $responses_sql_table = esc_sql($responses_table);
 
     $items_table =
-        $this->wpdb->prefix . 'eas_items';
+        $wpdb->prefix . 'eas_items';
+    $items_sql_table = esc_sql($items_table);
+    $quizzes_sql_table = esc_sql($wpdb->prefix . 'eas_quizzes');
 
     return $this->wpdb->get_results(
-        $this->wpdb->prepare(
+        $wpdb->prepare(
             "
             SELECT
                 a.*,
@@ -117,15 +126,15 @@ class AttemptRepository
                     END
                 ) AS pending_manual_count
 
-            FROM {$this->table()} a
+            FROM {$attempts_table} a
 
-            LEFT JOIN {$this->wpdb->prefix}eas_quizzes q
+            LEFT JOIN {$quizzes_sql_table} q
                 ON a.quiz_id = q.id
 
-            LEFT JOIN {$responses_table} r
+            LEFT JOIN {$responses_sql_table} r
                 ON a.id = r.attempt_id
 
-            LEFT JOIN {$items_table} i
+            LEFT JOIN {$items_sql_table} i
                 ON r.item_id = i.id
 
             WHERE a.user_id = %d
@@ -168,10 +177,12 @@ public function count_completed_attempts(
     int $quiz_id
 ): int
 {
+    $wpdb = $this->wpdb;
+    $attempts_table = esc_sql($this->table());
     return (int) $this->wpdb->get_var(
-        $this->wpdb->prepare(
+        $wpdb->prepare(
             "SELECT COUNT(*)
-             FROM {$this->table()}
+             FROM {$attempts_table}
              WHERE user_id = %d
              AND quiz_id = %d
              AND status = 'completed'",
@@ -207,33 +218,44 @@ public function count_completed_attempts(
     }
 public function all_completed(): array
 {
+    $wpdb = $this->wpdb;
+    $attempts_table = esc_sql($this->table());
+    $users_sql_table = esc_sql($wpdb->users);
+    $quizzes_sql_table = esc_sql($wpdb->prefix . 'eas_quizzes');
     return $this->wpdb->get_results(
-        "SELECT 
-            a.*,
-            u.display_name,
-            q.title AS quiz_title
-         FROM {$this->table()} a
-         LEFT JOIN {$this->wpdb->users} u
-            ON a.user_id = u.ID
-         LEFT JOIN {$this->wpdb->prefix}eas_quizzes q
-            ON a.quiz_id = q.id
-         WHERE a.status = 'completed'
-         ORDER BY a.completed_at DESC",
+        $wpdb->prepare(
+            "SELECT 
+                a.*,
+                u.display_name,
+                q.title AS quiz_title
+             FROM {$attempts_table} a
+             LEFT JOIN {$users_sql_table} u
+                ON a.user_id = u.ID
+             LEFT JOIN {$quizzes_sql_table} q
+                ON a.quiz_id = q.id
+             WHERE a.status = %s
+             ORDER BY a.completed_at DESC",
+            'completed'
+        ),
         ARRAY_A
     );
 }
 public function find_with_details(int $id): ?array
 {
+    $wpdb = $this->wpdb;
+    $attempts_table = esc_sql($this->table());
+    $users_sql_table = esc_sql($wpdb->users);
+    $quizzes_sql_table = esc_sql($wpdb->prefix . 'eas_quizzes');
     $attempt = $this->wpdb->get_row(
-        $this->wpdb->prepare(
+        $wpdb->prepare(
             "SELECT 
                 a.*,
                 u.display_name,
                 q.title AS quiz_title
-             FROM {$this->table()} a
-             LEFT JOIN {$this->wpdb->users} u
+             FROM {$attempts_table} a
+             LEFT JOIN {$users_sql_table} u
              ON a.user_id = u.ID
-             LEFT JOIN {$this->wpdb->prefix}eas_quizzes q
+             LEFT JOIN {$quizzes_sql_table} q
              ON a.quiz_id = q.id
              WHERE a.id = %d",
             $id
@@ -244,38 +266,47 @@ public function find_with_details(int $id): ?array
 }
 public function count_pending_grading(): int
 {
-    $responses_table = $this->wpdb->prefix . 'eas_responses';
-    $items_table = $this->wpdb->prefix . 'eas_items';
+    $wpdb = $this->wpdb;
+    $attempts_table = esc_sql($this->table());
+    $responses_table = $wpdb->prefix . 'eas_responses';
+    $responses_sql_table = esc_sql($responses_table);
+    $items_table = $wpdb->prefix . 'eas_items';
+    $items_sql_table = esc_sql($items_table);
     return (int) $this->wpdb->get_var(
-        "
+        $wpdb->prepare(
+            "
         SELECT COUNT(DISTINCT a.id)
-        FROM {$this->table()} a
-        INNER JOIN {$responses_table} r
+        FROM {$attempts_table} a
+        INNER JOIN {$responses_sql_table} r
             ON a.id = r.attempt_id
-        INNER JOIN {$items_table} i
+        INNER JOIN {$items_sql_table} i
             ON r.item_id = i.id
         WHERE
-            a.status = 'completed'
+            a.status = %s
             AND
-            i.type IN (
-                'essay',
-                'audio_response'
-            )
+            i.type IN (%s, %s)
             AND
             r.graded_at IS NULL
-        "
+        ",
+            'completed',
+            'essay',
+            'audio_response'
+        )
     );
 }
 public function grading_status(int $attempt_id): string
 {
-    $responses_table = $this->wpdb->prefix . 'eas_responses';
-    $items_table = $this->wpdb->prefix . 'eas_items';
+    $wpdb = $this->wpdb;
+    $responses_table = $wpdb->prefix . 'eas_responses';
+    $responses_sql_table = esc_sql($responses_table);
+    $items_table = $wpdb->prefix . 'eas_items';
+    $items_sql_table = esc_sql($items_table);
     $pending = $this->wpdb->get_var(
-        $this->wpdb->prepare(
+        $wpdb->prepare(
             "
             SELECT COUNT(*)
-            FROM {$responses_table} r
-            INNER JOIN {$items_table} i
+            FROM {$responses_sql_table} r
+            INNER JOIN {$items_sql_table} i
                 ON r.item_id = i.id
             WHERE r.attempt_id = %d
             AND i.type IN (
@@ -297,10 +328,14 @@ public function all_completed_filtered(
     string $status = ''
 ): array
 {
+    $wpdb = $this->wpdb;
+    $attempts_table = esc_sql($this->table());
+    $users_sql_table = esc_sql($wpdb->users);
+    $quizzes_sql_table = esc_sql($wpdb->prefix . 'eas_quizzes');
     $where = array(
-        "a.status = 'completed'"
+        "a.status = %s"
     );
-    $params = array();
+    $params = array('completed');
     if ($quiz_id > 0) {
         $where[] = "a.quiz_id = %d";
         $params[] = $quiz_id;
@@ -324,10 +359,10 @@ public function all_completed_filtered(
             a.*,
             u.display_name,
             q.title AS quiz_title
-        FROM {$this->table()} a
-        LEFT JOIN {$this->wpdb->users} u
+        FROM {$attempts_table} a
+        LEFT JOIN {$users_sql_table} u
             ON a.user_id = u.ID
-        LEFT JOIN {$this->wpdb->prefix}eas_quizzes q
+        LEFT JOIN {$quizzes_sql_table} q
             ON a.quiz_id = q.id
         WHERE " . implode(
             ' AND ',
@@ -335,12 +370,10 @@ public function all_completed_filtered(
         ) . "
         ORDER BY a.completed_at DESC
     ";
-    if (!empty($params)) {
-        $sql = $this->wpdb->prepare(
-            $sql,
-            $params
-        );
-    }
+    $sql = $wpdb->prepare(
+        $sql,
+        $params
+    );
     return $this->wpdb->get_results(
         $sql,
         ARRAY_A
@@ -348,12 +381,14 @@ public function all_completed_filtered(
 }
 public function recalculate_score(int $attempt_id): bool
 {
-    $responses_table = $this->wpdb->prefix . 'eas_responses';
+    $wpdb = $this->wpdb;
+    $responses_table = $wpdb->prefix . 'eas_responses';
+    $responses_sql_table = esc_sql($responses_table);
 
     $score = $this->wpdb->get_var(
-        $this->wpdb->prepare(
+        $wpdb->prepare(
             "SELECT COALESCE(SUM(points_awarded), 0)
-             FROM {$responses_table}
+             FROM {$responses_sql_table}
              WHERE attempt_id = %d",
             $attempt_id
         )
@@ -378,15 +413,17 @@ public function recalculate_score(int $attempt_id): bool
 public function delete(
     int $attempt_id
 ): bool {
+    $wpdb = $this->wpdb;
     /*
      * Get all responses belonging to this attempt.
      */
     $responses_table =
-        $this->wpdb->prefix . 'eas_responses';
+        $wpdb->prefix . 'eas_responses';
+    $responses_sql_table = esc_sql($responses_table);
     $response_ids = $this->wpdb->get_col(
-        $this->wpdb->prepare(
+        $wpdb->prepare(
             "SELECT id
-             FROM {$responses_table}
+             FROM {$responses_sql_table}
              WHERE attempt_id = %d",
             $attempt_id
         )
