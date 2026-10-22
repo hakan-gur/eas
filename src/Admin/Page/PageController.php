@@ -42,6 +42,8 @@ class PageController
 
     public function index(): void
     {
+        // GET parameters only select read-only admin screens; mutations have dedicated nonce-checked handlers.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $quiz_id = 0;
         $quiz = null;
 
@@ -122,6 +124,7 @@ class PageController
         $quiz = $quiz ?? $this->quizzes->find($quiz_id);
 
         require EAS_PLUGIN_DIR . 'views/admin/pages/list.php';
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
     }
 
     private function form(int $quiz_id, ?int $id = null): void
@@ -141,10 +144,13 @@ class PageController
 
         check_admin_referer('eas_save_page');
 
+        // Unslash request data once before validation and sanitization.
+        $post = wp_unslash($post);
+
         /*
          * Validate page identifiers and editable fields before any database writes.
          */
-        $submitted_quiz_id = $_POST['quiz_id'] ?? null;
+        $submitted_quiz_id = $post['quiz_id'] ?? null;
         if (!is_string($submitted_quiz_id)) {
             wp_die(
                 esc_html__('Invalid quiz ID.', 'eas-quiz'),
@@ -152,7 +158,7 @@ class PageController
                 array('response' => 400)
             );
         }
-        $submitted_quiz_id = wp_unslash($submitted_quiz_id);
+        $submitted_quiz_id = $submitted_quiz_id;
         if (!preg_match('/^[1-9][0-9]*$/', $submitted_quiz_id)) {
             wp_die(
                 esc_html__('Invalid quiz ID.', 'eas-quiz'),
@@ -171,7 +177,7 @@ class PageController
         }
 
         foreach (array('title', 'content') as $text_field) {
-            if (isset($_POST[$text_field]) && !is_string($_POST[$text_field])) {
+            if (isset($post[$text_field]) && !is_string($post[$text_field])) {
                 wp_die(
                     esc_html__('Invalid page content.', 'eas-quiz'),
                     '',
@@ -180,7 +186,7 @@ class PageController
             }
         }
 
-        $submitted_time_limit = $_POST['page_time_limit'] ?? '0';
+        $submitted_time_limit = $post['page_time_limit'] ?? '0';
         if (!is_scalar($submitted_time_limit)) {
             wp_die(
                 esc_html__('Page time limit must be a non-negative whole number.', 'eas-quiz'),
@@ -188,7 +194,7 @@ class PageController
                 array('response' => 400)
             );
         }
-        $submitted_time_limit = wp_unslash((string) $submitted_time_limit);
+        $submitted_time_limit = (string) $submitted_time_limit;
         if (
             !preg_match('/^(0|[1-9][0-9]*)$/', $submitted_time_limit)
         ) {
@@ -208,7 +214,7 @@ class PageController
             );
         }
 
-        $submitted_page_id = $_POST['page_id'] ?? '0';
+        $submitted_page_id = $post['page_id'] ?? '0';
         if (!is_scalar($submitted_page_id)) {
             wp_die(
                 esc_html__('Invalid page ID.', 'eas-quiz'),
@@ -216,7 +222,7 @@ class PageController
                 array('response' => 400)
             );
         }
-        $submitted_page_id = wp_unslash((string) $submitted_page_id);
+        $submitted_page_id = (string) $submitted_page_id;
         if (
             !preg_match('/^(0|[1-9][0-9]*)$/', $submitted_page_id)
         ) {
@@ -248,11 +254,9 @@ class PageController
         }
 
         $data = array(
-            'title' => sanitize_text_field(wp_unslash($_POST['title'] ?? '')),
+            'title' => sanitize_text_field($post['title'] ?? ''),
             'content' => wp_kses_post(
-                wp_unslash(
-                    $_POST['content'] ?? ''
-                    )
+                $post['content'] ?? ''
                 ),
             'page_time_limit' => $page_time_limit,
             'updated_at' => current_time('mysql')
@@ -273,8 +277,11 @@ class PageController
     {
         $this->require_admin_capability();
 
+        // These IDs are needed to construct the nonce action; no mutation occurs before nonce verification.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
         $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         if ($id === null || $quiz_id === null) {
             wp_die(
@@ -305,11 +312,15 @@ class PageController
     {
         $this->require_admin_capability();
 
+        // IDs are needed to construct the nonce action; no mutation occurs before nonce verification.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
         $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
+
         $direction = $_GET['direction'] ?? null;
         if (is_string($direction)) {
-            $direction = wp_unslash($direction);
+            $direction = sanitize_key(wp_unslash($direction));
         }
 
         if (
@@ -346,10 +357,13 @@ class PageController
     {
         $this->require_admin_capability();
 
-        $submitted_quiz_id = $_POST['quiz_id'] ?? null;
+        // The quiz ID is needed to construct the nonce action; no mutation occurs before nonce verification.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $post = wp_unslash($post);
+        $submitted_quiz_id = $post['quiz_id'] ?? null;
         if (
             !is_scalar($submitted_quiz_id)
-            || !preg_match('/\\A[1-9][0-9]*\\z/', (string) wp_unslash($submitted_quiz_id))
+            || !preg_match('/\\A[1-9][0-9]*\\z/', (string) $submitted_quiz_id)
         ) {
             wp_die(
                 esc_html__('Invalid quiz ID.', 'eas-quiz'),
@@ -374,7 +388,7 @@ class PageController
 
         check_admin_referer('eas_reorder_pages_' . $quiz_id);
 
-        if (!isset($_POST['page_ids']) || !is_array($_POST['page_ids'])) {
+        if (!isset($post['page_ids']) || !is_array($post['page_ids'])) {
             wp_die(
                 esc_html__('Invalid page order.', 'eas-quiz'),
                 '',
@@ -396,7 +410,7 @@ class PageController
             }
 
             $page_id = filter_var(
-                (string) wp_unslash($submitted_page_id),
+                (string) $submitted_page_id,
                 FILTER_VALIDATE_INT,
                 array('options' => array('min_range' => 1))
             );
