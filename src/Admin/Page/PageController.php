@@ -364,7 +364,7 @@ class PageController
         $submitted_quiz_id = $post['quiz_id'] ?? null;
         if (
             !is_scalar($submitted_quiz_id)
-            || !preg_match('/\\A[1-9][0-9]*\\z/', (string) $submitted_quiz_id)
+            || !preg_match('/\A[1-9][0-9]*\z/', (string) $submitted_quiz_id)
         ) {
             wp_die(
                 esc_html__('Invalid quiz ID.', 'eas-quiz'),
@@ -401,7 +401,7 @@ class PageController
         foreach ($post['page_ids'] as $submitted_page_id) {
             if (
                 !is_scalar($submitted_page_id)
-                || !preg_match('/\\A[1-9][0-9]*\\z/', (string) $submitted_page_id)
+                || !preg_match('/\A[1-9][0-9]*\z/', (string) $submitted_page_id)
             ) {
                 wp_die(
                     esc_html__('Invalid page order.', 'eas-quiz'),
