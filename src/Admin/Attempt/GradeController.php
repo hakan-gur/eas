@@ -99,7 +99,7 @@ class GradeController
          */
         foreach ($responses as $response) {
             $item_id = (int) $response['item_id'];
-            $submitted_points = wp_unslash($_POST['points_' . $item_id] ?? 0);
+            $submitted_points = $request['points_' . $item_id] ?? 0;
 
             if (!is_scalar($submitted_points)) {
                 wp_die(
@@ -141,7 +141,7 @@ class GradeController
                 );
             }
 
-            $submitted_feedback = $_POST['feedback_' . $item_id] ?? '';
+            $submitted_feedback = $request['feedback_' . $item_id] ?? '';
 
             if (!is_scalar($submitted_feedback)) {
                 wp_die(
@@ -155,7 +155,7 @@ class GradeController
                 'item_id' => $item_id,
                 'points' => $points,
                 'feedback' => sanitize_textarea_field(
-                    wp_unslash((string) $submitted_feedback)
+                    (string) $submitted_feedback
                 )
             );
         }
