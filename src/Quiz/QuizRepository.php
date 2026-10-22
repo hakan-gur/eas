@@ -72,16 +72,21 @@ class QuizRepository
 
     public function all(): array
     {
-        return $this->wpdb->get_results(
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- The table name uses the trusted WordPress prefix and fixed EAS suffix; this query has no variable values.
+        $results = $this->wpdb->get_results(
             "SELECT *
              FROM {$this->table()}
              ORDER BY id DESC",
             ARRAY_A
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+        return $results;
     }
 
     public function find(int $id): ?array
     {
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- The table name uses the trusted WordPress prefix and fixed EAS suffix; the ID is prepared.
         $result = $this->wpdb->get_row(
             $this->wpdb->prepare(
                 "SELECT *
@@ -91,6 +96,7 @@ class QuizRepository
             ),
             ARRAY_A
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
         return $result ?: null;
     }
@@ -128,6 +134,7 @@ class QuizRepository
              * Delete responses belonging to attempts
              * of this quiz.
              */
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
             $this->wpdb->query(
                 $this->wpdb->prepare(
                     "
@@ -140,6 +147,7 @@ class QuizRepository
                     $id
                 )
             );
+            // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
 
             /*
              * Delete attempts.
@@ -164,6 +172,7 @@ class QuizRepository
              * Delete page-question relationships
              * for pages belonging to this quiz.
              */
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
             $this->wpdb->query(
                 $this->wpdb->prepare(
                     "
@@ -176,11 +185,13 @@ class QuizRepository
                     $id
                 )
             );
+            // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
 
             /*
              * Delete answers belonging to the
              * questions in this quiz's question bank.
              */
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
             $this->wpdb->query(
                 $this->wpdb->prepare(
                     "
@@ -193,6 +204,7 @@ class QuizRepository
                     $id
                 )
             );
+            // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
 
             /*
              * Delete the questions from this quiz's
@@ -201,6 +213,7 @@ class QuizRepository
              * Questions are owned by the quiz, not
              * by individual pages.
              */
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
             $deleted_items = $this->wpdb->query(
                 $this->wpdb->prepare(
                     "
@@ -210,6 +223,7 @@ class QuizRepository
                     $id
                 )
             );
+            // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
 
             if ($deleted_items === false) {
                 throw new \Exception(
@@ -273,6 +287,7 @@ class QuizRepository
 
     public function max_points(int $quiz_id): float
     {
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
         return (float) $this->wpdb->get_var(
             $this->wpdb->prepare(
                 "
@@ -291,14 +306,19 @@ class QuizRepository
                 $quiz_id
             )
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
     }
 
     public function count(): int
     {
-        return (int) $this->wpdb->get_var(
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- The table name uses the trusted WordPress prefix and fixed EAS suffix; this query has no variable values.
+        $count = (int) $this->wpdb->get_var(
             "SELECT COUNT(*)
              FROM {$this->table()}"
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+        return $count;
     }
 
     public function duplicate(int $quiz_id): int
@@ -313,16 +333,21 @@ class QuizRepository
 
         $copy_number = 2;
 
-        while (
-            $this->wpdb->get_var(
+        while (true) {
+            // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- The table name uses the trusted WordPress prefix and fixed EAS suffix; the title is prepared.
+            $title_exists = $this->wpdb->get_var(
                 $this->wpdb->prepare(
                     "SELECT COUNT(*)
                      FROM {$this->table()}
                      WHERE title = %s",
                     $new_title
                 )
-            )
-        ) {
+            );
+            // phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+            if (!$title_exists) {
+                break;
+            }
             $new_title =
                 $quiz['title'] .
                 ' (Copy ' .
@@ -392,6 +417,7 @@ class QuizRepository
          * of pages.
          */
         $questions =
+            // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
             $this->wpdb->get_results(
                 $this->wpdb->prepare(
                     "
@@ -404,6 +430,7 @@ class QuizRepository
                 ),
                 ARRAY_A
             );
+            // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
 
         $question_map = array();
 
@@ -458,6 +485,7 @@ class QuizRepository
              * Copy answers.
              */
             $answers =
+                // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
                 $this->wpdb->get_results(
                     $this->wpdb->prepare(
                         "
@@ -470,6 +498,7 @@ class QuizRepository
                     ),
                     ARRAY_A
                 );
+                // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
 
             foreach ($answers as $answer) {
 
@@ -510,6 +539,7 @@ class QuizRepository
         foreach ($page_map as $old_page_id => $new_page_id) {
 
             $relationships =
+                // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
                 $this->wpdb->get_results(
                     $this->wpdb->prepare(
                         "
@@ -522,6 +552,7 @@ class QuizRepository
                     ),
                     ARRAY_A
                 );
+                // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
 
             foreach ($relationships as $relationship) {
 
@@ -559,6 +590,7 @@ class QuizRepository
 
     public function page_count(int $quiz_id): int
     {
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
         return (int) $this->wpdb->get_var(
             $this->wpdb->prepare(
                 "
@@ -569,10 +601,12 @@ class QuizRepository
                 $quiz_id
             )
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
     }
 
     public function question_count(int $quiz_id): int
     {
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; numeric query values are prepared.
         return (int) $this->wpdb->get_var(
             $this->wpdb->prepare(
                 "
@@ -585,5 +619,6 @@ class QuizRepository
                 $quiz_id
             )
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
     }
 }
