@@ -34,7 +34,10 @@ class GradeController
     {
         $this->require_admin_capability();
 
-        $attempt_id = $this->validated_request_id($_GET, 'attempt_id');
+        // This GET parameter only selects the attempt to display; it does not perform a state-changing action.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only navigation parameter; no state is changed.
+        $request = wp_unslash($_GET);
+        $attempt_id = $this->validated_request_id($request, 'attempt_id');
 
         if ($attempt_id === null) {
             wp_die(
@@ -65,7 +68,8 @@ class GradeController
 
         check_admin_referer('eas_save_grades');
 
-        $attempt_id = $this->validated_request_id($_POST, 'attempt_id');
+        $request = wp_unslash($_POST);
+        $attempt_id = $this->validated_request_id($request, 'attempt_id');
 
         if ($attempt_id === null) {
             wp_die(
@@ -95,7 +99,7 @@ class GradeController
          */
         foreach ($responses as $response) {
             $item_id = (int) $response['item_id'];
-            $submitted_points = $_POST['points_' . $item_id] ?? 0;
+            $submitted_points = $request['points_' . $item_id] ?? 0;
 
             if (!is_scalar($submitted_points)) {
                 wp_die(
@@ -104,6 +108,8 @@ class GradeController
                     array('response' => 400)
                 );
             }
+
+            $submitted_points = sanitize_text_field((string) $submitted_points);
 
             // Preserve the existing behavior where an empty field means zero.
             if ($submitted_points === '') {
@@ -135,7 +141,7 @@ class GradeController
                 );
             }
 
-            $submitted_feedback = $_POST['feedback_' . $item_id] ?? '';
+            $submitted_feedback = $request['feedback_' . $item_id] ?? '';
 
             if (!is_scalar($submitted_feedback)) {
                 wp_die(
@@ -149,7 +155,7 @@ class GradeController
                 'item_id' => $item_id,
                 'points' => $points,
                 'feedback' => sanitize_textarea_field(
-                    wp_unslash((string) $submitted_feedback)
+                    (string) $submitted_feedback
                 )
             );
         }
@@ -186,7 +192,7 @@ class GradeController
             return null;
         }
 
-        $value = (string) wp_unslash($source[$key]);
+        $value = (string) $source[$key];
 
         if (!preg_match('/\A[1-9][0-9]*\z/', $value)) {
             return null;
