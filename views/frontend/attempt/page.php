@@ -245,16 +245,22 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
         <?php if ($description && count($normalquestions) === 1) : ?>
             <div class="eas-split-layout">
                 <div class="eas-left-panel">
-                    <?php echo $renderer->render_question($description, 0); ?>
+                    <?php
+                    // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- The question renderer returns quiz-interface HTML; escaping it would break the markup.
+                    echo $renderer->render_question($description, 0);
+                    // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
+                    ?>
                 </div>
                 <div class="eas-right-panel">
                     <?php
                     $normal_question_id = (int) $normalquestions[0]['id'];
+                    // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- The question renderer returns quiz-interface HTML; escaping it would break the markup.
                     echo $renderer->render_question(
                         $normalquestions[0],
                         $question_offset + 1,
                         $attempt_responses[$normal_question_id] ?? null
                     );
+                    // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
                     ?>
                 </div>
             </div>
@@ -262,11 +268,13 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
             <?php foreach ($questions as $index => $question) : ?>
                 <?php
                 $question_id = (int) $question['id'];
+                // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- The question renderer returns quiz-interface HTML; escaping it would break the markup.
                 echo $renderer->render_question(
                     $question,
                     $question_offset + $index + 1,
                     $attempt_responses[$question_id] ?? null
                 );
+                // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
                 ?>
                 <hr>
             <?php endforeach; ?>
