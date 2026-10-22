@@ -146,7 +146,7 @@ class PageController
         check_admin_referer('eas_save_page');
 
         // Unslash request data once before validation and sanitization.
-        $post = wp_unslash($post);
+        $post = wp_unslash($_POST);
 
         /*
          * Validate page identifiers and editable fields before any database writes.
@@ -258,7 +258,7 @@ class PageController
             'title' => sanitize_text_field($post['title'] ?? ''),
             'content' => wp_kses_post(
                 $post['content'] ?? ''
-                ),
+            ),
             'page_time_limit' => $page_time_limit,
             'updated_at' => current_time('mysql')
         );
@@ -317,12 +317,11 @@ class PageController
         // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
         $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
-        // phpcs:enable WordPress.Security.NonceVerification.Recommended
-
         $direction = $_GET['direction'] ?? null;
         if (is_string($direction)) {
             $direction = sanitize_key(wp_unslash($direction));
         }
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         if (
             $id === null
@@ -360,7 +359,7 @@ class PageController
 
         // The quiz ID is needed to construct the nonce action; no mutation occurs before nonce verification.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $post = wp_unslash($post);
+        $post = wp_unslash($_POST);
         $submitted_quiz_id = $post['quiz_id'] ?? null;
         if (
             !is_scalar($submitted_quiz_id)
