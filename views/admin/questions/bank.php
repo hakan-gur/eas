@@ -15,12 +15,16 @@ $type_labels = array(
 
 ?>
 
+<?php
+// phpcs:disable WordPress.Security.NonceVerification.Recommended -- This GET parameter only controls a read-only notice and does not perform an action.
+$eas_warning = isset($_GET['eas_warning'])
+    ? sanitize_key(wp_unslash($_GET['eas_warning']))
+    : '';
+// phpcs:enable WordPress.Security.NonceVerification.Recommended
+?>
+
 <div class="wrap">
-    <?php if (
-        isset($_GET['eas_warning'])
-        &&
-        sanitize_key(wp_unslash($_GET['eas_warning'])) === 'missing_correct_answer'
-    ) : ?>
+    <?php if ($eas_warning === 'missing_correct_answer') : ?>
         <div class="notice notice-warning is-dismissible">
             <p>
                 <?php esc_html_e('Warning: This question has no correct answer selected. It has been saved, but it cannot be graded correctly.', 'eas-quiz'); ?>
