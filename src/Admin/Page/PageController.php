@@ -70,7 +70,7 @@ class PageController
             }
         }
 
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Type-checked and unslashed/sanitized immediately below.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Type-checked and unslashed/sanitized immediately below.
         $action = $_GET['action'] ?? '';
 
         if (!is_string($action)) {
@@ -317,6 +317,7 @@ class PageController
         // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $id = $this->validated_positive_request_id($_GET, 'id');
         $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Type-checked and unslashed/sanitized immediately below.
         $direction = $_GET['direction'] ?? null;
         if (is_string($direction)) {
             $direction = sanitize_key(wp_unslash($direction));
