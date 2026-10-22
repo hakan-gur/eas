@@ -30,6 +30,7 @@ class ResultRepository
     }
     public function get_attempt(int $id): ?array
     {
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; the attempt ID is prepared.
         $attempt = $this->wpdb->get_row(
             $this->wpdb->prepare(
                 "SELECT 
@@ -43,11 +44,13 @@ class ResultRepository
             ),
             ARRAY_A
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         return $attempt ?: null;
     }
     public function get_responses(int $attempt_id): array
     {
-        return $this->wpdb->get_results(
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table identifiers use the trusted WordPress prefix and fixed EAS suffix; the attempt ID is prepared.
+        $responses = $this->wpdb->get_results(
             $this->wpdb->prepare(
                 "SELECT
                     r.*,
@@ -64,5 +67,8 @@ class ResultRepository
             ),
             ARRAY_A
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+        return $responses;
     }
 }
