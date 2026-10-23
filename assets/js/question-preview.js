@@ -53,6 +53,7 @@
             var words = Array.from(bank.querySelectorAll('.eas-draggable-word'));
 
             words.forEach(function (word) {
+                word.dataset.originalValue = word.dataset.originalValue || word.textContent.trim();
                 word.draggable = true;
                 word.addEventListener('dragstart', function (event) {
                     dragged = word;
@@ -65,6 +66,25 @@
                     dragged = null;
                 });
             });
+
+            function beginsSentence(blank) {
+                var textContainer = question.querySelector('.eas-question-text');
+                if (!textContainer) return false;
+
+                var range = document.createRange();
+                range.selectNodeContents(textContainer);
+                range.setEndBefore(blank);
+                var before = range.toString().trim();
+
+                return before === '' || /[.!?]["')\\]]*$/.test(before);
+            }
+
+            function displayValue(value, blank) {
+                if (!value) return '';
+                return beginsSentence(blank)
+                    ? value.charAt(0).toUpperCase() + value.slice(1)
+                    : value;
+            }
 
             function clearBlank(blank) {
                 var existing = blank.querySelector('.eas-preview-word');
@@ -81,12 +101,15 @@
                 if (!blank || !word) return;
                 clearBlank(blank);
                 var clone = word.cloneNode(true);
+                var originalValue = word.dataset.originalValue || word.textContent.trim();
+                clone.dataset.originalValue = originalValue;
+                clone.textContent = displayValue(originalValue, blank);
                 clone.className = 'eas-draggable-word eas-preview-word';
                 clone.draggable = true;
                 clone.addEventListener('dragstart', function (event) {
                     dragged = clone;
                     event.dataTransfer.effectAllowed = 'move';
-                    event.dataTransfer.setData('text/plain', clone.textContent.trim());
+                    event.dataTransfer.setData('text/plain', clone.dataset.originalValue || clone.textContent.trim());
                 });
                 blank.textContent = '';
                 blank.appendChild(clone);
