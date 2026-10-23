@@ -41,7 +41,7 @@ class QuestionPreviewController
          * Validate the question ID before converting it to an integer.
          * This rejects arrays, malformed values, zero, negatives, and overflow.
          */
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This read-only preview requires administrator capability and does not change data.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Capture the raw value so it can be unslashed and sanitized below; this read-only preview requires administrator capability and does not change data.
         $raw_id = $_GET['id'] ?? null;
         $submitted_id = is_scalar($raw_id)
             ? sanitize_text_field(wp_unslash($raw_id))
