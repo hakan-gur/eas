@@ -153,47 +153,73 @@ class AdminController
 
         $quiz_count = $this->quizzes->count();
 
-        $question_count = (int) $wpdb->get_var(
-            "SELECT COUNT(*)
-             FROM {$wpdb->prefix}eas_items"
+        $question_count = wp_cache_get(
+            'question_count',
+            'eas_dashboard'
         );
 
-        $student_count = (int) $wpdb->get_var(
-            "SELECT COUNT(*)
-             FROM {$wpdb->users}"
-        );
+        if ($question_count === false) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Counts questions in the plugin's custom table; no WordPress API provides this count.
+            $question_count = (int) $wpdb->get_var(
+                "SELECT COUNT(*)
+                 FROM {$wpdb->prefix}eas_items"
+            );
+
+            wp_cache_set(
+                'question_count',
+                $question_count,
+                'eas_dashboard',
+                60
+            );
+        }
+
+        $user_counts = count_users();
+        $student_count = (int) ($user_counts['total_users'] ?? 0);
 
         $attemptRepository = new \EAS\Attempt\AttemptRepository();
 
         $pending_grading = $attemptRepository->count_pending_grading();
 
-        $recent_attempts = $wpdb->get_results(
-            "
-            SELECT
-                a.id,
-                a.score,
-                a.completed_at,
-                u.display_name,
-                q.title AS quiz_title
-
-            FROM {$wpdb->prefix}eas_attempts a
-
-            LEFT JOIN {$wpdb->users} u
-
-                ON a.user_id = u.ID
-
-            LEFT JOIN {$wpdb->prefix}eas_quizzes q
-
-                ON a.quiz_id = q.id
-
-            WHERE a.status = 'completed'
-
-            ORDER BY a.completed_at DESC
-
-            LIMIT 5
-            ",
-            ARRAY_A
+        $recent_attempts = wp_cache_get(
+            'recent_attempts',
+            'eas_dashboard'
         );
+
+        if ($recent_attempts === false) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Retrieves recent records from the plugin's custom attempts table with WordPress user and quiz details; no core API provides this combined query.
+            $recent_attempts = $wpdb->get_results(
+                "
+                SELECT
+                    a.id,
+                    a.score,
+                    a.completed_at,
+                    u.display_name,
+                    q.title AS quiz_title
+
+                FROM {$wpdb->prefix}eas_attempts a
+
+                LEFT JOIN {$wpdb->users} u
+                    ON a.user_id = u.ID
+
+                LEFT JOIN {$wpdb->prefix}eas_quizzes q
+                    ON a.quiz_id = q.id
+
+                WHERE a.status = 'completed'
+
+                ORDER BY a.completed_at DESC
+
+                LIMIT 5
+                ",
+                ARRAY_A
+            );
+
+            wp_cache_set(
+                'recent_attempts',
+                $recent_attempts,
+                'eas_dashboard',
+                60
+            );
+        }
 
         require EAS_PLUGIN_DIR .
             'views/admin/dashboard.php';
