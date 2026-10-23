@@ -386,14 +386,33 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    toggle.addEventListener('click', function () {
-        const hidden = layout.classList.toggle('navigation-hidden');
+    const storageKey = 'eas-navigation-hidden-quiz-<?php echo (int) $page['quiz_id']; ?>';
 
+    function updateToggleState(hidden) {
+        layout.classList.toggle('navigation-hidden', hidden);
         toggle.setAttribute('aria-expanded', hidden ? 'false' : 'true');
         toggle.innerHTML = hidden ? '&lt;' : '&gt;';
         toggle.title = hidden
             ? '<?php echo esc_js(__('Show navigation', 'eas-quiz')); ?>'
             : '<?php echo esc_js(__('Hide navigation', 'eas-quiz')); ?>';
+    }
+
+    // Keep the panel's visibility consistent as the user moves between pages of this quiz.
+    try {
+        updateToggleState(window.sessionStorage.getItem(storageKey) === '1');
+    } catch (error) {
+        // The panel remains usable if session storage is unavailable.
+    }
+
+    toggle.addEventListener('click', function () {
+        const hidden = !layout.classList.contains('navigation-hidden');
+        updateToggleState(hidden);
+
+        try {
+            window.sessionStorage.setItem(storageKey, hidden ? '1' : '0');
+        } catch (error) {
+            // Toggling still works on the current page if session storage is unavailable.
+        }
     });
 
     document.querySelectorAll('.eas-navigation-page-number').forEach(function (button) {
