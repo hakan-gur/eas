@@ -41,9 +41,8 @@ class QuestionPreviewController
          * Validate the question ID before converting it to an integer.
          * This rejects arrays, malformed values, zero, negatives, and overflow.
          */
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This endpoint only renders a read-only preview; the capability check above restricts access to administrators.
         $submitted_id = isset($_GET['id']) && is_scalar($_GET['id'])
-            ? sanitize_text_field(wp_unslash($_GET['id']))
+            ? sanitize_text_field(wp_unslash($_GET['id'])) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only preview; the capability check above restricts access to administrators.
             : null;
 
         if (
