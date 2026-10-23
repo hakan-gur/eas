@@ -55,12 +55,14 @@ class ResultController
         $submitted_attempt_id = null;
 
         if (isset($_GET['attempt_id'])) {
-            if (!is_scalar($_GET['attempt_id'])) {
+            $raw_attempt_id = wp_unslash($_GET['attempt_id']);
+
+            if (!is_scalar($raw_attempt_id)) {
                 return '<p>' . esc_html__('No attempt selected.', 'eas-quiz') . '</p>';
             }
 
             $submitted_attempt_id = sanitize_text_field(
-                wp_unslash((string) $_GET['attempt_id'])
+                (string) $raw_attempt_id
             );
         }
 
@@ -87,12 +89,14 @@ class ResultController
         $submitted_review = null;
 
         if (isset($_GET['review'])) {
-            if (!is_scalar($_GET['review'])) {
+            $raw_review = wp_unslash($_GET['review']);
+
+            if (!is_scalar($raw_review)) {
                 return '<p>' . esc_html__('Invalid result request.', 'eas-quiz') . '</p>';
             }
 
             $submitted_review = sanitize_text_field(
-                wp_unslash((string) $_GET['review'])
+                (string) $raw_review
             );
 
             if (!preg_match('/\A[01]\z/', $submitted_review)) {
