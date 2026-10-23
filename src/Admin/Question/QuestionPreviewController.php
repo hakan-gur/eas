@@ -48,7 +48,7 @@ class QuestionPreviewController
 
         if (
             !is_string($submitted_id)
-            || !preg_match('/\\A[1-9][0-9]*\\z/', $submitted_id)
+            || !preg_match('/\A[1-9][0-9]*\z/', $submitted_id)
         ) {
             wp_die(esc_html__('Question not found.', 'eas-quiz'));
         }
