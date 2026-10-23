@@ -300,9 +300,16 @@ if (
     }
 }
 
-echo esc_html(
-    $student_answer
-); ?>
+if (($response['type'] ?? '') === 'essay') {
+    echo nl2br(
+        esc_html($student_answer)
+    );
+} else {
+    echo esc_html(
+        $student_answer
+    );
+}
+?>
 
 </div>
 

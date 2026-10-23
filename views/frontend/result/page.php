@@ -78,6 +78,12 @@ if (!defined('ABSPATH')) {
                                     ?? '';
 
                                 if (
+                                    ($response['type'] ?? '') === 'essay'
+                                ) {
+                                    echo nl2br(
+                                        esc_html((string) $answer)
+                                    );
+                                } elseif (
                                     ($response['type'] ?? '') === 'fill_blank'
                                 ) {
                                     echo esc_html(
