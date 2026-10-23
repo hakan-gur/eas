@@ -95,11 +95,13 @@ class QuizMenu
     {
 
 
-        if (
-            isset($_GET['action'])
-            &&
-            $_GET['action'] === 'add'
-        ) {
+        // These query parameters select the screen; deletion is separately nonce-protected below.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
+        $action = isset($_GET['action']) ? sanitize_key(wp_unslash($_GET['action'])) : '';
+        $quiz_id = isset($_GET['id']) ? absint(wp_unslash($_GET['id'])) : 0;
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+        if ($action === 'add') {
 
             $this->form->display();
 
@@ -110,15 +112,13 @@ class QuizMenu
 
 
         if (
-            isset($_GET['action'])
+            $action === 'edit'
             &&
-            $_GET['action'] === 'edit'
-            &&
-            isset($_GET['id'])
+            $quiz_id > 0
         ) {
 
             $this->form->display(
-                (int) $_GET['id']
+                $quiz_id
             );
 
             return;
@@ -128,16 +128,16 @@ class QuizMenu
 
 
         if (
-            isset($_GET['action'])
+            $action === 'delete'
             &&
-            $_GET['action'] === 'delete'
-            &&
-            isset($_GET['id'])
+            $quiz_id > 0
         ) {
 
 
+            check_admin_referer('eas_delete_quiz_' . $quiz_id);
+
             $this->repository->delete(
-                (int) $_GET['id']
+                $quiz_id
             );
 
 
@@ -253,9 +253,17 @@ class QuizMenu
                 echo ' | ';
 
 
-                echo '<a href="?page=eas-quizzes&action=delete&id='
-                    . esc_attr($quiz['id'])
-                    . '" onclick="return confirm(\''
+                echo '<a href="' . esc_url(wp_nonce_url(
+                    add_query_arg(
+                        array(
+                            'page' => 'eas-quizzes',
+                            'action' => 'delete',
+                            'id' => absint($quiz['id']),
+                        ),
+                        admin_url('admin.php')
+                    ),
+                    'eas_delete_quiz_' . absint($quiz['id'])
+                )) . '" onclick="return confirm(\''
                     . esc_js(__('Delete this quiz?', 'eas-quiz'))
                     . '\')">'
                     . esc_html__('Delete', 'eas-quiz')
