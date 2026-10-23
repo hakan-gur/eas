@@ -176,33 +176,76 @@ class ResultRenderer
                 ksort($student_answers);
 
                 /*
-                 * Display student's words.
+                 * Reconstruct the question text while applying the same
+                 * sentence-initial capitalization used on the Attempt page.
+                 * Keep the saved answers unchanged.
                  */
-                $response['student_answer'] =
-                    implode(
-                        ' ',
-                        array_map(
-                            'strval',
-                            $student_answers
-                        )
-                    );
+                $original_question_text = (string) (
+                    $response['question_text'] ?? ''
+                );
+                $display_answers = array();
 
-                /*
-                 * Reconstruct the question text.
-                 *
-                 * [[1]] -> word
-                 * [[2]] -> word
-                 */
                 foreach (
                     $student_answers as $position => $word
                 ) {
-                    $response['question_text'] =
-                        str_replace(
-                            '[[' . $position . ']]',
-                            (string) $word,
-                            $response['question_text']
+                    $placeholder = '[[' . $position . ']]';
+                    $display_word = (string) $word;
+                    $placeholder_offset = strpos(
+                        $original_question_text,
+                        $placeholder
+                    );
+
+                    if ($placeholder_offset !== false) {
+                        $text_before = wp_strip_all_tags(
+                            substr(
+                                $original_question_text,
+                                0,
+                                $placeholder_offset
+                            )
                         );
+                        $text_before = trim(
+                            html_entity_decode(
+                                $text_before,
+                                ENT_QUOTES,
+                                'UTF-8'
+                            )
+                        );
+
+                        if (
+                            $text_before === ''
+                            || preg_match('/[.!?]$/', $text_before)
+                        ) {
+                            if (
+                                function_exists('mb_substr')
+                                && function_exists('mb_strtoupper')
+                            ) {
+                                $display_word =
+                                    mb_strtoupper(
+                                        mb_substr($display_word, 0, 1, 'UTF-8'),
+                                        'UTF-8'
+                                    )
+                                    . mb_substr($display_word, 1, null, 'UTF-8');
+                            } else {
+                                $display_word = ucfirst($display_word);
+                            }
+                        }
+                    }
+
+                    $display_answers[] = $display_word;
+                    $response['question_text'] = str_replace(
+                        $placeholder,
+                        $display_word,
+                        $response['question_text']
+                    );
                 }
+
+                /*
+                 * Display the same capitalized form in the answer summary.
+                 */
+                $response['student_answer'] = implode(
+                    ' ',
+                    $display_answers
+                );
 
                 /*
                  * Get correct answers.

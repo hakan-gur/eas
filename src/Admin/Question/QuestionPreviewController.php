@@ -94,7 +94,7 @@ class QuestionPreviewController
             $preview_js,
             array(),
             EAS_VERSION,
-            false
+            true
         );
         ?>
 <!doctype html>
@@ -103,7 +103,7 @@ class QuestionPreviewController
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo esc_html($title); ?></title>
-    <?php wp_print_styles(array('eas-question-preview-frontend', 'eas-question-preview')); ?>
+    <?php wp_head(); ?>
 </head>
 <body class="eas-question-preview-page">
     <main class="eas-question-preview">
@@ -126,7 +126,7 @@ class QuestionPreviewController
             </section>
         </div>
     </main>
-    <?php wp_print_scripts(array('eas-question-preview')); ?>
+    <?php wp_footer(); ?>
 </body>
 </html>
 <?php
