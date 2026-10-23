@@ -68,10 +68,17 @@ if (!defined('ABSPATH')) {
                                 $attempt_id
                             );
 
-                        global $wpdb;
+                        $manual_question_count = wp_cache_get(
+                            'attempt_' . $attempt_id,
+                            'eas_manual_question_count'
+                        );
 
-                        $manual_question_count =
-                            (int) $wpdb->get_var(
+                        if (false === $manual_question_count) {
+
+                            global $wpdb;
+
+                            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- The custom EAS tables require this joined count, which is cached per attempt for 60 seconds.
+                            $manual_question_count = (int) $wpdb->get_var(
                                 $wpdb->prepare(
                                     "
                                     SELECT COUNT(*)
@@ -87,6 +94,15 @@ if (!defined('ABSPATH')) {
                                     $attempt_id
                                 )
                             );
+
+                            wp_cache_set(
+                                'attempt_' . $attempt_id,
+                                $manual_question_count,
+                                'eas_manual_question_count',
+                                60
+                            );
+
+                        }
 
                         if ($manual_question_count > 0) {
 
