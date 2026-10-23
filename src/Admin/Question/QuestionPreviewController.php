@@ -41,17 +41,20 @@ class QuestionPreviewController
          * Validate the question ID before converting it to an integer.
          * This rejects arrays, malformed values, zero, negatives, and overflow.
          */
-        $submitted_id = $_GET['id'] ?? null;
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This endpoint only renders a read-only preview; the capability check above restricts access to administrators.
+        $submitted_id = isset($_GET['id']) && is_scalar($_GET['id'])
+            ? sanitize_text_field(wp_unslash($_GET['id']))
+            : null;
 
         if (
-            !is_scalar($submitted_id)
-            || !preg_match('/\A[1-9][0-9]*\z/', (string) wp_unslash($submitted_id))
+            !is_string($submitted_id)
+            || !preg_match('/\\A[1-9][0-9]*\\z/', $submitted_id)
         ) {
             wp_die(esc_html__('Question not found.', 'eas-quiz'));
         }
 
         $id = filter_var(
-            (string) wp_unslash($submitted_id),
+            $submitted_id,
             FILTER_VALIDATE_INT,
             array('options' => array('min_range' => 1))
         );
