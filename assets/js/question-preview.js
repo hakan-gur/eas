@@ -90,6 +90,7 @@
                 var existing = blank.querySelector('.eas-preview-word');
                 if (existing) {
                     existing.className = 'eas-draggable-word';
+                    existing.textContent = existing.dataset.originalValue || existing.textContent;
                     existing.draggable = true;
                     bank.appendChild(existing);
                 }
