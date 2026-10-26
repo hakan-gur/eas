@@ -426,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return true;
             }
 
-            return /[.!?]["')\\]]*$/.test(before);
+            return /[.!?]["')\]]*$/.test(before);
         }
 
         function getDisplayValue(value, blank) {
