@@ -377,7 +377,8 @@ document.addEventListener(
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
+    function initializeNavigationPanel() {
     const layout = document.getElementById('eas-attempt-layout');
     const toggle = document.getElementById('eas-navigation-toggle');
     const form = document.getElementById('eas-attempt-form');
@@ -432,5 +433,14 @@ document.addEventListener('DOMContentLoaded', function () {
             form.submit();
         });
     });
-});
+    }
+
+    // The template may be rendered after DOMContentLoaded (for example, by a
+    // shortcode or another rendering path). Initialize immediately in that case.
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeNavigationPanel, { once: true });
+    } else {
+        initializeNavigationPanel();
+    }
+})();
 </script>
