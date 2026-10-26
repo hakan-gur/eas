@@ -113,6 +113,16 @@ href="<?php echo esc_url(admin_url(
 
 </div>
 
+<?php elseif (($response['type'] ?? '') === 'drag_drop_text') : ?>
+
+<div class="eas-question-text">
+
+<?php echo wp_kses_post(
+    (string) ($response['question_text'] ?? '')
+); ?>
+
+</div>
+
 <?php else : ?>
 
 <h2>
