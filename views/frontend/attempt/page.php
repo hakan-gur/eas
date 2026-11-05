@@ -104,16 +104,6 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
         <input type="hidden" name="go_to_page_id" id="eas-go-to-page-id" value="">
     <?php endif; ?>
 
-    <?php if (!empty($page_time_limit)) : ?>
-        <?php endif; ?>
-
-    <?php if (
-        isset($remaining_seconds)
-        && $remaining_seconds !== null
-        && empty($page_time_limit)
-    ) : ?>
-        <?php endif; ?>
-
     <?php if (!empty($page['content'])) : ?>
         <div class="eas-page-content">
             <?php echo do_shortcode($page['content']); ?>
