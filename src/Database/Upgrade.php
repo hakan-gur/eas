@@ -48,7 +48,7 @@ $current = (string) get_option(
         if (version_compare($current, '1.2', '<')) {
 
 
-            self::upgrade_1_2();
+            // Installer::install() has already applied the complete attempts schema.
 
 
 
@@ -215,57 +215,6 @@ if (version_compare($current, '1.5', '<')) {
 
 
         }
-
-
-    }
-
-
-
-
-
-    private static function upgrade_1_2(): void
-    {
-
-
-        global $wpdb;
-
-
-        require_once ABSPATH .
-            'wp-admin/includes/upgrade.php';
-
-
-
-        $table = $wpdb->prefix . 'eas_attempts';
-
-
-
-        $charset_collate = $wpdb->get_charset_collate();
-
-
-
-        $sql = "CREATE TABLE {$table} (
-
-            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-
-            quiz_id bigint(20) unsigned NOT NULL,
-
-            user_id bigint(20) unsigned NOT NULL,
-
-            status varchar(50) NOT NULL DEFAULT 'in_progress',
-
-            score decimal(10,2) NOT NULL DEFAULT 0,
-
-            started_at datetime NOT NULL,
-
-            finished_at datetime NULL,
-
-            PRIMARY KEY (id)
-
-        ) {$charset_collate};";
-
-
-
-        dbDelta($sql);
 
 
     }
