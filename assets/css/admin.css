@@ -1,5 +1,66 @@
 .eas-admin-box {
+    padding: 20px;
+}
 
-    padding:20px;
+/* Quiz list table. */
+.eas-quizzes-table th:first-child,
+.eas-quizzes-table td:first-child {
+    width: 30%;
+}
 
+.eas-quizzes-table th:last-child,
+.eas-quizzes-table td:last-child {
+    width: 40%;
+    white-space: nowrap;
+}
+
+.eas-quizzes-table td:first-child {
+    word-break: break-word;
+}
+
+/* Page list table. */
+.eas-pages-table th:first-child,
+.eas-pages-table td:first-child {
+    width: 5%;
+}
+
+.eas-pages-table th:nth-child(2),
+.eas-pages-table td:nth-child(2) {
+    width: 30%;
+}
+
+.eas-pages-table th:nth-child(3),
+.eas-pages-table td:nth-child(3),
+.eas-pages-table th:nth-child(4),
+.eas-pages-table td:nth-child(4) {
+    width: 10%;
+}
+
+.eas-pages-table th:last-child,
+.eas-pages-table td:last-child {
+    width: 30%;
+    white-space: nowrap;
+}
+
+.eas-page-row {
+    cursor: grab;
+}
+
+.eas-page-row:active {
+    cursor: grabbing;
+}
+
+.eas-page-row.dragging {
+    opacity: 0.5;
+}
+
+.eas-page-row.drag-over {
+    border-top: 3px solid #2271b1;
+}
+
+.eas-page-drag {
+    width: 5%;
+    text-align: center;
+    color: #777;
+    font-size: 18px;
 }

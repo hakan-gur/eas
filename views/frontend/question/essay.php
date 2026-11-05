@@ -19,7 +19,7 @@ if (is_array($settings)) {
 ?>
 
 
-<div class="eas-question">
+<div class="eas-question" data-paste-error="<?php echo esc_attr__('Paste is not allowed by your browser.', 'eas-quiz'); ?>">
 
 
 <h3>
@@ -63,152 +63,8 @@ echo esc_textarea(
      style="text-align:center; margin-top:5px; color:#666;">
 
     <?php esc_html_e('Words:', 'eas-quiz'); ?> <span>0</span>
-<script>
-
-(function(){
-
-    const container =
-        document.currentScript.closest('.eas-question');
-
-
-    const box =
-        container.querySelector('.eas-essay-box');
-
-
-    const cut =
-        container.querySelector('.eas-cut');
-
-
-    const copy =
-        container.querySelector('.eas-copy');
-
-
-    const paste =
-        container.querySelector('.eas-paste');
-
-
-
-    cut.addEventListener(
-        'click',
-        function(){
-
-            document.execCommand('cut');
-
-        }
-    );
-
-
-
-    copy.addEventListener(
-        'click',
-        function(){
-
-            document.execCommand('copy');
-
-        }
-    );
-
-
-
-    paste.addEventListener(
-        'click',
-        async function(){
-
-
-            try {
-
-                const text =
-                    await navigator.clipboard.readText();
-
-
-                const start =
-                    box.selectionStart;
-
-
-                const end =
-                    box.selectionEnd;
-
-
-                box.value =
-                    box.value.substring(0,start)
-                    +
-                    text
-                    +
-                    box.value.substring(end);
-
-
-                box.focus();
-
-
-            }
-            catch(error){
-
-                alert(
-                    '<?php echo esc_js(__('Paste is not allowed by your browser.', 'eas-quiz')); ?>'
-                );
-
-            }
-
-
-        }
-    );
-
-
-})();
-
-</script>
 </div>
 
 </div>
 
-<script>
-
-(function(){
-
-    const box =
-        document.currentScript
-        .closest('.eas-question')
-        .querySelector('.eas-essay-box');
-
-
-    const counter =
-        document.currentScript
-        .closest('.eas-question')
-        .querySelector('.eas-word-count span');
-
-
-    function updateWordCount(){
-
-        const text =
-            box.value.trim();
-
-
-        if (text === '') {
-
-            counter.textContent = '0';
-
-            return;
-
-        }
-
-
-        const words =
-            text.split(/\s+/).length;
-
-
-        counter.textContent =
-            words;
-
-    }
-
-
-    box.addEventListener(
-        'input',
-        updateWordCount
-    );
-
-
-})();
-
-</script>
 </div>

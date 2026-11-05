@@ -31,7 +31,7 @@ class PageController
     public function register(): void
     {
         add_submenu_page(
-            'eas-dashboard',
+            'options.php',
             __('EAS Pages', 'eas-quiz'),
             __('Pages', 'eas-quiz'),
             'manage_options',

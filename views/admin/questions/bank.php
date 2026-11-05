@@ -135,7 +135,8 @@ $eas_warning = isset($_GET['eas_warning'])
                             ),
                             'eas_delete_question_' . (int) $question['id']
                         )); ?>"
-                           onclick="return confirm('<?php echo esc_js(__('Delete this question permanently from the question bank?', 'eas-quiz')); ?>');">
+                           class="eas-confirm-delete"
+                           data-confirm="<?php echo esc_attr__('Delete this question permanently from the question bank?', 'eas-quiz'); ?>">
                             <?php esc_html_e('Delete', 'eas-quiz'); ?>
                         </a>
                     </td>

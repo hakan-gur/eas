@@ -5,23 +5,6 @@ if (!defined('ABSPATH')) {
 }
 
 ?>
-<style>
-.eas-quizzes-table th:first-child,
-.eas-quizzes-table td:first-child {
-    width: 30%;
-}
-
-.eas-quizzes-table th:last-child,
-.eas-quizzes-table td:last-child {
-    width: 40%;
-    white-space: nowrap;
-}
-
-.eas-quizzes-table td:first-child {
-    word-break: break-word;
-}
-</style>
-
 <div class="wrap eas-quizzes">
 
 <h1><?php esc_html_e('Quizzes', 'eas-quiz'); ?></h1>
@@ -104,9 +87,9 @@ href="<?php echo esc_url(wp_nonce_url(admin_url('admin-post.php?action=eas_dupli
 📄 <?php esc_html_e('Duplicate', 'eas-quiz'); ?>
 </a>
 
-<a class="button button-link-delete"
+<a class="button button-link-delete eas-confirm-delete"
 href="<?php echo esc_url(wp_nonce_url(admin_url('admin-post.php?action=eas_delete_quiz&id=' . $quiz['id']), 'eas_delete_quiz_' . $quiz['id'])); ?>"
-onclick="return confirm('<?php echo esc_js(__('Delete this quiz and ALL of its pages, questions, answers, attempts, and responses permanently?', 'eas-quiz')); ?>');">
+data-confirm="<?php echo esc_attr__('Delete this quiz and ALL of its pages, questions, answers, attempts, and responses permanently?', 'eas-quiz'); ?>">
 🗑 <?php esc_html_e('Delete', 'eas-quiz'); ?>
 </a>
 

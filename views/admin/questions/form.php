@@ -375,16 +375,5 @@ if ($question) {
             </a>
         <?php endif; ?>
 
-        <script>
-        document
-            .querySelector('select[name="type"]')
-            .addEventListener('change', function () {
-                const url = new URL(window.location.href);
-                url.searchParams.set('type', this.value);
-                url.searchParams.delete('id');
-                window.location.href = url.toString();
-            });
-        </script>
-
-    </form>
+        </form>
 </div>

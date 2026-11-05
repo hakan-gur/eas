@@ -27,7 +27,21 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
 <main class="eas-attempt-content" id="eas-attempt-content">
 <form id="eas-attempt-form"
       method="post"
-      action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+      action="<?php echo esc_url(admin_url('admin-post.php')); ?>"
+      data-submit-confirm="<?php echo esc_attr__('Are you sure you want to submit this quiz?', 'eas-quiz'); ?>"
+      data-navigation-storage-key="eas-navigation-hidden-quiz-<?php echo esc_attr((int) $page['quiz_id']); ?>"
+      data-show-navigation-label="<?php echo esc_attr__('Show navigation', 'eas-quiz'); ?>"
+      data-hide-navigation-label="<?php echo esc_attr__('Hide navigation', 'eas-quiz'); ?>"
+      data-go-to-page-nonce="<?php echo esc_attr($go_to_page_nonce); ?>"
+      <?php if (!empty($page_time_limit)) : ?>
+      data-page-time-remaining="<?php echo esc_attr((int) $page_time_remaining); ?>"
+      data-page-expiry-action="<?php echo esc_attr($next_page ? 'eas_next_page' : 'eas_submit_attempt'); ?>"
+      data-page-expiry-nonce="<?php echo esc_attr($next_page ? $next_page_nonce : wp_create_nonce('eas_submit_attempt')); ?>"
+      <?php endif; ?>
+      <?php if (isset($remaining_seconds) && $remaining_seconds !== null && empty($page_time_limit)) : ?>
+      data-quiz-time-remaining="<?php echo esc_attr((int) $remaining_seconds); ?>"
+      data-quiz-expiry-nonce="<?php echo esc_attr(wp_create_nonce('eas_submit_attempt')); ?>"
+      <?php endif; ?>>
     <input type="hidden" name="attempt_id" value="<?php echo esc_attr($attempt['id']); ?>">
 
     <div class="eas-quiz-header">
@@ -66,12 +80,9 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
                 <?php if ($previous_page) : ?>
                     <button
                         type="button"
-                        class="button"
-                        onclick="
-                            this.form.querySelector('input[name=action]').value='eas_previous_page';
-                            this.form.querySelector('input[name=_wpnonce]').value='<?php echo esc_attr($previous_page_nonce); ?>';
-                            this.form.submit();
-                        "
+                        class="button eas-attempt-navigation-submit"
+                        data-eas-action="eas_previous_page"
+                        data-eas-nonce="<?php echo esc_attr($previous_page_nonce); ?>"
                     >
                         <?php esc_html_e('Previous Page', 'eas-quiz'); ?>
                     </button>
@@ -79,12 +90,9 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
                 <?php if ($next_page) : ?>
                     <button
                         type="button"
-                        class="button button-primary"
-                        onclick="
-                            this.form.querySelector('input[name=action]').value='eas_next_page';
-                            this.form.querySelector('input[name=_wpnonce]').value='<?php echo esc_attr($next_page_nonce); ?>';
-                            this.form.submit();
-                        "
+                        class="button button-primary eas-attempt-navigation-submit"
+                        data-eas-action="eas_next_page"
+                        data-eas-nonce="<?php echo esc_attr($next_page_nonce); ?>"
                     >
                         <?php esc_html_e('Next Page', 'eas-quiz'); ?>
                     </button>
@@ -95,130 +103,6 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
 
     <?php if ($show_navigation_panel) : ?>
         <input type="hidden" name="go_to_page_id" id="eas-go-to-page-id" value="">
-    <?php endif; ?>
-
-    <?php if (!empty($page_time_limit)) : ?>
-        <script>
-        (function () {
-            let remaining = <?php echo (int) $page_time_remaining; ?>;
-            let submitted = false;
-
-            function submitPageWhenExpired() {
-                if (submitted) {
-                    return;
-                }
-                submitted = true;
-
-                const form = document.getElementById('eas-attempt-form');
-                if (!form) {
-                    return;
-                }
-
-                const action = form.querySelector('input[name="action"]');
-                const nonce = form.querySelector('input[name="_wpnonce"]');
-
-                <?php if ($next_page) : ?>
-                    if (action) {
-                        action.value = 'eas_next_page';
-                    }
-                    if (nonce) {
-                        nonce.value = '<?php echo esc_js($next_page_nonce); ?>';
-                    }
-                <?php else : ?>
-                    if (action) {
-                        action.value = 'eas_submit_attempt';
-                    }
-                    if (nonce) {
-                        nonce.value = '<?php echo esc_js(wp_create_nonce('eas_submit_attempt')); ?>';
-                    }
-                <?php endif; ?>
-
-                form.submit();
-            }
-
-            function updatePageTimer() {
-                const countdown = document.getElementById('eas-page-countdown');
-                if (!countdown) {
-                    return;
-                }
-
-                if (remaining < 0) {
-                    remaining = 0;
-                }
-
-                const minutes = Math.floor(remaining / 60);
-                const seconds = remaining % 60;
-                countdown.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-
-                if (remaining <= 0) {
-                    submitPageWhenExpired();
-                    return;
-                }
-
-                remaining--;
-            }
-
-            updatePageTimer();
-            setInterval(updatePageTimer, 1000);
-        })();
-        </script>
-    <?php endif; ?>
-
-    <?php if (
-        isset($remaining_seconds)
-        && $remaining_seconds !== null
-        && empty($page_time_limit)
-    ) : ?>
-        <script>
-        (function () {
-            let remaining = <?php echo (int) $remaining_seconds; ?>;
-            let submitted = false;
-
-            function submitQuizWhenExpired() {
-                if (submitted) {
-                    return;
-                }
-                submitted = true;
-
-                const form = document.getElementById('eas-attempt-form');
-                if (!form) {
-                    return;
-                }
-
-                const action = form.querySelector('input[name="action"]');
-                if (action) {
-                    action.value = 'eas_submit_attempt';
-                }
-
-                form.submit();
-            }
-
-            function updateQuizTimer() {
-                const countdown = document.getElementById('eas-countdown');
-                if (!countdown) {
-                    return;
-                }
-
-                if (remaining < 0) {
-                    remaining = 0;
-                }
-
-                const minutes = Math.floor(remaining / 60);
-                const seconds = remaining % 60;
-                countdown.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-
-                if (remaining <= 0) {
-                    submitQuizWhenExpired();
-                    return;
-                }
-
-                remaining--;
-            }
-
-            updateQuizTimer();
-            setInterval(updateQuizTimer, 1000);
-        })();
-        </script>
     <?php endif; ?>
 
     <?php if (!empty($page['content'])) : ?>
@@ -307,39 +191,7 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
         </p>
     <?php endif; ?>
 
-    <script>
-document.addEventListener(
-    'DOMContentLoaded',
-    function () {
-        const form = document.getElementById('eas-attempt-form');
-
-        if (!form) {
-            return;
-        }
-
-        form.addEventListener(
-            'submit',
-            function (event) {
-                const action = form.querySelector('input[name="action"]');
-
-                if (
-                    action
-                    && action.value === 'eas_submit_attempt'
-                ) {
-                    if (
-                        !window.confirm(
-                            '<?php echo esc_js(__('Are you sure you want to submit this quiz?', 'eas-quiz')); ?>'
-                        )
-                    ) {
-                        event.preventDefault();
-                    }
-                }
-            }
-        );
-    }
-);
-    </script>
-</form>
+    </form>
 </main>
 <?php if ($show_navigation_panel) : ?>
     <aside class="eas-navigation-panel" id="eas-navigation-panel" aria-label="<?php echo esc_attr__('Quiz Navigation', 'eas-quiz'); ?>">
@@ -376,71 +228,3 @@ document.addEventListener(
 </div>
 </div>
 
-<script>
-(function () {
-    function initializeNavigationPanel() {
-    const layout = document.getElementById('eas-attempt-layout');
-    const toggle = document.getElementById('eas-navigation-toggle');
-    const form = document.getElementById('eas-attempt-form');
-
-    if (!layout || !toggle || !form) {
-        return;
-    }
-
-    const storageKey = 'eas-navigation-hidden-quiz-<?php echo (int) $page['quiz_id']; ?>';
-
-    function updateToggleState(hidden) {
-        layout.classList.toggle('navigation-hidden', hidden);
-        toggle.setAttribute('aria-expanded', hidden ? 'false' : 'true');
-        toggle.innerHTML = hidden ? '&lt;' : '&gt;';
-        toggle.title = hidden
-            ? '<?php echo esc_js(__('Show navigation', 'eas-quiz')); ?>'
-            : '<?php echo esc_js(__('Hide navigation', 'eas-quiz')); ?>';
-    }
-
-    // Keep the panel's visibility consistent as the user moves between pages of this quiz.
-    try {
-        updateToggleState(window.sessionStorage.getItem(storageKey) === '1');
-    } catch (error) {
-        // The panel remains usable if session storage is unavailable.
-    }
-
-    toggle.addEventListener('click', function () {
-        const hidden = !layout.classList.contains('navigation-hidden');
-        updateToggleState(hidden);
-
-        try {
-            window.sessionStorage.setItem(storageKey, hidden ? '1' : '0');
-        } catch (error) {
-            // Toggling still works on the current page if session storage is unavailable.
-        }
-    });
-
-    document.querySelectorAll('.eas-navigation-page-number').forEach(function (button) {
-        button.addEventListener('click', function () {
-            const pageId = this.getAttribute('data-page-id');
-            const action = form.querySelector('input[name="action"]');
-            const nonce = form.querySelector('input[name="_wpnonce"]');
-            const target = document.getElementById('eas-go-to-page-id');
-
-            if (!pageId || !action || !nonce || !target) {
-                return;
-            }
-
-            action.value = 'eas_go_to_page';
-            nonce.value = '<?php echo esc_js($go_to_page_nonce); ?>';
-            target.value = pageId;
-            form.submit();
-        });
-    });
-    }
-
-    // The template may be rendered after DOMContentLoaded (for example, by a
-    // shortcode or another rendering path). Initialize immediately in that case.
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeNavigationPanel, { once: true });
-    } else {
-        initializeNavigationPanel();
-    }
-})();
-</script>
