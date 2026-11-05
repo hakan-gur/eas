@@ -52,7 +52,7 @@
 
             update();
 
-            if (remaining > 0) {
+            if (!submitted) {
                 window.setInterval(update, 1000);
             }
         }
