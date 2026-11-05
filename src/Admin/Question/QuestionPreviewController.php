@@ -41,7 +41,7 @@ class QuestionPreviewController
          * Validate the question ID before converting it to an integer.
          * This rejects arrays, malformed values, zero, negatives, and overflow.
          */
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Capture the raw value so it can be unslashed and sanitized below; this read-only preview requires administrator capability and does not change data.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Capture the raw value so it can be unslashed and sanitized below; the action-specific nonce and administrator capability are checked before rendering.
         $raw_id = $_GET['id'] ?? null;
         $submitted_id = is_scalar($raw_id)
             ? sanitize_text_field(wp_unslash($raw_id))
@@ -63,6 +63,8 @@ class QuestionPreviewController
         if ($id === false) {
             wp_die(esc_html__('Question not found.', 'eas-quiz'));
         }
+
+        check_admin_referer('eas_preview_question_' . $id);
 
         $question = $this->repository->find($id);
 
