@@ -40,6 +40,7 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
       <?php endif; ?>
       <?php if (isset($remaining_seconds) && $remaining_seconds !== null && empty($page_time_limit)) : ?>
       data-quiz-time-remaining="<?php echo esc_attr((int) $remaining_seconds); ?>"
+      data-quiz-expiry-nonce="<?php echo esc_attr(wp_create_nonce('eas_submit_attempt')); ?>"
       <?php endif; ?>>
     <input type="hidden" name="attempt_id" value="<?php echo esc_attr($attempt['id']); ?>">
 
