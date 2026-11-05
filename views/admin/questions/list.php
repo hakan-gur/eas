@@ -365,7 +365,8 @@ $page_id
 'eas_delete_question_' . $question['id']
 
 )); ?>"
-onclick="return confirm('<?php echo esc_js(__('Remove this question from the page?', 'eas-quiz')); ?>');">
+class="eas-confirm-delete"
+data-confirm="<?php echo esc_attr__('Remove this question from the page?', 'eas-quiz'); ?>">
 
 <?php esc_html_e('Remove', 'eas-quiz'); ?>
 
