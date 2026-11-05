@@ -119,7 +119,6 @@ class AdminController
 
     public function hide_internal_pages(): void
     {
-        remove_submenu_page('eas-dashboard', 'eas-pages');
         remove_submenu_page('eas-dashboard', 'eas-attempt-grade');
     }
 
