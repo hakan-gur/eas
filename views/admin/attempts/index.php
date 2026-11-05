@@ -258,10 +258,9 @@ $delete_url = wp_nonce_url(
 );
 ?>
 
-<a class="button"
+<a class="button eas-confirm-delete"
    style="margin-left:5px;"
    href="<?php echo esc_url($delete_url); ?>"
-   class="eas-confirm-delete"
    data-confirm="<?php echo esc_attr__('Are you sure you want to permanently delete this student attempt? All answers and associated audio recordings will also be deleted.', 'eas-quiz'); ?>">
     🗑 <?php esc_html_e('Delete', 'eas-quiz'); ?>
 </a>
