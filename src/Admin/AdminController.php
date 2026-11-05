@@ -130,16 +130,18 @@ class AdminController
             ? sanitize_key(wp_unslash($_GET['page']))
             : '';
 
-        if (!in_array($page, array('eas-quizzes', 'eas-pages'), true)) {
+        if (!in_array($page, array('eas-quizzes', 'eas-pages', 'eas-questions', 'eas-attempts'), true)) {
             return;
         }
 
-        wp_enqueue_style(
-            'eas-admin',
-            EAS_PLUGIN_URL . 'assets/css/admin.css',
-            array(),
-            EAS_VERSION
-        );
+        if (in_array($page, array('eas-quizzes', 'eas-pages'), true)) {
+            wp_enqueue_style(
+                'eas-admin',
+                EAS_PLUGIN_URL . 'assets/css/admin.css',
+                array(),
+                EAS_VERSION
+            );
+        }
 
         wp_enqueue_script(
             'eas-admin',
@@ -148,6 +150,16 @@ class AdminController
             EAS_VERSION,
             true
         );
+
+        if ($page === 'eas-questions') {
+            wp_enqueue_script(
+                'eas-admin-question-form',
+                EAS_PLUGIN_URL . 'assets/js/admin-question-form.js',
+                array(),
+                EAS_VERSION,
+                true
+            );
+        }
 
         if ($page === 'eas-pages') {
             wp_enqueue_script(
