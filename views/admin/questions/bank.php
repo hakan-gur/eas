@@ -125,6 +125,8 @@ $eas_warning = isset($_GET['eas_warning'])
                         |
                         <a href="<?php echo esc_url(admin_url(
                             'admin-post.php?action=eas_preview_question&id=' . (int) $question['id']
+                        ),
+                        'eas_preview_question_' . (int) $question['id']
                         )); ?>" target="_blank">
                             <?php esc_html_e('Preview', 'eas-quiz'); ?>
                         </a>

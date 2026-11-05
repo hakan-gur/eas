@@ -341,6 +341,8 @@ $question['id']
 'admin-post.php?action=eas_preview_question&id=' .
 $question['id']
 
+),
+'eas_preview_question_' . $question['id']
 )); ?>"
 target="_blank">
 
