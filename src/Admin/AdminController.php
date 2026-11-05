@@ -48,10 +48,19 @@ class AdminController
         );
 
         add_action(
-            'admin_head',
+            'admin_menu',
             array(
                 $this,
                 'hide_internal_pages'
+            ),
+            100
+        );
+
+        add_action(
+            'admin_enqueue_scripts',
+            array(
+                $this,
+                'enqueue_admin_assets'
             )
         );
     }
@@ -110,14 +119,59 @@ class AdminController
 
     public function hide_internal_pages(): void
     {
-        ?>
-        <style>
-            #adminmenu li:has(> a[href*="page=eas-pages"]),
-            #adminmenu li:has(> a[href*="page=eas-attempt-grade"]) {
-                display: none;
-            }
-        </style>
-        <?php
+        remove_submenu_page('eas-dashboard', 'eas-pages');
+        remove_submenu_page('eas-dashboard', 'eas-attempt-grade');
+    }
+
+    public function enqueue_admin_assets(string $hook_suffix): void
+    {
+        // Load EAS admin assets only on the plugin's quiz and page management screens.
+        $page = isset($_GET['page']) && is_string($_GET['page'])
+            ? sanitize_key(wp_unslash($_GET['page']))
+            : '';
+
+        if (!in_array($page, array('eas-quizzes', 'eas-pages'), true)) {
+            return;
+        }
+
+        wp_enqueue_style(
+            'eas-admin',
+            EAS_PLUGIN_URL . 'assets/css/admin.css',
+            array(),
+            EAS_VERSION
+        );
+
+        wp_enqueue_script(
+            'eas-admin',
+            EAS_PLUGIN_URL . 'assets/js/admin.js',
+            array(),
+            EAS_VERSION,
+            true
+        );
+
+        if ($page === 'eas-pages') {
+            wp_enqueue_script(
+                'eas-admin-pages',
+                EAS_PLUGIN_URL . 'assets/js/admin-pages.js',
+                array(),
+                EAS_VERSION,
+                true
+            );
+
+            $quiz_id = isset($_GET['quiz_id']) && is_scalar($_GET['quiz_id'])
+                ? absint(wp_unslash($_GET['quiz_id']))
+                : 0;
+
+            wp_localize_script(
+                'eas-admin-pages',
+                'easAdminPages',
+                array(
+                    'uploadUrl' => admin_url('admin-post.php'),
+                    'quizId' => $quiz_id,
+                    'nonce' => wp_create_nonce('eas_reorder_pages_' . $quiz_id),
+                )
+            );
+        }
     }
 
     public function quizzes_page(): void
