@@ -136,6 +136,37 @@ if ($page_time_limit > 0) {
         $questions = $this->questions->all_by_page(
             (int) $page['id']
         );
+        // Attempt-level behaviour is needed only while an attempt is displayed.
+        wp_enqueue_script(
+            'eas-attempt',
+            EAS_PLUGIN_URL . 'assets/js/attempt.js',
+            array(),
+            EAS_VERSION,
+            true
+        );
+
+        $question_types = array_column($questions, 'type');
+
+        if (in_array('essay', $question_types, true)) {
+            wp_enqueue_script(
+                'eas-essay-response',
+                EAS_PLUGIN_URL . 'assets/js/essay-response.js',
+                array(),
+                EAS_VERSION,
+                true
+            );
+        }
+
+        if (in_array('audio_response', $question_types, true)) {
+            wp_enqueue_script(
+                'eas-audio-response',
+                EAS_PLUGIN_URL . 'assets/js/audio-response.js',
+                array(),
+                EAS_VERSION,
+                true
+            );
+        }
+
         $responses = new \EAS\Response\ResponseRepository();
 
 $attempt_responses = array();
