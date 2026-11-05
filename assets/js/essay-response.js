@@ -24,14 +24,12 @@
 
         if (cut) {
             cut.addEventListener('click', function () {
-                box.focus();
                 document.execCommand('cut');
             });
         }
 
         if (copy) {
             copy.addEventListener('click', function () {
-                box.focus();
                 document.execCommand('copy');
             });
         }
