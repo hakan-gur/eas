@@ -26,6 +26,7 @@
         function startTimer(initialSeconds, countdownId, onExpire) {
             let remaining = Math.max(0, parseInt(initialSeconds, 10) || 0);
             let submitted = false;
+            let timer = null;
             const countdown = document.getElementById(countdownId);
 
             function update() {
@@ -42,6 +43,9 @@
                 if (remaining <= 0) {
                     if (!submitted) {
                         submitted = true;
+                        if (timer !== null) {
+                            window.clearInterval(timer);
+                        }
                         onExpire();
                     }
                     return;
@@ -53,7 +57,7 @@
             update();
 
             if (!submitted) {
-                window.setInterval(update, 1000);
+                timer = window.setInterval(update, 1000);
             }
         }
 
