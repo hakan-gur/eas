@@ -4,8 +4,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-<?php
-
 $audio_settings = json_decode(
     $question['settings'] ?? '',
     true
