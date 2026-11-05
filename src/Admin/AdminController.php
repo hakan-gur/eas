@@ -125,7 +125,8 @@ class AdminController
 
     public function enqueue_admin_assets(string $hook_suffix): void
     {
-        // Load EAS admin assets only on the plugin's quiz and page management screens.
+        // Load EAS admin assets only on plugin screens; these GET values are read-only selectors.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $page = isset($_GET['page']) && is_string($_GET['page'])
             ? sanitize_key(wp_unslash($_GET['page']))
             : '';
@@ -173,6 +174,7 @@ class AdminController
             $quiz_id = isset($_GET['quiz_id']) && is_scalar($_GET['quiz_id'])
                 ? absint(wp_unslash($_GET['quiz_id']))
                 : 0;
+            // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
             wp_localize_script(
                 'eas-admin-pages',
