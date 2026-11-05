@@ -75,6 +75,9 @@
                     if (actionField) {
                         actionField.value = 'eas_submit_attempt';
                     }
+                    if (nonceField && form.dataset.quizExpiryNonce) {
+                        nonceField.value = form.dataset.quizExpiryNonce;
+                    }
                     form.submit();
                 }
             );
