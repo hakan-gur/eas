@@ -336,11 +336,11 @@ $question['id']
 </a>
 
 |
-<a href="<?php echo esc_url(admin_url(
-
-'admin-post.php?action=eas_preview_question&id=' .
-$question['id']
-
+<a href="<?php echo esc_url(wp_nonce_url(
+    admin_url(
+        'admin-post.php?action=eas_preview_question&id=' . (int) $question['id']
+    ),
+    'eas_preview_question_' . (int) $question['id']
 )); ?>"
 target="_blank">
 
