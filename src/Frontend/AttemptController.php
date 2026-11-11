@@ -1151,17 +1151,7 @@ exit;
         if ($type === 'drag_drop_text' || $type === 'fill_blank') {
             $decoded = json_decode($answer);
 
-            // The initial hidden fields render an empty PHP array as [] until
-            // the student changes an answer; accept that empty state as well.
-            if (is_array($decoded) && $decoded === array()) {
-                $decoded = new \stdClass();
-            }
-
-            if (
-                !is_object($decoded)
-                || json_last_error() !== JSON_ERROR_NONE
-                || count(get_object_vars($decoded)) > 7
-            ) {
+            if (json_last_error() !== JSON_ERROR_NONE) {
                 wp_die(
                     esc_html__('Invalid structured answer.', 'eas-quiz'),
                     '',
@@ -1171,14 +1161,14 @@ exit;
 
             $clean_answers = array();
 
-            foreach (get_object_vars($decoded) as $position => $value) {
-                $position = (string) $position;
-
-                if (
-                    !preg_match('/\\A[1-7]\\z/', $position)
-                    || !is_string($value)
-                    || strlen($value) > 256
-                ) {
+            if (is_array($decoded)) {
+                /*
+                 * The drag/drop and fill-blank scripts may serialize their
+                 * initially empty answer maps as JavaScript arrays. In that
+                 * representation index 0 is a null placeholder and positions
+                 * 1–7 contain the actual answers.
+                 */
+                if (count($decoded) > 8) {
                     wp_die(
                         esc_html__('Invalid structured answer.', 'eas-quiz'),
                         '',
@@ -1186,7 +1176,75 @@ exit;
                     );
                 }
 
-                $clean_answers[$position] = sanitize_text_field($value);
+                foreach ($decoded as $position => $value) {
+                    if (!is_int($position) || $position < 0 || $position > 7) {
+                        wp_die(
+                            esc_html__('Invalid structured answer.', 'eas-quiz'),
+                            '',
+                            array('response' => 400)
+                        );
+                    }
+
+                    if ($position === 0) {
+                        if ($value !== null) {
+                            wp_die(
+                                esc_html__('Invalid structured answer.', 'eas-quiz'),
+                                '',
+                                array('response' => 400)
+                            );
+                        }
+
+                        continue;
+                    }
+
+                    if ($value === null) {
+                        continue;
+                    }
+
+                    if (!is_string($value) || strlen($value) > 256) {
+                        wp_die(
+                            esc_html__('Invalid structured answer.', 'eas-quiz'),
+                            '',
+                            array('response' => 400)
+                        );
+                    }
+
+                    $clean_answers[(string) $position] = sanitize_text_field($value);
+                }
+            } elseif (is_object($decoded)) {
+                $submitted_answers = get_object_vars($decoded);
+
+                if (count($submitted_answers) > 7) {
+                    wp_die(
+                        esc_html__('Invalid structured answer.', 'eas-quiz'),
+                        '',
+                        array('response' => 400)
+                    );
+                }
+
+                foreach ($submitted_answers as $position => $value) {
+                    $position = (string) $position;
+
+                    if (
+                        !preg_match('/\\A[1-7]\\z/', $position)
+                        || !is_string($value)
+                        || strlen($value) > 256
+                    ) {
+                        wp_die(
+                            esc_html__('Invalid structured answer.', 'eas-quiz'),
+                            '',
+                            array('response' => 400)
+                        );
+                    }
+
+                    $clean_answers[$position] = sanitize_text_field($value);
+                }
+            } else {
+                wp_die(
+                    esc_html__('Invalid structured answer.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
             }
 
             $encoded = wp_json_encode($clean_answers);
