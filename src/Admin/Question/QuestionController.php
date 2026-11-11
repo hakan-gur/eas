@@ -94,8 +94,8 @@ class QuestionController
         // This method only routes read-only GET navigation to admin screens and forms.
         // State-changing operations use dedicated callbacks with nonce verification.
         // phpcs:disable WordPress.Security.NonceVerification.Recommended
-        $raw_action = $_GET['action'] ?? '';
-        if (!is_string($raw_action)) {
+        $submitted_action = wp_unslash($_GET['action'] ?? '');
+        if (!is_string($submitted_action)) {
             wp_die(
                 esc_html__('Invalid question request.', 'eas-quiz'),
                 '',
@@ -103,7 +103,6 @@ class QuestionController
             );
         }
 
-        $submitted_action = wp_unslash($raw_action);
         $action = sanitize_key($submitted_action);
 
         /*
