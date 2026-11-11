@@ -170,15 +170,15 @@ class AdminController
                 true
             );
 
-            $submitted_quiz_id = $_GET['quiz_id'] ?? '';
+            $raw_quiz_id = $_GET['quiz_id'] ?? '';
+            $submitted_quiz_id = is_string($raw_quiz_id)
+                ? wp_unslash($raw_quiz_id)
+                : '';
             $quiz_id = 0;
 
-            if (
-                is_string($submitted_quiz_id)
-                && preg_match('/\\A[1-9][0-9]*\\z/', wp_unslash($submitted_quiz_id))
-            ) {
+            if (preg_match('/\\A[1-9][0-9]*\\z/', $submitted_quiz_id)) {
                 $validated_quiz_id = filter_var(
-                    wp_unslash($submitted_quiz_id),
+                    $submitted_quiz_id,
                     FILTER_VALIDATE_INT,
                     array('options' => array('min_range' => 1))
                 );
