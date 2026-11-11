@@ -170,9 +170,9 @@ class AdminController
                 true
             );
 
-            $raw_quiz_id = $_GET['quiz_id'] ?? '';
-            $submitted_quiz_id = is_string($raw_quiz_id)
-                ? wp_unslash($raw_quiz_id)
+            $submitted_quiz_id = wp_unslash($_GET['quiz_id'] ?? '');
+            $submitted_quiz_id = is_string($submitted_quiz_id)
+                ? $submitted_quiz_id
                 : '';
             $quiz_id = 0;
 
@@ -204,9 +204,9 @@ class AdminController
     public function quizzes_page(): void
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This only selects a read-only admin screen; data-changing actions verify their own nonces.
-        $raw_action = $_GET['action'] ?? '';
-        $submitted_action = is_string($raw_action)
-            ? wp_unslash($raw_action)
+        $submitted_action = wp_unslash($_GET['action'] ?? '');
+        $submitted_action = is_string($submitted_action)
+            ? $submitted_action
             : '';
         $action = sanitize_key($submitted_action);
 
