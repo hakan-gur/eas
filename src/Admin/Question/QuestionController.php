@@ -97,14 +97,6 @@ class QuestionController
         $submitted_action = isset($_GET['action']) && is_string($_GET['action'])
             ? sanitize_key(wp_unslash($_GET['action']))
             : '';
-        if ($submitted_action === '') {
-            wp_die(
-                esc_html__('Invalid question request.', 'eas-quiz'),
-                '',
-                array('response' => 400)
-            );
-        }
-
         $action = $submitted_action;
 
         /*
