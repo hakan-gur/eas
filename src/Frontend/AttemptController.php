@@ -1154,7 +1154,7 @@ exit;
             // The initial hidden fields render an empty PHP array as [] until
             // the student changes an answer; accept that empty state as well.
             if (is_array($decoded) && $decoded === array()) {
-                $decoded = new \\stdClass();
+                $decoded = new \stdClass();
             }
 
             if (
