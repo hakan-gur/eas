@@ -47,6 +47,7 @@ class QuizController
     {
         // This only selects which read-only admin view to display; it does not change data.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only view selection; no state-changing action.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string navigation input before sanitizing the accepted value.
         $submitted_action = isset($_GET['action']) && is_string($_GET['action'])
             ? sanitize_key(wp_unslash($_GET['action']))
             : '';
