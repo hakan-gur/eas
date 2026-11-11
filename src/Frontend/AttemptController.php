@@ -1149,12 +1149,12 @@ exit;
         }
 
         if ($type === 'drag_drop_text' || $type === 'fill_blank') {
-            $decoded = json_decode($answer, true);
+            $decoded = json_decode($answer);
 
             if (
-                !is_array($decoded)
+                !is_object($decoded)
                 || json_last_error() !== JSON_ERROR_NONE
-                || count($decoded) > 7
+                || count(get_object_vars($decoded)) > 7
             ) {
                 wp_die(
                     esc_html__('Invalid structured answer.', 'eas-quiz'),
@@ -1165,7 +1165,7 @@ exit;
 
             $clean_answers = array();
 
-            foreach ($decoded as $position => $value) {
+            foreach (get_object_vars($decoded) as $position => $value) {
                 $position = (string) $position;
 
                 if (
