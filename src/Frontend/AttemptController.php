@@ -1303,6 +1303,7 @@ exit;
 
     public function upload_audio(): void
     {
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string nonce input before sanitizing the accepted value.
         $submitted_nonce = isset($_POST['nonce']) && is_string($_POST['nonce'])
             ? sanitize_text_field(wp_unslash($_POST['nonce']))
             : '';
