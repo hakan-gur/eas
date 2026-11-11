@@ -1303,12 +1303,14 @@ exit;
 
     public function upload_audio(): void
     {
-        $submitted_nonce = wp_unslash($_POST['nonce'] ?? null);
+        $submitted_nonce = isset($_POST['nonce']) && is_string($_POST['nonce'])
+            ? sanitize_text_field(wp_unslash($_POST['nonce']))
+            : '';
 
         if (
-            !is_string($submitted_nonce)
+            $submitted_nonce === ''
             || !wp_verify_nonce(
-                sanitize_text_field($submitted_nonce),
+                $submitted_nonce,
                 'eas_upload_audio'
             )
         ) {
