@@ -170,9 +170,8 @@ class AdminController
                 true
             );
 
-            $submitted_quiz_id = wp_unslash($_GET['quiz_id'] ?? '');
-            $submitted_quiz_id = is_string($submitted_quiz_id)
-                ? $submitted_quiz_id
+            $submitted_quiz_id = isset($_GET['quiz_id']) && is_string($_GET['quiz_id'])
+                ? sanitize_text_field(wp_unslash($_GET['quiz_id']))
                 : '';
             $quiz_id = 0;
 
@@ -204,11 +203,10 @@ class AdminController
     public function quizzes_page(): void
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This only selects a read-only admin screen; data-changing actions verify their own nonces.
-        $submitted_action = wp_unslash($_GET['action'] ?? '');
-        $submitted_action = is_string($submitted_action)
-            ? $submitted_action
+        $submitted_action = isset($_GET['action']) && is_string($_GET['action'])
+            ? sanitize_key(wp_unslash($_GET['action']))
             : '';
-        $action = sanitize_key($submitted_action);
+        $action = $submitted_action;
 
         if ($action === 'add') {
             $this->quizController->form();
