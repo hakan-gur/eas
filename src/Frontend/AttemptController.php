@@ -1151,6 +1151,12 @@ exit;
         if ($type === 'drag_drop_text' || $type === 'fill_blank') {
             $decoded = json_decode($answer);
 
+            // The initial hidden fields render an empty PHP array as [] until
+            // the student changes an answer; accept that empty state as well.
+            if (is_array($decoded) && $decoded === array()) {
+                $decoded = new \\stdClass();
+            }
+
             if (
                 !is_object($decoded)
                 || json_last_error() !== JSON_ERROR_NONE
