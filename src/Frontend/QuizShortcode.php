@@ -76,6 +76,10 @@ class QuizShortcode
 
         $submitted_id = $atts['id'];
 
+        if ($submitted_id === 0 || $submitted_id === '0' || $submitted_id === '') {
+            return '<p>' . esc_html__('Quiz ID missing.', 'eas-quiz') . '</p>';
+        }
+
         if (
             !is_scalar($submitted_id)
             || !preg_match('/\A[1-9][0-9]*\z/', (string) $submitted_id)
