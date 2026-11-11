@@ -94,6 +94,7 @@ class QuestionController
         // This method only routes read-only GET navigation to admin screens and forms.
         // State-changing operations use dedicated callbacks with nonce verification.
         // phpcs:disable WordPress.Security.NonceVerification.Recommended
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string navigation input before sanitizing the accepted value.
         $submitted_action = isset($_GET['action']) && is_string($_GET['action'])
             ? sanitize_key(wp_unslash($_GET['action']))
             : '';
