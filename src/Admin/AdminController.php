@@ -170,9 +170,23 @@ class AdminController
                 true
             );
 
-            $quiz_id = isset($_GET['quiz_id']) && is_scalar($_GET['quiz_id'])
-                ? absint(wp_unslash($_GET['quiz_id']))
-                : 0;
+            $submitted_quiz_id = $_GET['quiz_id'] ?? '';
+            $quiz_id = 0;
+
+            if (
+                is_string($submitted_quiz_id)
+                && preg_match('/\\A[1-9][0-9]*\\z/', wp_unslash($submitted_quiz_id))
+            ) {
+                $validated_quiz_id = filter_var(
+                    wp_unslash($submitted_quiz_id),
+                    FILTER_VALIDATE_INT,
+                    array('options' => array('min_range' => 1))
+                );
+
+                if ($validated_quiz_id !== false) {
+                    $quiz_id = $validated_quiz_id;
+                }
+            }
             // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
             wp_localize_script(
@@ -190,7 +204,10 @@ class AdminController
     public function quizzes_page(): void
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This only selects a read-only admin screen; data-changing actions verify their own nonces.
-        $action = isset($_GET['action']) ? sanitize_key(wp_unslash($_GET['action'])) : '';
+        $submitted_action = $_GET['action'] ?? '';
+        $action = is_string($submitted_action)
+            ? sanitize_key(wp_unslash($submitted_action))
+            : '';
 
         if ($action === 'add') {
             $this->quizController->form();
