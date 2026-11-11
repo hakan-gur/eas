@@ -94,8 +94,17 @@ class QuestionController
         // This method only routes read-only GET navigation to admin screens and forms.
         // State-changing operations use dedicated callbacks with nonce verification.
         // phpcs:disable WordPress.Security.NonceVerification.Recommended
+        $submitted_action = $_GET['action'] ?? '';
+        if (!is_string($submitted_action)) {
+            wp_die(
+                esc_html__('Invalid question request.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
         $action = sanitize_key(
-            wp_unslash($_GET['action'] ?? '')
+            wp_unslash($submitted_action)
         );
 
         /*
@@ -354,9 +363,19 @@ class QuestionController
             return;
         }
 
-        $page_id = isset($_GET['page_id'])
-            ? (int) $_GET['page_id']
-            : 0;
+        $page_id = $this->validated_non_negative_request_id(
+            $_GET,
+            'page_id',
+            0
+        );
+
+        if ($page_id === null) {
+            wp_die(
+                esc_html__('Invalid page ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
         if (
             isset($_GET['action'])
@@ -1751,14 +1770,22 @@ class QuestionController
             'eas_import_questions'
         );
 
-        $quiz_id = absint(wp_unslash($_POST['quiz_id'] ?? 0));
+        $quiz_id = $this->validated_positive_request_id($_POST, 'quiz_id');
 
-        if ($quiz_id <= 0) {
+        if ($quiz_id === null) {
             wp_die(
                 esc_html__(
                     'Invalid quiz.',
                     'eas-quiz'
                 )
+            );
+        }
+
+        if (!$this->quizzes->find($quiz_id)) {
+            wp_die(
+                esc_html__('Quiz not found.', 'eas-quiz'),
+                '',
+                array('response' => 404)
             );
         }
 
@@ -1777,6 +1804,14 @@ class QuestionController
                 esc_html__('Invalid import content.', 'eas-quiz'),
                 '',
                 array('response' => 400)
+            );
+        }
+
+        if (strlen($import_text) > 1048576) {
+            wp_die(
+                esc_html__('The GIFT import exceeds the 1 MB size limit.', 'eas-quiz'),
+                '',
+                array('response' => 413)
             );
         }
 
