@@ -94,11 +94,7 @@ class QuizShortcode
         );
 
         if ($quiz_id === false) {
-
-
-            return '<p>' . esc_html__('Quiz ID missing.', 'eas-quiz') . '</p>';
-
-
+            return '<p>' . esc_html__('Invalid quiz ID.', 'eas-quiz') . '</p>';
         }
 
 
