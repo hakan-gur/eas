@@ -1684,9 +1684,9 @@ class QuestionController
 
         // Preview is read-only; its ID is still unslashed and validated before lookup.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $id = absint(wp_unslash($_GET['id'] ?? 0));
+        $id = $this->validated_positive_request_id($_GET, 'id');
 
-        if ($id <= 0) {
+        if ($id === null) {
             wp_die(
                 esc_html__(
                     'Invalid question.',
@@ -2467,11 +2467,11 @@ class QuestionController
          * ---------------------------------------------------------
          */
 
-        // The nonce action includes the quiz ID, which must be read before nonce verification.
+        // The nonce action includes the quiz ID, which must be validated before nonce verification.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $quiz_id = absint(wp_unslash($_GET['quiz_id'] ?? 0));
+        $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
 
-        if ($quiz_id <= 0) {
+        if ($quiz_id === null) {
             wp_die(
                 esc_html__(
                     'Invalid quiz.',
