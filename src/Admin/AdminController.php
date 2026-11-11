@@ -170,6 +170,7 @@ class AdminController
                 true
             );
 
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string IDs before sanitizing and validating the accepted value.
             $submitted_quiz_id = isset($_GET['quiz_id']) && is_string($_GET['quiz_id'])
                 ? sanitize_text_field(wp_unslash($_GET['quiz_id']))
                 : '';
