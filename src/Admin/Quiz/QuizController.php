@@ -46,9 +46,18 @@ class QuizController
     public function index(): void
     {
         // This only selects which read-only admin view to display; it does not change data.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only view selection; no state-changing action.
+        $submitted_action = $_GET['action'] ?? '';
+        if (!is_string($submitted_action)) {
+            wp_die(
+                esc_html__('Invalid quiz request.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
+
         $action = sanitize_key(
-            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only view selection; no state-changing action.
-            wp_unslash($_GET['action'] ?? '')
+            wp_unslash($submitted_action)
         );
 
         if (
