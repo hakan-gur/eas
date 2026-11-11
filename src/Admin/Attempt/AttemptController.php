@@ -56,9 +56,10 @@ class AttemptController
             $quiz_id = $validated_quiz_id;
         }
 
-        $status = sanitize_text_field(
-            wp_unslash($request['status'] ?? '')
-        );
+        $submitted_status = $request['status'] ?? '';
+        $status = is_string($submitted_status)
+            ? sanitize_key(wp_unslash($submitted_status))
+            : '';
 
         $attempts = $this->attempts->all_completed_filtered(
             $quiz_id,
