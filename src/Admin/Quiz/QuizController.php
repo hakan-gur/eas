@@ -46,10 +46,14 @@ class QuizController
     public function index(): void
     {
         // This only selects which read-only admin view to display; it does not change data.
-        $action = sanitize_key(
-            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only view selection; no state-changing action.
-            wp_unslash($_GET['action'] ?? '')
-        );
+        // State-changing operations use dedicated callbacks with nonce verification.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string navigation input before sanitizing the accepted value.
+        $submitted_action = isset($_GET['action']) && is_string($_GET['action'])
+            ? sanitize_key(wp_unslash($_GET['action']))
+            : '';
+        $action = $submitted_action;
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         if (
             $action === 'bank'

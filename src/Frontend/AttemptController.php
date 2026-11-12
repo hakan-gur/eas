@@ -1029,30 +1029,35 @@ exit;
 
             $question_id = (int) $question['id'];
 
-            // The caller verifies the action-specific nonce. Preserve free text and JSON answer payloads;
-            // sanitize/escaping is applied at the point where data is displayed.
-            // phpcs:disable WordPress.Security.NonceVerification.Missing -- All callers are action handlers that verify their specific nonce before saving responses.
-            // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Answer values may be plain text or structured JSON and are unslashed and scalar-validated below.
+            // The caller verifies the action-specific nonce before this request value is read.
+            // phpcs:disable WordPress.Security.NonceVerification.Missing -- All callers verify their action-specific nonce before saving responses.
+            // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- The raw value is unslashed, type-checked, size-limited, and sanitized according to its question type below.
             $submitted_answer = wp_unslash(
                 $_POST['question_' . $question_id] ?? ''
             );
             // phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             // phpcs:enable WordPress.Security.NonceVerification.Missing
 
-            // Answers may contain plain text or structured JSON, so preserve
-            // their content while rejecting malformed non-scalar request data.
-            if (!is_scalar($submitted_answer)) {
+            if (!is_string($submitted_answer)) {
                 wp_die(
-                    esc_html__(
-                        'Invalid answer format.',
-                        'eas-quiz'
-                    ),
+                    esc_html__('Invalid answer format.', 'eas-quiz'),
                     '',
                     array('response' => 400)
                 );
             }
 
-            $answer = (string) $submitted_answer;
+            if (strlen($submitted_answer) > 262144) {
+                wp_die(
+                    esc_html__('The submitted answer exceeds the 256 KB limit.', 'eas-quiz'),
+                    '',
+                    array('response' => 413)
+                );
+            }
+
+            $answer = $this->sanitize_submitted_answer(
+                $question,
+                $submitted_answer
+            );
             $existing = $this->responses->find(
                 $attempt_id,
                 $question_id
@@ -1092,12 +1097,221 @@ exit;
         }
     }
 
+    /**
+     * Validate and sanitize a response according to its question type.
+     *
+     * Essays are plain text, while drag/drop and fill-blank responses are
+     * structured JSON. Audio responses may only reference files created by
+     * the validated audio-upload handler.
+     */
+    private function sanitize_submitted_answer(
+        array $question,
+        string $answer
+    ): string {
+        if ($answer === '') {
+            return '';
+        }
+
+        $type = $question['type'] ?? '';
+
+        if ($type === 'multiple_choice') {
+            if (!preg_match('/\\A[1-9][0-9]*\\z/', $answer)) {
+                wp_die(
+                    esc_html__('Invalid selected answer.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $answer_id = filter_var(
+                $answer,
+                FILTER_VALIDATE_INT,
+                array('options' => array('min_range' => 1))
+            );
+
+            $selected_answer = $answer_id !== false
+                ? $this->answers->find($answer_id)
+                : null;
+
+            if (
+                !$selected_answer
+                || (int) ($selected_answer['question_id'] ?? 0)
+                    !== (int) ($question['id'] ?? 0)
+            ) {
+                wp_die(
+                    esc_html__('The selected answer does not belong to this question.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            return (string) $answer_id;
+        }
+
+        if ($type === 'drag_drop_text' || $type === 'fill_blank') {
+            $decoded = json_decode($answer);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                wp_die(
+                    esc_html__('Invalid structured answer.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $clean_answers = array();
+
+            if (is_array($decoded)) {
+                /*
+                 * The drag/drop and fill-blank scripts may serialize their
+                 * initially empty answer maps as JavaScript arrays. In that
+                 * representation index 0 is a null placeholder and positions
+                 * 1–7 contain the actual answers.
+                 */
+                if (count($decoded) > 8) {
+                    wp_die(
+                        esc_html__('Invalid structured answer.', 'eas-quiz'),
+                        '',
+                        array('response' => 400)
+                    );
+                }
+
+                foreach ($decoded as $position => $value) {
+                    if (!is_int($position) || $position < 0 || $position > 7) {
+                        wp_die(
+                            esc_html__('Invalid structured answer.', 'eas-quiz'),
+                            '',
+                            array('response' => 400)
+                        );
+                    }
+
+                    if ($position === 0) {
+                        if ($value !== null) {
+                            wp_die(
+                                esc_html__('Invalid structured answer.', 'eas-quiz'),
+                                '',
+                                array('response' => 400)
+                            );
+                        }
+
+                        continue;
+                    }
+
+                    if ($value === null) {
+                        continue;
+                    }
+
+                    if (!is_string($value) || strlen($value) > 256) {
+                        wp_die(
+                            esc_html__('Invalid structured answer.', 'eas-quiz'),
+                            '',
+                            array('response' => 400)
+                        );
+                    }
+
+                    $clean_answers[(string) $position] = sanitize_text_field($value);
+                }
+            } elseif (is_object($decoded)) {
+                $submitted_answers = get_object_vars($decoded);
+
+                if (count($submitted_answers) > 7) {
+                    wp_die(
+                        esc_html__('Invalid structured answer.', 'eas-quiz'),
+                        '',
+                        array('response' => 400)
+                    );
+                }
+
+                foreach ($submitted_answers as $position => $value) {
+                    $position = (string) $position;
+
+                    if (
+                        !preg_match('/\\A[1-7]\\z/', $position)
+                        || !is_string($value)
+                        || strlen($value) > 256
+                    ) {
+                        wp_die(
+                            esc_html__('Invalid structured answer.', 'eas-quiz'),
+                            '',
+                            array('response' => 400)
+                        );
+                    }
+
+                    $clean_answers[$position] = sanitize_text_field($value);
+                }
+            } else {
+                wp_die(
+                    esc_html__('Invalid structured answer.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $encoded = wp_json_encode($clean_answers);
+
+            if (!is_string($encoded)) {
+                wp_die(
+                    esc_html__('The submitted answer could not be processed.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            return $encoded;
+        }
+
+        if ($type === 'audio_response') {
+            $filename = sanitize_file_name($answer);
+
+            if (
+                $filename !== $answer
+                || basename($answer) !== $answer
+                || !preg_match('/\\A[A-Za-z0-9_-]+\\.webm\\z/', $filename)
+            ) {
+                wp_die(
+                    esc_html__('Invalid audio recording reference.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $upload = wp_upload_dir();
+
+            if (!empty($upload['error']) || empty($upload['basedir'])) {
+                wp_die(
+                    esc_html__('The audio recording could not be located.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            $audio_path = trailingslashit($upload['basedir']) . 'eas-audio/' . $filename;
+
+            if (!is_file($audio_path)) {
+                wp_die(
+                    esc_html__('The audio recording could not be found.', 'eas-quiz'),
+                    '',
+                    array('response' => 400)
+                );
+            }
+
+            return $filename;
+        }
+
+        return sanitize_textarea_field($answer);
+    }
+
     public function upload_audio(): void
     {
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string nonce input before sanitizing the accepted value.
+        $submitted_nonce = isset($_POST['nonce']) && is_string($_POST['nonce'])
+            ? sanitize_text_field(wp_unslash($_POST['nonce']))
+            : '';
+
         if (
-            !isset($_POST['nonce'])
+            $submitted_nonce === ''
             || !wp_verify_nonce(
-                sanitize_text_field(wp_unslash($_POST['nonce'])),
+                $submitted_nonce,
                 'eas_upload_audio'
             )
         ) {
@@ -1190,8 +1404,12 @@ exit;
 
         if (
             !isset($file['error'], $file['tmp_name'], $file['size'])
-            || (int) $file['error'] !== UPLOAD_ERR_OK
-            || !is_uploaded_file((string) $file['tmp_name'])
+            || !is_int($file['error'])
+            || !is_string($file['tmp_name'])
+            || $file['tmp_name'] === ''
+            || !is_int($file['size'])
+            || $file['error'] !== UPLOAD_ERR_OK
+            || !is_uploaded_file($file['tmp_name'])
         ) {
             wp_send_json_error(
                 array('message' => __('The audio upload did not complete successfully.', 'eas-quiz')),
@@ -1202,10 +1420,13 @@ exit;
         // Audio-only WebM recordings should remain comfortably below this limit.
         $max_bytes = 20 * MB_IN_BYTES;
 
+        $actual_size = filesize($file['tmp_name']);
+
         if (
-            (int) $file['size'] <= 0
-            || (int) $file['size'] > $max_bytes
-            || filesize((string) $file['tmp_name']) > $max_bytes
+            $file['size'] <= 0
+            || $file['size'] > $max_bytes
+            || $actual_size === false
+            || $actual_size > $max_bytes
         ) {
             wp_send_json_error(
                 array('message' => __('The audio file is empty or exceeds the 20 MB upload limit.', 'eas-quiz')),

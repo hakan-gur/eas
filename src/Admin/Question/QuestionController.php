@@ -94,9 +94,11 @@ class QuestionController
         // This method only routes read-only GET navigation to admin screens and forms.
         // State-changing operations use dedicated callbacks with nonce verification.
         // phpcs:disable WordPress.Security.NonceVerification.Recommended
-        $action = sanitize_key(
-            wp_unslash($_GET['action'] ?? '')
-        );
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string navigation input before sanitizing the accepted value.
+        $submitted_action = isset($_GET['action']) && is_string($_GET['action'])
+            ? sanitize_key(wp_unslash($_GET['action']))
+            : '';
+        $action = $submitted_action;
 
         /*
          * Quiz-level question bank.
@@ -354,9 +356,19 @@ class QuestionController
             return;
         }
 
-        $page_id = isset($_GET['page_id'])
-            ? (int) $_GET['page_id']
-            : 0;
+        $page_id = $this->validated_non_negative_request_id(
+            $_GET,
+            'page_id',
+            0
+        );
+
+        if ($page_id === null) {
+            wp_die(
+                esc_html__('Invalid page ID.', 'eas-quiz'),
+                '',
+                array('response' => 400)
+            );
+        }
 
         if (
             isset($_GET['action'])
@@ -1665,9 +1677,9 @@ class QuestionController
 
         // Preview is read-only; its ID is still unslashed and validated before lookup.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $id = absint(wp_unslash($_GET['id'] ?? 0));
+        $id = $this->validated_positive_request_id($_GET, 'id');
 
-        if ($id <= 0) {
+        if ($id === null) {
             wp_die(
                 esc_html__(
                     'Invalid question.',
@@ -1751,14 +1763,22 @@ class QuestionController
             'eas_import_questions'
         );
 
-        $quiz_id = absint(wp_unslash($_POST['quiz_id'] ?? 0));
+        $quiz_id = $this->validated_positive_request_id($_POST, 'quiz_id');
 
-        if ($quiz_id <= 0) {
+        if ($quiz_id === null) {
             wp_die(
                 esc_html__(
                     'Invalid quiz.',
                     'eas-quiz'
                 )
+            );
+        }
+
+        if (!$this->quizzes->find($quiz_id)) {
+            wp_die(
+                esc_html__('Quiz not found.', 'eas-quiz'),
+                '',
+                array('response' => 404)
             );
         }
 
@@ -1777,6 +1797,14 @@ class QuestionController
                 esc_html__('Invalid import content.', 'eas-quiz'),
                 '',
                 array('response' => 400)
+            );
+        }
+
+        if (strlen($import_text) > 1048576) {
+            wp_die(
+                esc_html__('The GIFT import exceeds the 1 MB size limit.', 'eas-quiz'),
+                '',
+                array('response' => 413)
             );
         }
 
@@ -2432,11 +2460,11 @@ class QuestionController
          * ---------------------------------------------------------
          */
 
-        // The nonce action includes the quiz ID, which must be read before nonce verification.
+        // The nonce action includes the quiz ID, which must be validated before nonce verification.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $quiz_id = absint(wp_unslash($_GET['quiz_id'] ?? 0));
+        $quiz_id = $this->validated_positive_request_id($_GET, 'quiz_id');
 
-        if ($quiz_id <= 0) {
+        if ($quiz_id === null) {
             wp_die(
                 esc_html__(
                     'Invalid quiz.',

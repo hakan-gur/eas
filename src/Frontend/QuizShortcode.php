@@ -74,16 +74,27 @@ class QuizShortcode
 
 
 
-        $quiz_id = (int) $atts['id'];
+        $submitted_id = $atts['id'];
 
-
-
-        if ($quiz_id <= 0) {
-
-
+        if ($submitted_id === 0 || $submitted_id === '0' || $submitted_id === '') {
             return '<p>' . esc_html__('Quiz ID missing.', 'eas-quiz') . '</p>';
+        }
 
+        if (
+            !is_scalar($submitted_id)
+            || !preg_match('/\A[1-9][0-9]*\z/', (string) $submitted_id)
+        ) {
+            return '<p>' . esc_html__('Invalid quiz ID.', 'eas-quiz') . '</p>';
+        }
 
+        $quiz_id = filter_var(
+            (string) $submitted_id,
+            FILTER_VALIDATE_INT,
+            array('options' => array('min_range' => 1))
+        );
+
+        if ($quiz_id === false) {
+            return '<p>' . esc_html__('Invalid quiz ID.', 'eas-quiz') . '</p>';
         }
 
 

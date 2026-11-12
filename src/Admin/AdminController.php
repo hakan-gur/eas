@@ -170,9 +170,23 @@ class AdminController
                 true
             );
 
-            $quiz_id = isset($_GET['quiz_id']) && is_scalar($_GET['quiz_id'])
-                ? absint(wp_unslash($_GET['quiz_id']))
-                : 0;
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string IDs before sanitizing and validating the accepted value.
+            $submitted_quiz_id = isset($_GET['quiz_id']) && is_string($_GET['quiz_id'])
+                ? sanitize_text_field(wp_unslash($_GET['quiz_id']))
+                : '';
+            $quiz_id = 0;
+
+            if (preg_match('/\\A[1-9][0-9]*\\z/', $submitted_quiz_id)) {
+                $validated_quiz_id = filter_var(
+                    $submitted_quiz_id,
+                    FILTER_VALIDATE_INT,
+                    array('options' => array('min_range' => 1))
+                );
+
+                if ($validated_quiz_id !== false) {
+                    $quiz_id = $validated_quiz_id;
+                }
+            }
             // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
             wp_localize_script(
@@ -189,8 +203,14 @@ class AdminController
 
     public function quizzes_page(): void
     {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This only selects a read-only admin screen; data-changing actions verify their own nonces.
-        $action = isset($_GET['action']) ? sanitize_key(wp_unslash($_GET['action'])) : '';
+        // This only selects a read-only admin screen; data-changing actions verify their own nonces.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string navigation input before sanitizing the accepted value.
+        $submitted_action = isset($_GET['action']) && is_string($_GET['action'])
+            ? sanitize_key(wp_unslash($_GET['action']))
+            : '';
+        $action = $submitted_action;
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         if ($action === 'add') {
             $this->quizController->form();
