@@ -203,12 +203,14 @@ class AdminController
 
     public function quizzes_page(): void
     {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This only selects a read-only admin screen; data-changing actions verify their own nonces.
+        // This only selects a read-only admin screen; data-changing actions verify their own nonces.
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reject non-string navigation input before sanitizing the accepted value.
         $submitted_action = isset($_GET['action']) && is_string($_GET['action'])
             ? sanitize_key(wp_unslash($_GET['action']))
             : '';
         $action = $submitted_action;
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         if ($action === 'add') {
             $this->quizController->form();
