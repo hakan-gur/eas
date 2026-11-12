@@ -48,15 +48,6 @@ class AdminController
         );
 
         add_action(
-            'admin_menu',
-            array(
-                $this,
-                'hide_internal_pages'
-            ),
-            100
-        );
-
-        add_action(
             'admin_enqueue_scripts',
             array(
                 $this,
@@ -104,8 +95,11 @@ class AdminController
             )
         );
 
+        // Register this internal screen under options.php so it remains
+        // directly accessible even though it is intentionally absent from
+        // the EAS submenu.
         add_submenu_page(
-            'eas-dashboard',
+            'options.php',
             __('Grade Attempt', 'eas-quiz'),
             __('Grade Attempt', 'eas-quiz'),
             'manage_options',
@@ -115,11 +109,6 @@ class AdminController
                 'grade_page'
             )
         );
-    }
-
-    public function hide_internal_pages(): void
-    {
-        remove_submenu_page('eas-dashboard', 'eas-attempt-grade');
     }
 
     public function enqueue_admin_assets(string $hook_suffix): void
