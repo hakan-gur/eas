@@ -51,7 +51,7 @@ if (!defined('EAS_PLUGIN_URL')) {
 require_once EXAMENANTO_PLUGIN_DIR .
     'src/Core/Autoloader.php';
 
-\EAS\Core\Autoloader::register();
+\Examenanto\Core\Autoloader::register();
 
 /**
  * Apply database updates after plugin upgrades as well as activation.
@@ -73,8 +73,8 @@ function examenanto_maybe_upgrade_database(): void
         return;
     }
 
-    \EAS\Core\Installer::install();
-    \EAS\Database\Upgrade::run();
+    \Examenanto\Core\Installer::install();
+    \Examenanto\Database\Upgrade::run();
 
     update_option('examenanto_db_version', EXAMENANTO_DB_VERSION);
     update_option('eas_db_version', EXAMENANTO_DB_VERSION); // Keep the legacy option synchronized for compatibility.
@@ -88,7 +88,7 @@ add_action(
 
 function examenanto_initialize_plugin(): void
 {
-    $app = new \EAS\Core\Application();
+    $app = new \Examenanto\Core\Application();
     $app->run();
 
     /*
@@ -97,13 +97,13 @@ function examenanto_initialize_plugin(): void
      * replaces the old bare admin-post presentation without touching the
      * question renderer, scoring, or answer storage.
      */
-    new \EAS\Admin\Question\QuestionPreviewController();
+    new \Examenanto\Admin\Question\QuestionPreviewController();
 }
 
 register_activation_hook(
     __FILE__,
     array(
-        'EAS\\Core\\Activator',
+        'Examenanto\\Core\\Activator',
         'activate'
     )
 );
@@ -111,7 +111,7 @@ register_activation_hook(
 register_deactivation_hook(
     __FILE__,
     array(
-        'EAS\\Core\\Deactivator',
+        'Examenanto\\Core\\Deactivator',
         'deactivate'
     )
 );
