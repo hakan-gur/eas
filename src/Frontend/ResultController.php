@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace EAS\Frontend;
+namespace Examenanto\Frontend;
 
-use EAS\Result\ResultRenderer;
-use EAS\Attempt\AttemptRepository;
+use Examenanto\Result\ResultRenderer;
+use Examenanto\Attempt\AttemptRepository;
 
 if (!defined('ABSPATH')) {
     exit;
