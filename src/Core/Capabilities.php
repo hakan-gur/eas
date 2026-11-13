@@ -23,7 +23,7 @@ class Capabilities
         if ($role) {
 
             $role->add_cap(
-                'eas_manage_quizzes'
+                'examenanto_manage_quizzes'
             );
 
         }
@@ -41,7 +41,7 @@ class Capabilities
         if ($role) {
 
             $role->remove_cap(
-                'eas_manage_quizzes'
+                'examenanto_manage_quizzes'
             );
 
         }
