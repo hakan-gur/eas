@@ -35,7 +35,7 @@ href="<?php echo esc_url(admin_url(
 
 <input type="hidden"
        name="page"
-       value="eas-attempts">
+       value="examenanto-attempts">
 
 <label style="margin-left:20px;">
 
