@@ -37,6 +37,15 @@ class QuizShortcode
 
         add_shortcode(
 
+            'examenanto_quiz',
+            array(
+                $this,
+                'render'
+            )
+        );
+
+        // Backward-compatible shortcode for existing pages.
+        add_shortcode(
             'eas_quiz',
 
             array(
