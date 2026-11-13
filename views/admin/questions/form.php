@@ -87,7 +87,7 @@ if ($question) {
         <input type="hidden" name="page_id" value="<?php echo esc_attr($page_id); ?>">
         <input type="hidden" name="question_id" value="<?php echo esc_attr($question_id); ?>">
 
-        <?php wp_nonce_field('examenanto_save_question'); ?>
+        <?php wp_nonce_field('eas_save_question'); ?>
 
         <table class="form-table">
             <tr>
