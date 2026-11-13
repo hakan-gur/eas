@@ -25,7 +25,7 @@ if (isset($_GET['graded'])) : ?>
 
 <a class="button"
 href="<?php echo esc_url(admin_url(
-    'admin.php?page=eas-attempts'
+    'admin.php?page=examenanto-attempts'
 )); ?>">
 
 ← <?php esc_html_e('Back to Attempts', 'eas-quiz'); ?>
