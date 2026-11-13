@@ -52,7 +52,7 @@ class QuizMenu
 
             __('EAS Quiz', 'eas-quiz'),
 
-            'eas_manage_quizzes',
+            'examenanto_manage_quizzes',
 
             'eas-quizzes',
 
@@ -76,7 +76,7 @@ class QuizMenu
 
             __('Quizzes', 'eas-quiz'),
 
-            'eas_manage_quizzes',
+            'examenanto_manage_quizzes',
 
             'eas-quizzes',
 
