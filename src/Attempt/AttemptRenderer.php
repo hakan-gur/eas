@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
-namespace EAS\Attempt;
-use EAS\Page\PageRepository;
-use EAS\Question\QuestionRepository;
-use EAS\Question\QuestionRenderer;
-use EAS\Quiz\QuizRepository;
-use EAS\Core\View;
+namespace Examenanto\Attempt;
+use Examenanto\Page\PageRepository;
+use Examenanto\Question\QuestionRepository;
+use Examenanto\Question\QuestionRenderer;
+use Examenanto\Quiz\QuizRepository;
+use Examenanto\Core\View;
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -167,7 +167,7 @@ if ($page_time_limit > 0) {
             );
         }
 
-        $responses = new \EAS\Response\ResponseRepository();
+        $responses = new \Examenanto\Response\ResponseRepository();
 
 $attempt_responses = array();
 
