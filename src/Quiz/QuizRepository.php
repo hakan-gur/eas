@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EAS\Quiz;
+namespace Examenanto\Quiz;
 
-use EAS\Page\PageRepository;
-use EAS\Question\QuestionRepository;
-use EAS\Answer\AnswerRepository;
+use Examenanto\Page\PageRepository;
+use Examenanto\Question\QuestionRepository;
+use Examenanto\Answer\AnswerRepository;
 
 if (!defined('ABSPATH')) {
     exit;
