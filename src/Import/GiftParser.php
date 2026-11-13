@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace EAS\Import;
+namespace Examenanto\Import;
 
 if (!defined('ABSPATH')) {
     exit;
