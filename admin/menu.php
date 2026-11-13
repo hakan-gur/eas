@@ -44,7 +44,7 @@ class EAS_Admin_Menu {
     public function dashboard() {
 
 
-        require_once EAS_PLUGIN_DIR .
+        require_once EXAMENANTO_PLUGIN_DIR .
         'admin/views/welcome.php';
 
 
