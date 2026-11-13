@@ -26,14 +26,15 @@ class PageController
         add_action('admin_post_eas_delete_page', array($this, 'delete'));
         add_action('admin_post_eas_move_page', array($this, 'move'));
         add_action('admin_post_eas_reorder_pages', array($this, 'reorder'));
-    }
 
-    public function register(): void
-    {
         add_action('admin_post_examenanto_save_page', array($this, 'save'));
         add_action('admin_post_examenanto_delete_page', array($this, 'delete'));
         add_action('admin_post_examenanto_move_page', array($this, 'move'));
         add_action('admin_post_examenanto_reorder_pages', array($this, 'reorder'));
+    }
+
+    public function register(): void
+    {
 
         add_submenu_page(
             'options.php',
