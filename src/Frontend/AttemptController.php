@@ -414,7 +414,7 @@ class AttemptController
         wp_safe_redirect(
             add_query_arg(
                 array('attempt_id' => $attempt_id),
-                get_permalink((int) get_option('eas_attempt_page_id'))
+                get_permalink((int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id')))
             )
         );
         exit;
@@ -922,7 +922,7 @@ if ($my_results_page_id <= 0) {
         $my_results_page_id = (int) $my_results_page->ID;
 
         update_option(
-            'eas_my_results_page_id',
+            'examenanto_my_results_page_id',
             $my_results_page_id
         );
     }
