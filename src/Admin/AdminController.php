@@ -111,10 +111,10 @@ class AdminController
         );
 
         // Hidden legacy slugs keep previously bookmarked EAS admin URLs working.
-        add_submenu_page('options.php', __('Legacy EAS Dashboard', 'eas-quiz'), '', 'manage_options', 'eas-dashboard', array($this, 'dashboard'));
-        add_submenu_page('options.php', __('Legacy EAS Quizzes', 'eas-quiz'), '', 'manage_options', 'eas-quizzes', array($this, 'quizzes_page'));
-        add_submenu_page('options.php', __('Legacy EAS Attempts', 'eas-quiz'), '', 'manage_options', 'eas-attempts', array($this, 'attempts_page'));
-        add_submenu_page('options.php', __('Legacy EAS Grade Attempt', 'eas-quiz'), '', 'manage_options', 'eas-attempt-grade', array($this, 'grade_page'));
+        add_submenu_page('options.php', __('Legacy EAS Dashboard', 'eas-quiz'), __('Legacy EAS Dashboard', 'eas-quiz'), 'manage_options', 'eas-dashboard', array($this, 'dashboard'));
+        add_submenu_page('options.php', __('Legacy EAS Quizzes', 'eas-quiz'), __('Legacy EAS Quizzes', 'eas-quiz'), 'manage_options', 'eas-quizzes', array($this, 'quizzes_page'));
+        add_submenu_page('options.php', __('Legacy EAS Attempts', 'eas-quiz'), __('Legacy EAS Attempts', 'eas-quiz'), 'manage_options', 'eas-attempts', array($this, 'attempts_page'));
+        add_submenu_page('options.php', __('Legacy EAS Grade Attempt', 'eas-quiz'), __('Legacy EAS Grade Attempt', 'eas-quiz'), 'manage_options', 'eas-attempt-grade', array($this, 'grade_page'));
     }
 
     public function enqueue_admin_assets(string $hook_suffix): void
