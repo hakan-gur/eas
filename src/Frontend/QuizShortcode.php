@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EAS\Frontend;
+namespace Examenanto\Frontend;
 
 
-use EAS\Frontend\QuizRenderer;
+use Examenanto\Frontend\QuizRenderer;
 
 
 if (!defined('ABSPATH')) {
