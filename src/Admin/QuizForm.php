@@ -421,7 +421,7 @@ class QuizForm
 
             admin_url(
 
-                'admin.php?page=eas-quizzes'
+                'admin.php?page=examenanto-quizzes'
 
             )
 
