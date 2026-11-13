@@ -59,8 +59,8 @@ class AdminController
     public function register_menu(): void
     {
         add_menu_page(
-            __('e-Assessment Suite', 'eas-quiz'),
-            'EAS',
+            __('Examenanto Assessment Suite', 'eas-quiz'),
+            'Examenanto',
             'manage_options',
             'examenanto-dashboard',
             array(
@@ -73,7 +73,7 @@ class AdminController
 
         add_submenu_page(
             'examenanto-dashboard',
-            __('EAS Quizzes', 'eas-quiz'),
+            __('Examenanto Quizzes', 'eas-quiz'),
             __('Quizzes', 'eas-quiz'),
             'manage_options',
             'examenanto-quizzes',
@@ -85,7 +85,7 @@ class AdminController
 
         add_submenu_page(
             'examenanto-dashboard',
-            __('EAS Attempts', 'eas-quiz'),
+            __('Examenanto Attempts', 'eas-quiz'),
             __('Attempts', 'eas-quiz'),
             'manage_options',
             'examenanto-attempts',
