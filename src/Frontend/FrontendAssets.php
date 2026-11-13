@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EAS\Frontend;
+namespace Examenanto\Frontend;
 
 if (!defined('ABSPATH')) {
     exit;
