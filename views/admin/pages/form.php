@@ -50,7 +50,7 @@ if ($page) {
 
 <?php
 wp_nonce_field(
-    'examenanto_save_page'
+    'eas_save_page'
 );
 ?>
 
