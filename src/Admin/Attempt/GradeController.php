@@ -20,6 +20,8 @@ class GradeController
 
     public function __construct()
     {
+        add_action('admin_post_examenanto_save_grades', array($this, 'save'));
+
         $this->attempts = new AttemptRepository();
         $this->quizzes = new QuizRepository();
         $this->responses = new ResponseRepository();
