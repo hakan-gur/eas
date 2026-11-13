@@ -15,26 +15,26 @@ if (!defined('ABSPATH')) {
 }
 
 define(
-    'EAS_VERSION',
+    'EXAMENANTO_VERSION',
     '1.0'
 );
 
 define(
-    'EAS_DB_VERSION',
+    'EXAMENANTO_DB_VERSION',
     '1.5'
 );
 
 define(
-    'EAS_PLUGIN_DIR',
+    'EXAMENANTO_PLUGIN_DIR',
     plugin_dir_path(__FILE__)
 );
 
 define(
-    'EAS_PLUGIN_URL',
+    'EXAMENANTO_PLUGIN_URL',
     plugin_dir_url(__FILE__)
 );
 
-require_once EAS_PLUGIN_DIR .
+require_once EXAMENANTO_PLUGIN_DIR .
     'src/Core/Autoloader.php';
 
 \EAS\Core\Autoloader::register();
@@ -46,27 +46,28 @@ require_once EAS_PLUGIN_DIR .
  * Do not reset it for the first WordPress.org release: existing installations
  * may already contain EAS data that must be upgraded in place.
  */
-function eas_maybe_upgrade_database(): void
+function examenanto_maybe_upgrade_database(): void
 {
-    $installed_version = (string) get_option('eas_db_version', '1.0');
+    $installed_version = (string) get_option('examenanto_db_version', get_option('eas_db_version', '1.0'));
 
-    if (version_compare($installed_version, EAS_DB_VERSION, '>=')) {
+    if (version_compare($installed_version, EXAMENANTO_DB_VERSION, '>=')) {
         return;
     }
 
     \EAS\Core\Installer::install();
     \EAS\Database\Upgrade::run();
 
-    update_option('eas_db_version', EAS_DB_VERSION);
+    update_option('examenanto_db_version', EXAMENANTO_DB_VERSION);
+    update_option('eas_db_version', EXAMENANTO_DB_VERSION); // Keep the legacy option synchronized for compatibility.
 }
 
 add_action(
     'plugins_loaded',
-    'eas_maybe_upgrade_database',
+    'examenanto_maybe_upgrade_database',
     5
 );
 
-function eas_initialize_plugin(): void
+function examenanto_initialize_plugin(): void
 {
     $app = new \EAS\Core\Application();
     $app->run();
@@ -98,5 +99,5 @@ register_deactivation_hook(
 
 add_action(
     'plugins_loaded',
-    'eas_initialize_plugin'
+    'examenanto_initialize_plugin'
 );
