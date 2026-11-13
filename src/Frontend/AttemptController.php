@@ -99,6 +99,15 @@ class AttemptController
         );
 
         add_shortcode(
+            'examenanto_attempt',
+            array(
+                $this,
+                'attempt_page'
+            )
+        );
+
+        // Keep the original shortcode working on pages created by earlier releases.
+        add_shortcode(
             'eas_attempt',
             array(
                 $this,
