@@ -42,6 +42,14 @@ class AttemptController
 
     public function register(): void
     {
+        add_action('admin_post_examenanto_start_quiz', array($this, 'start'));
+        add_action('admin_post_examenanto_next_page', array($this, 'next_page'));
+        add_action('admin_post_examenanto_previous_page', array($this, 'previous_page'));
+        add_action('admin_post_examenanto_go_to_page', array($this, 'go_to_page'));
+        add_action('admin_post_examenanto_upload_audio', array($this, 'upload_audio'));
+        add_action('admin_post_nopriv_examenanto_start_quiz', array($this, 'not_logged_in'));
+        add_action('admin_post_examenanto_submit_attempt', array($this, 'submit'));
+
         add_action(
             'admin_post_eas_start_quiz',
             array(
