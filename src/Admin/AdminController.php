@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin;
+namespace Examenanto\Admin;
 
-use EAS\Admin\Attempt\GradeController;
-use EAS\Admin\Attempt\AttemptController;
-use EAS\Attempt\AttemptRepository;
-use EAS\Admin\Quiz\QuizController;
-use EAS\Admin\Page\PageController;
-use EAS\Admin\Question\QuestionController;
-use EAS\Quiz\QuizRepository;
+use Examenanto\Admin\Attempt\GradeController;
+use Examenanto\Admin\Attempt\AttemptController;
+use Examenanto\Attempt\AttemptRepository;
+use Examenanto\Admin\Quiz\QuizController;
+use Examenanto\Admin\Page\PageController;
+use Examenanto\Admin\Question\QuestionController;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -298,7 +298,7 @@ class AdminController
         $user_counts = count_users();
         $student_count = (int) ($user_counts['total_users'] ?? 0);
 
-        $attemptRepository = new \EAS\Attempt\AttemptRepository();
+        $attemptRepository = new \Examenanto\Attempt\AttemptRepository();
 
         $pending_grading = $attemptRepository->count_pending_grading();
 
