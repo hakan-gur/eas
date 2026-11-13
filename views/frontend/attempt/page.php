@@ -81,7 +81,7 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
                     <button
                         type="button"
                         class="button eas-attempt-navigation-submit"
-                        data-eas-action="eas_previous_page"
+                        data-eas-action="examenanto_previous_page"
                         data-eas-nonce="<?php echo esc_attr($previous_page_nonce); ?>"
                     >
                         <?php esc_html_e('Previous Page', 'eas-quiz'); ?>
@@ -91,7 +91,7 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
                     <button
                         type="button"
                         class="button button-primary eas-attempt-navigation-submit"
-                        data-eas-action="eas_next_page"
+                        data-eas-action="examenanto_next_page"
                         data-eas-nonce="<?php echo esc_attr($next_page_nonce); ?>"
                     >
                         <?php esc_html_e('Next Page', 'eas-quiz'); ?>
