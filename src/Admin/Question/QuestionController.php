@@ -1201,7 +1201,7 @@ class QuestionController
              */
 
             $redirect_url = admin_url(
-                'admin.php?page=eas-questions' .
+                'admin.php?page=examenanto-questions' .
                 '&page_id=' .
                 $page_id
             );
@@ -1214,7 +1214,7 @@ class QuestionController
              */
 
             $redirect_url = admin_url(
-                'admin.php?page=eas-questions' .
+                'admin.php?page=examenanto-questions' .
                 '&quiz_id=' .
                 $quiz_id .
                 '&action=bank'
@@ -1396,7 +1396,7 @@ class QuestionController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-questions&page_id=' .
+                'admin.php?page=examenanto-questions&page_id=' .
                 $page_id
             )
         );
@@ -1462,7 +1462,7 @@ class QuestionController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-questions&page_id='
+                'admin.php?page=examenanto-questions&page_id='
                 . $page_id
             )
         );
@@ -1538,7 +1538,7 @@ class QuestionController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-questions&page_id='
+                'admin.php?page=examenanto-questions&page_id='
                 . $page_id
             )
         );
@@ -1632,7 +1632,7 @@ class QuestionController
 
             wp_safe_redirect(
                 admin_url(
-                    'admin.php?page=eas-questions&page_id='
+                    'admin.php?page=examenanto-questions&page_id='
                     . $page_id
                 )
             );
@@ -1665,7 +1665,7 @@ class QuestionController
 
             wp_safe_redirect(
                 admin_url(
-                    'admin.php?page=eas-questions'
+                    'admin.php?page=examenanto-questions'
                     . '&quiz_id='
                     . $quiz_id
                     . '&action=bank'
@@ -1676,7 +1676,7 @@ class QuestionController
 
             wp_safe_redirect(
                 admin_url(
-                    'admin.php?page=eas-quizzes'
+                    'admin.php?page=examenanto-quizzes'
                 )
             );
         }
@@ -2413,7 +2413,7 @@ class QuestionController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-questions' .
+                'admin.php?page=examenanto-questions' .
                 '&quiz_id=' .
                 $quiz_id .
                 '&action=bank' .
