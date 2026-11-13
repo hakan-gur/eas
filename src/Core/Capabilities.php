@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EAS\Core;
+namespace Examenanto\Core;
 
 if (!defined('ABSPATH')) {
     exit;
