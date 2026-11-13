@@ -200,9 +200,7 @@ class AttemptController
             get_current_user_id()
         );
 
-        $attempt_page_id = (int) get_option(
-            'eas_attempt_page_id'
-        );
+        $attempt_page_id = (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'));
 
         if ($attempt_page_id <= 0) {
             wp_die(
@@ -344,9 +342,7 @@ class AttemptController
                         'attempt_id' => $attempt_id
                     ),
                     get_permalink(
-                        (int) get_option(
-                            'eas_attempt_page_id'
-                        )
+                        (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'))
                     )
                 )
             );
@@ -365,9 +361,7 @@ class AttemptController
                     'attempt_id' => $attempt_id
                 ),
                 get_permalink(
-                    (int) get_option(
-                        'eas_attempt_page_id'
-                    )
+                    (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'))
                 )
             )
         );
@@ -422,7 +416,7 @@ class AttemptController
         wp_safe_redirect(
             add_query_arg(
                 array('attempt_id' => $attempt_id),
-                get_permalink((int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id')))
+                get_permalink((int) get_option('examenanto_attempt_page_id', get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'))))
             )
         );
         exit;
@@ -492,9 +486,7 @@ class AttemptController
                         'attempt_id' => $attempt_id
                     ),
                     get_permalink(
-                        (int) get_option(
-                            'eas_attempt_page_id'
-                        )
+                        (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'))
                     )
                 )
             );
@@ -513,9 +505,7 @@ class AttemptController
                     'attempt_id' => $attempt_id
                 ),
                 get_permalink(
-                    (int) get_option(
-                        'eas_attempt_page_id'
-                    )
+                    (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'))
                 )
             )
         );
@@ -915,9 +905,7 @@ class AttemptController
             $score
         );
 
-        $my_results_page_id = (int) get_option(
-    'eas_my_results_page_id'
-);
+        $my_results_page_id = (int) get_option('examenanto_my_results_page_id', get_option('eas_my_results_page_id'));
 
 if ($my_results_page_id <= 0) {
     $my_results_page = get_page_by_path(
@@ -929,10 +917,8 @@ if ($my_results_page_id <= 0) {
     if ($my_results_page instanceof \WP_Post) {
         $my_results_page_id = (int) $my_results_page->ID;
 
-        update_option(
-            'examenanto_my_results_page_id',
-            $my_results_page_id
-        );
+        update_option('examenanto_my_results_page_id', $my_results_page_id);
+        update_option('eas_my_results_page_id', $my_results_page_id);
     }
 }
 
