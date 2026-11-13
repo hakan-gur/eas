@@ -21,14 +21,14 @@ class FrontendAssets
     public function enqueue(): void
     {
         wp_enqueue_style(
-            'eas-frontend',
+            'examenanto-frontend',
             EAS_PLUGIN_URL . 'assets/css/frontend.css',
             array(),
             EAS_VERSION
         );
 
         wp_enqueue_script(
-            'eas-audio-recorder',
+            'examenanto-audio-recorder',
             EAS_PLUGIN_URL . 'assets/js/audio-recorder.js',
             array(),
             EAS_VERSION,
@@ -36,7 +36,7 @@ class FrontendAssets
         );
 
         wp_enqueue_script(
-            'eas-frontend',
+            'examenanto-frontend',
             EAS_PLUGIN_URL . 'assets/js/frontend.js',
             array(),
             EAS_VERSION,
@@ -44,8 +44,8 @@ class FrontendAssets
         );
 
         wp_localize_script(
-            'eas-audio-recorder',
-            'easAudio',
+            'examenanto-audio-recorder',
+            'examenantoAudio',
             array(
                 'uploadUrl' => admin_url(
                     'admin-post.php'
