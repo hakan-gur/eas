@@ -16,6 +16,10 @@ class QuizController
 
     public function __construct()
     {
+        add_action('admin_post_examenanto_save_quiz', array($this, 'save'));
+        add_action('admin_post_examenanto_delete_quiz', array($this, 'delete'));
+        add_action('admin_post_examenanto_duplicate_quiz', array($this, 'duplicate'));
+
         $this->repository = new QuizRepository();
 
         add_action(
