@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace EAS\Result;
+namespace Examenanto\Result;
 
-use EAS\Answer\AnswerRepository;
-use EAS\Question\QuestionRepository;
-use EAS\Page\PageRepository;
+use Examenanto\Answer\AnswerRepository;
+use Examenanto\Question\QuestionRepository;
+use Examenanto\Page\PageRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -434,7 +434,7 @@ class ResultRenderer
     ): string {
 
         $attempts =
-            new \EAS\Attempt\AttemptRepository();
+            new \Examenanto\Attempt\AttemptRepository();
 
         $attempt = $attempts->find(
             $attempt_id
@@ -448,7 +448,7 @@ class ResultRenderer
          * Get quiz title.
          */
         $quizzes =
-            new \EAS\Quiz\QuizRepository();
+            new \Examenanto\Quiz\QuizRepository();
 
         $quiz = $quizzes->find(
             (int) $attempt['quiz_id']
@@ -461,10 +461,10 @@ class ResultRenderer
          * Calculate maximum possible points.
          */
         $questions =
-            new \EAS\Question\QuestionRepository();
+            new \Examenanto\Question\QuestionRepository();
 
         $pages =
-            new \EAS\Page\PageRepository();
+            new \Examenanto\Page\PageRepository();
 
         $quiz_pages =
             $pages->all_by_quiz(
