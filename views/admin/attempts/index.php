@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 
 <a class="button"
 href="<?php echo esc_url(admin_url(
-    'admin.php?page=eas-quizzes'
+    'admin.php?page=examenanto-quizzes'
 )); ?>">
 
 ← <?php esc_html_e('Back to Quizzes', 'eas-quiz'); ?>
@@ -235,14 +235,14 @@ number_format_i18n(
 <?php if ($attempt['grading_status'] === 'Needs grading') : ?>
 <a class="button button-primary"
    href="<?php echo esc_url(admin_url(
-'admin.php?page=eas-attempt-grade&attempt_id=' . $attempt['id']
+'admin.php?page=examenanto-attempt-grade&attempt_id=' . $attempt['id']
 )); ?>">
 📝 <?php esc_html_e('Grade', 'eas-quiz'); ?>
 </a>
 <?php else : ?>
 <a class="button"
    href="<?php echo esc_url(admin_url(
-'admin.php?page=eas-attempt-grade&attempt_id=' . $attempt['id']
+'admin.php?page=examenanto-attempt-grade&attempt_id=' . $attempt['id']
 )); ?>">
 👁 <?php esc_html_e('Review', 'eas-quiz'); ?>
 </a>
