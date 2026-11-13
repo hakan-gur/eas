@@ -34,6 +34,20 @@ define(
     plugin_dir_url(__FILE__)
 );
 
+// Deprecated aliases retained for compatibility with existing EAS integrations.
+if (!defined('EAS_VERSION')) {
+    define('EAS_VERSION', EXAMENANTO_VERSION);
+}
+if (!defined('EAS_DB_VERSION')) {
+    define('EAS_DB_VERSION', EXAMENANTO_DB_VERSION);
+}
+if (!defined('EAS_PLUGIN_DIR')) {
+    define('EAS_PLUGIN_DIR', EXAMENANTO_PLUGIN_DIR);
+}
+if (!defined('EAS_PLUGIN_URL')) {
+    define('EAS_PLUGIN_URL', EXAMENANTO_PLUGIN_URL);
+}
+
 require_once EXAMENANTO_PLUGIN_DIR .
     'src/Core/Autoloader.php';
 
