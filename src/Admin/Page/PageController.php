@@ -278,7 +278,7 @@ class PageController
             $this->repository->create($quiz_id, $data);
         }
 
-        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=examenanto-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
@@ -313,7 +313,7 @@ class PageController
 
         $this->repository->delete($id);
 
-        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=examenanto-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
@@ -358,7 +358,7 @@ class PageController
 
         $this->repository->move($id, $direction);
 
-        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=examenanto-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
@@ -460,7 +460,7 @@ class PageController
             $this->repository->reorder($quiz_id, $submitted_page_ids);
         }
 
-        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=examenanto-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
