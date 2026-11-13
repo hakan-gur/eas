@@ -37,7 +37,7 @@ href="<?php echo esc_url(admin_url(
 
 <input type="hidden"
        name="action"
-       value="eas_save_grades">
+       value="examenanto_save_grades">
 
 
 <input type="hidden"
@@ -46,7 +46,7 @@ href="<?php echo esc_url(admin_url(
 
 
 <?php wp_nonce_field(
-    'eas_save_grades'
+    'examenanto_save_grades'
 ); ?>
 
 <h1>
