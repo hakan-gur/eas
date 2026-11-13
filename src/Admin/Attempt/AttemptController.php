@@ -25,6 +25,8 @@ class AttemptController
 
     public function register(): void
     {
+        add_action('admin_post_examenanto_delete_attempt', array($this, 'delete'));
+
         add_action(
             'admin_post_eas_delete_attempt',
             array($this, 'delete')
