@@ -324,7 +324,7 @@ class QuizController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-quizzes'
+                'admin.php?page=examenanto-quizzes'
             )
         );
 
@@ -356,7 +356,7 @@ class QuizController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-quizzes'
+                'admin.php?page=examenanto-quizzes'
             )
         );
 
@@ -382,7 +382,7 @@ class QuizController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-quizzes'
+                'admin.php?page=examenanto-quizzes'
             )
         );
 
