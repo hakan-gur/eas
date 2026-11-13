@@ -138,7 +138,7 @@ if ($page_time_limit > 0) {
         );
         // Attempt-level behaviour is needed only while an attempt is displayed.
         wp_enqueue_script(
-            'eas-attempt',
+            'examenanto-attempt',
             EAS_PLUGIN_URL . 'assets/js/attempt.js',
             array(),
             EAS_VERSION,
@@ -149,7 +149,7 @@ if ($page_time_limit > 0) {
 
         if (in_array('essay', $question_types, true)) {
             wp_enqueue_script(
-                'eas-essay-response',
+                'examenanto-essay-response',
                 EAS_PLUGIN_URL . 'assets/js/essay-response.js',
                 array(),
                 EAS_VERSION,
@@ -159,7 +159,7 @@ if ($page_time_limit > 0) {
 
         if (in_array('audio_response', $question_types, true)) {
             wp_enqueue_script(
-                'eas-audio-response',
+                'examenanto-audio-response',
                 EAS_PLUGIN_URL . 'assets/js/audio-response.js',
                 array(),
                 EAS_VERSION,
