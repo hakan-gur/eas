@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin\Question;
+namespace Examenanto\Admin\Question;
 
-use EAS\Question\QuestionRenderer;
-use EAS\Question\QuestionRepository;
+use Examenanto\Question\QuestionRenderer;
+use Examenanto\Question\QuestionRepository;
 
 if (!defined('ABSPATH')) {
     exit;
