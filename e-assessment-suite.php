@@ -62,7 +62,12 @@ require_once EXAMENANTO_PLUGIN_DIR .
  */
 function examenanto_maybe_upgrade_database(): void
 {
-    $installed_version = (string) get_option('examenanto_db_version', get_option('eas_db_version', '1.0'));
+    $legacy_version = (string) get_option('eas_db_version', '1.0');
+    $installed_version = (string) get_option('examenanto_db_version', $legacy_version);
+
+    if (get_option('examenanto_db_version', false) === false) {
+        update_option('examenanto_db_version', $installed_version);
+    }
 
     if (version_compare($installed_version, EXAMENANTO_DB_VERSION, '>=')) {
         return;
