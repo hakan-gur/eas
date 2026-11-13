@@ -109,20 +109,20 @@ class QuestionPreviewController
     <title><?php echo esc_html($title); ?></title>
     <?php wp_head(); ?>
 </head>
-<body class="examenanto-question-preview-page">
-    <main class="examenanto-question-preview">
-        <div class="examenanto-question-preview__shell">
-            <header class="examenanto-question-preview__header">
+<body class="eas-question-preview-page">
+    <main class="eas-question-preview">
+        <div class="eas-question-preview__shell">
+            <header class="eas-question-preview__header">
                 <div>
-                    <p class="examenanto-question-preview__eyebrow"><?php esc_html_e('EAS', 'eas-quiz'); ?></p>
-                    <h1 class="examenanto-question-preview__title"><?php esc_html_e('Question Preview', 'eas-quiz'); ?></h1>
+                    <p class="eas-question-preview__eyebrow"><?php esc_html_e('EAS', 'eas-quiz'); ?></p>
+                    <h1 class="eas-question-preview__title"><?php esc_html_e('Question Preview', 'eas-quiz'); ?></h1>
                 </div>
-                <a class="examenanto-question-preview__close" href="javascript:window.close();">
+                <a class="eas-question-preview__close" href="javascript:window.close();">
                     <?php esc_html_e('Close Preview', 'eas-quiz'); ?>
                 </a>
             </header>
 
-            <section class="examenanto-question-preview__card">
+            <section class="eas-question-preview__card">
                 <?php echo $question_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                 <p class="eas-preview-note">
                     <?php esc_html_e('Preview only. No answer or result is saved from this page.', 'eas-quiz'); ?>
