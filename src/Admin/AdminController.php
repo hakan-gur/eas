@@ -125,7 +125,7 @@ class AdminController
 
         if (in_array($page, array('eas-quizzes', 'eas-pages'), true)) {
             wp_enqueue_style(
-                'eas-admin',
+                'examenanto-admin',
                 EAS_PLUGIN_URL . 'assets/css/admin.css',
                 array(),
                 EAS_VERSION
@@ -133,7 +133,7 @@ class AdminController
         }
 
         wp_enqueue_script(
-            'eas-admin',
+            'examenanto-admin',
             EAS_PLUGIN_URL . 'assets/js/admin.js',
             array(),
             EAS_VERSION,
@@ -142,7 +142,7 @@ class AdminController
 
         if ($page === 'eas-questions') {
             wp_enqueue_script(
-                'eas-admin-question-form',
+                'examenanto-admin-question-form',
                 EAS_PLUGIN_URL . 'assets/js/admin-question-form.js',
                 array(),
                 EAS_VERSION,
@@ -152,7 +152,7 @@ class AdminController
 
         if ($page === 'eas-pages') {
             wp_enqueue_script(
-                'eas-admin-pages',
+                'examenanto-admin-pages',
                 EAS_PLUGIN_URL . 'assets/js/admin-pages.js',
                 array(),
                 EAS_VERSION,
@@ -179,8 +179,8 @@ class AdminController
             // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
             wp_localize_script(
-                'eas-admin-pages',
-                'easAdminPages',
+                'examenanto-admin-pages',
+                'examenantoAdminPages',
                 array(
                     'uploadUrl' => admin_url('admin-post.php'),
                     'quizId' => $quiz_id,
@@ -232,7 +232,7 @@ class AdminController
 
         $question_count = wp_cache_get(
             'question_count',
-            'eas_dashboard'
+            'examenanto_dashboard'
         );
 
         if ($question_count === false) {
@@ -245,7 +245,7 @@ class AdminController
             wp_cache_set(
                 'question_count',
                 $question_count,
-                'eas_dashboard',
+                'examenanto_dashboard',
                 60
             );
         }
@@ -259,7 +259,7 @@ class AdminController
 
         $recent_attempts = wp_cache_get(
             'recent_attempts',
-            'eas_dashboard'
+            'examenanto_dashboard'
         );
 
         if ($recent_attempts === false) {
@@ -293,7 +293,7 @@ class AdminController
             wp_cache_set(
                 'recent_attempts',
                 $recent_attempts,
-                'eas_dashboard',
+                'examenanto_dashboard',
                 60
             );
         }
