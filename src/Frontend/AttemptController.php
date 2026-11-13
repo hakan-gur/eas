@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace EAS\Frontend;
+namespace Examenanto\Frontend;
 
-use EAS\Attempt\AttemptRepository;
-use EAS\Attempt\AttemptRenderer;
-use EAS\Response\ResponseRepository;
-use EAS\Question\QuestionRepository;
-use EAS\Page\PageRepository;
-use EAS\Answer\AnswerRepository;
-use EAS\Quiz\QuizRepository;
-use EAS\Audio\AudioRepository;
+use Examenanto\Attempt\AttemptRepository;
+use Examenanto\Attempt\AttemptRenderer;
+use Examenanto\Response\ResponseRepository;
+use Examenanto\Question\QuestionRepository;
+use Examenanto\Page\PageRepository;
+use Examenanto\Answer\AnswerRepository;
+use Examenanto\Quiz\QuizRepository;
+use Examenanto\Audio\AudioRepository;
 
 if (!defined('ABSPATH')) {
     exit;
