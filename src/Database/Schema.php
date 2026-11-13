@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EAS\Database;
+namespace Examenanto\Database;
 
 if (!defined('ABSPATH')) {
     exit;
