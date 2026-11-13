@@ -79,6 +79,14 @@ class QuestionController
 
     public function register(): void
     {
+        add_action('admin_post_examenanto_save_question', array($this, 'save'));
+        add_action('admin_post_examenanto_delete_question', array($this, 'delete'));
+        add_action('admin_post_examenanto_add_existing_question', array($this, 'add_existing_question'));
+        add_action('admin_post_examenanto_move_question_up', array($this, 'move_up'));
+        add_action('admin_post_examenanto_move_question_down', array($this, 'move_down'));
+        add_action('admin_post_examenanto_import_questions', array($this, 'import_questions'));
+        add_action('admin_post_examenanto_export_questions', array($this, 'export_questions'));
+
         add_submenu_page(
             'options.php',
             __('EAS Questions', 'eas-quiz'),
