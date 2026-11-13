@@ -23,8 +23,8 @@ class Activator
     private static function create_required_pages(): void
     {
         $pages = array(
-            array('title' => 'Attempt', 'slug' => 'attempt', 'content' => '[eas_attempt]'),
-            array('title' => 'My Results', 'slug' => 'my-results', 'content' => '[eas_my_quizresults]')
+            array('title' => 'Attempt', 'slug' => 'attempt', 'content' => '[examenanto_attempt]'),
+            array('title' => 'My Results', 'slug' => 'my-results', 'content' => '[examenanto_my_results]')
         );
 
         foreach ($pages as $page) {
@@ -44,11 +44,14 @@ class Activator
 
             if ($page_id && !is_wp_error($page_id)) {
                 if ($page['slug'] === 'attempt') {
-                    update_option('eas_attempt_page_id', $page_id);
+                    update_option('examenanto_attempt_page_id', $page_id);
+                    update_option('eas_attempt_page_id', $page_id); // Preserve the legacy option.
                 } elseif ($page['slug'] === 'quiz-result') {
-                    update_option('eas_results_page_id', $page_id);
+                    update_option('examenanto_results_page_id', $page_id);
+                    update_option('eas_results_page_id', $page_id); // Preserve the legacy option.
                 } elseif ($page['slug'] === 'my-results') {
-                    update_option('eas_my_results_page_id', $page_id);
+                    update_option('examenanto_my_results_page_id', $page_id);
+                    update_option('eas_my_results_page_id', $page_id); // Preserve the legacy option.
                 }
             }
         }
