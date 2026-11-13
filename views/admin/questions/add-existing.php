@@ -160,7 +160,7 @@ if (!defined('ABSPATH')) {
                                     <input
                                         type="hidden"
                                         name="action"
-                                        value="eas_add_existing_question"
+                                        value="examenanto_add_existing_question"
                                     >
 
                                     <input
@@ -181,7 +181,7 @@ if (!defined('ABSPATH')) {
 
                                     <?php
                                     wp_nonce_field(
-                                        'eas_add_existing_question'
+                                        'examenanto_add_existing_question'
                                     );
                                     ?>
 
