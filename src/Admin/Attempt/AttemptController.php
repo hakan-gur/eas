@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin\Attempt;
+namespace Examenanto\Admin\Attempt;
 
-use EAS\Attempt\AttemptRepository;
-use EAS\Quiz\QuizRepository;
+use Examenanto\Attempt\AttemptRepository;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
