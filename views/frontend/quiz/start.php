@@ -56,7 +56,7 @@ if (!defined('ABSPATH')) {
               action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden"
                    name="action"
-                   value="eas_start_quiz">
+                   value="examenanto_start_quiz">
             <input type="hidden"
                    name="quiz_id"
                    value="<?php echo esc_attr($quiz['id']); ?>">
