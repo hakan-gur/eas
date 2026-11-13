@@ -38,7 +38,7 @@ class PageController
 
         add_submenu_page(
             'options.php',
-            __('EAS Pages', 'eas-quiz'),
+            __('Examenanto Pages', 'eas-quiz'),
             __('Pages', 'eas-quiz'),
             'manage_options',
             'examenanto-pages',
