@@ -9,8 +9,9 @@ New externally visible WordPress identifiers use the distinctive `examenanto` pr
 - The plugin bootstrap now defines `EXAMENANTO_VERSION`, `EXAMENANTO_DB_VERSION`, `EXAMENANTO_PLUGIN_DIR`, and `EXAMENANTO_PLUGIN_URL`.
 - Bootstrap callbacks use `examenanto_maybe_upgrade_database()` and `examenanto_initialize_plugin()`.
 - Deprecated `EAS_*` constants remain as aliases so existing integrations that reference them do not break.
-- The old unnamespaced legacy classes in `admin/` and `public/` are now contained in `EAS\\Legacy`.
-- The application classes remain in the existing `EAS\\...` namespaces. Renaming the entire internal namespace would create broad compatibility risk without improving the global namespace boundary.
+- The old legacy classes in `admin/` and `public/` are contained in the `Examenanto\\Legacy` namespace.
+- Application classes use the `Examenanto\\...` namespace and are loaded by the Examenanto autoloader.
+- The autoloader provides a compatibility alias from legacy `EAS\\...` class references to their `Examenanto\\...` equivalents, so existing integrations can transition without retaining non-prefixed namespace declarations.
 
 ## WordPress identifiers
 
