@@ -27,6 +27,15 @@ class ResultController
     public function register(): void
     {
         add_shortcode(
+            'examenanto_results',
+            array(
+                $this,
+                'render'
+            )
+        );
+
+        // Backward-compatible shortcode for existing result pages.
+        add_shortcode(
             'eas_results',
             array(
                 $this,
