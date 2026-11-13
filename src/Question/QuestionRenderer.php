@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-namespace EAS\Question;
-use EAS\Answer\AnswerRepository;
-use EAS\Core\View;
+namespace Examenanto\Question;
+use Examenanto\Answer\AnswerRepository;
+use Examenanto\Core\View;
 if (!defined('ABSPATH')) {
     exit;
 }
