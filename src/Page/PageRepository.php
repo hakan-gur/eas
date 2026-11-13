@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EAS\Page;
+namespace Examenanto\Page;
 
 
 if (!defined('ABSPATH')) {

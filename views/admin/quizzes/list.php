@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -83,12 +84,12 @@ href="<?php echo esc_url(admin_url('admin.php?page=eas-quizzes&action=edit&id=' 
 </a>
 
 <a class="button button-link-delete"
-href="<?php echo esc_url(wp_nonce_url(admin_url('admin-post.php?action=eas_duplicate_quiz&id=' . $quiz['id']), 'eas_duplicate_quiz_' . $quiz['id'])); ?>">
+href="<?php echo esc_url(wp_nonce_url(admin_url('admin-post.php?action=examenanto_duplicate_quiz&id=' . $quiz['id']), 'eas_duplicate_quiz_' . $quiz['id'])); ?>">
 📄 <?php esc_html_e('Duplicate', 'eas-quiz'); ?>
 </a>
 
 <a class="button button-link-delete eas-confirm-delete"
-href="<?php echo esc_url(wp_nonce_url(admin_url('admin-post.php?action=eas_delete_quiz&id=' . $quiz['id']), 'eas_delete_quiz_' . $quiz['id'])); ?>"
+href="<?php echo esc_url(wp_nonce_url(admin_url('admin-post.php?action=examenanto_delete_quiz&id=' . $quiz['id']), 'eas_delete_quiz_' . $quiz['id'])); ?>"
 data-confirm="<?php echo esc_attr__('Delete this quiz and ALL of its pages, questions, answers, attempts, and responses permanently?', 'eas-quiz'); ?>">
 🗑 <?php esc_html_e('Delete', 'eas-quiz'); ?>
 </a>

@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -9,7 +10,7 @@ if (!defined('ABSPATH')) {
 <div class="wrap eas-dashboard">
 
 <h1>
-<?php esc_html_e('e-Assessment Suite', 'eas-quiz'); ?>
+<?php esc_html_e('Examenanto Assessment Suite', 'eas-quiz'); ?>
 </h1>
 
 <div style="
@@ -78,7 +79,7 @@ href="<?php echo esc_url(admin_url('admin.php?page=eas-attempts')); ?>">
 <tbody>
 <tr>
 <th><?php esc_html_e('Version', 'eas-quiz'); ?></th>
-<td><?php echo esc_html('EAS ' . EAS_VERSION); ?></td>
+<td><?php echo esc_html('Examenanto ' . EXAMENANTO_VERSION); ?></td>
 </tr>
 
 <tr>

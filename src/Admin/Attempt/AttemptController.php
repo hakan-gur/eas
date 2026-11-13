@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin\Attempt;
+namespace Examenanto\Admin\Attempt;
 
-use EAS\Attempt\AttemptRepository;
-use EAS\Quiz\QuizRepository;
+use Examenanto\Attempt\AttemptRepository;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -25,6 +25,8 @@ class AttemptController
 
     public function register(): void
     {
+        add_action('admin_post_examenanto_delete_attempt', array($this, 'delete'));
+
         add_action(
             'admin_post_eas_delete_attempt',
             array($this, 'delete')
@@ -139,7 +141,7 @@ class AttemptController
         $this->attempts->delete($attempt_id);
 
         wp_safe_redirect(
-            admin_url('admin.php?page=eas-attempts')
+            admin_url('admin.php?page=examenanto-attempts')
         );
 
         exit;

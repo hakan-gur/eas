@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -58,7 +59,7 @@ $eas_warning = isset($_GET['eas_warning'])
 
         <a class="button" href="<?php echo esc_url(wp_nonce_url(
             admin_url(
-                'admin-post.php?action=eas_export_questions&quiz_id=' . (int) $quiz['id']
+                'admin-post.php?action=examenanto_export_questions&quiz_id=' . (int) $quiz['id']
             ),
             'eas_export_questions_' . (int) $quiz['id']
         )); ?>">
@@ -125,7 +126,7 @@ $eas_warning = isset($_GET['eas_warning'])
                         |
                         <a href="<?php echo esc_url(wp_nonce_url(
                             admin_url(
-                                'admin-post.php?action=eas_preview_question&id=' . (int) $question['id']
+                                'admin-post.php?action=examenanto_preview_question&id=' . (int) $question['id']
                             ),
                             'eas_preview_question_' . (int) $question['id']
                         )); ?>" target="_blank">
@@ -134,7 +135,7 @@ $eas_warning = isset($_GET['eas_warning'])
                         |
                         <a href="<?php echo esc_url(wp_nonce_url(
                             admin_url(
-                                'admin-post.php?action=eas_delete_question&id=' . (int) $question['id']
+                                'admin-post.php?action=examenanto_delete_question&id=' . (int) $question['id']
                             ),
                             'eas_delete_question_' . (int) $question['id']
                         )); ?>"

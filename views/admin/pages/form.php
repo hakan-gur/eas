@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -34,7 +36,7 @@ if ($page) {
 
 <input type="hidden"
        name="action"
-       value="eas_save_page">
+       value="examenanto_save_page">
 
 <input type="hidden"
        name="quiz_id"

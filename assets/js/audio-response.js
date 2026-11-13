@@ -85,7 +85,7 @@
                 '#eas-attempt-form input[name="attempt_id"]'
             );
 
-            formData.append('action', 'eas_upload_audio');
+            formData.append('action', 'examenanto_upload_audio');
             formData.append('nonce', nonce);
             formData.append('attempt_id', attemptIdInput ? attemptIdInput.value : '');
             formData.append('question_id', questionId);

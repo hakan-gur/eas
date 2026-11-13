@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
-namespace EAS\Attempt;
-use EAS\Page\PageRepository;
+namespace Examenanto\Attempt;
+use Examenanto\Page\PageRepository;
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -435,7 +435,7 @@ public function delete(
     /*
      * Delete associated audio records and files.
      */
-    $audio = new \EAS\Audio\AudioRepository();
+    $audio = new \Examenanto\Audio\AudioRepository();
     foreach ($response_ids as $response_id) {
         $audio->delete_by_response(
             (int) $response_id

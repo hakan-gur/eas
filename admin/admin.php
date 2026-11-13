@@ -1,11 +1,13 @@
 <?php
 
+namespace Examenanto\Legacy;
+
 if (!defined('ABSPATH')) {
     exit;
 }
 
 
-require_once EAS_PLUGIN_DIR . 'admin/menu.php';
+require_once EXAMENANTO_PLUGIN_DIR . 'admin/menu.php';
 
 
 class EAS_Admin {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin\Page;
+namespace Examenanto\Admin\Page;
 
-use EAS\Page\PageRepository;
-use EAS\Quiz\QuizRepository;
+use Examenanto\Page\PageRepository;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -26,14 +26,30 @@ class PageController
         add_action('admin_post_eas_delete_page', array($this, 'delete'));
         add_action('admin_post_eas_move_page', array($this, 'move'));
         add_action('admin_post_eas_reorder_pages', array($this, 'reorder'));
+
+        add_action('admin_post_examenanto_save_page', array($this, 'save'));
+        add_action('admin_post_examenanto_delete_page', array($this, 'delete'));
+        add_action('admin_post_examenanto_move_page', array($this, 'move'));
+        add_action('admin_post_examenanto_reorder_pages', array($this, 'reorder'));
     }
 
     public function register(): void
     {
+
         add_submenu_page(
             'options.php',
-            __('EAS Pages', 'eas-quiz'),
+            __('Examenanto Pages', 'eas-quiz'),
             __('Pages', 'eas-quiz'),
+            'manage_options',
+            'examenanto-pages',
+            array($this, 'index')
+        );
+
+        // Keep existing bookmarked EAS Pages URLs working.
+        add_submenu_page(
+            'options.php',
+            __('Legacy EAS Pages', 'eas-quiz'),
+            __('Legacy EAS Pages', 'eas-quiz'),
             'manage_options',
             'eas-pages',
             array($this, 'index')
@@ -269,7 +285,7 @@ class PageController
             $this->repository->create($quiz_id, $data);
         }
 
-        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=examenanto-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
@@ -304,7 +320,7 @@ class PageController
 
         $this->repository->delete($id);
 
-        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=examenanto-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
@@ -349,7 +365,7 @@ class PageController
 
         $this->repository->move($id, $direction);
 
-        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=examenanto-pages&quiz_id=' . $quiz_id));
         exit;
     }
 
@@ -451,7 +467,7 @@ class PageController
             $this->repository->reorder($quiz_id, $submitted_page_ids);
         }
 
-        wp_safe_redirect(admin_url('admin.php?page=eas-pages&quiz_id=' . $quiz_id));
+        wp_safe_redirect(admin_url('admin.php?page=examenanto-pages&quiz_id=' . $quiz_id));
         exit;
     }
 

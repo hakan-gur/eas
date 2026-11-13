@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace EAS\Frontend;
+namespace Examenanto\Frontend;
 
-use EAS\Attempt\AttemptRepository;
-use EAS\Attempt\AttemptRenderer;
-use EAS\Response\ResponseRepository;
-use EAS\Question\QuestionRepository;
-use EAS\Page\PageRepository;
-use EAS\Answer\AnswerRepository;
-use EAS\Quiz\QuizRepository;
-use EAS\Audio\AudioRepository;
+use Examenanto\Attempt\AttemptRepository;
+use Examenanto\Attempt\AttemptRenderer;
+use Examenanto\Response\ResponseRepository;
+use Examenanto\Question\QuestionRepository;
+use Examenanto\Page\PageRepository;
+use Examenanto\Answer\AnswerRepository;
+use Examenanto\Quiz\QuizRepository;
+use Examenanto\Audio\AudioRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -42,6 +42,14 @@ class AttemptController
 
     public function register(): void
     {
+        add_action('admin_post_examenanto_start_quiz', array($this, 'start'));
+        add_action('admin_post_examenanto_next_page', array($this, 'next_page'));
+        add_action('admin_post_examenanto_previous_page', array($this, 'previous_page'));
+        add_action('admin_post_examenanto_go_to_page', array($this, 'go_to_page'));
+        add_action('admin_post_examenanto_upload_audio', array($this, 'upload_audio'));
+        add_action('admin_post_nopriv_examenanto_start_quiz', array($this, 'not_logged_in'));
+        add_action('admin_post_examenanto_submit_attempt', array($this, 'submit'));
+
         add_action(
             'admin_post_eas_start_quiz',
             array(
@@ -98,6 +106,15 @@ class AttemptController
             )
         );
 
+        add_shortcode(
+            'examenanto_attempt',
+            array(
+                $this,
+                'attempt_page'
+            )
+        );
+
+        // Keep the original shortcode working on pages created by earlier releases.
         add_shortcode(
             'eas_attempt',
             array(
@@ -183,9 +200,7 @@ class AttemptController
             get_current_user_id()
         );
 
-        $attempt_page_id = (int) get_option(
-            'eas_attempt_page_id'
-        );
+        $attempt_page_id = (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'));
 
         if ($attempt_page_id <= 0) {
             wp_die(
@@ -327,9 +342,7 @@ class AttemptController
                         'attempt_id' => $attempt_id
                     ),
                     get_permalink(
-                        (int) get_option(
-                            'eas_attempt_page_id'
-                        )
+                        (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'))
                     )
                 )
             );
@@ -348,9 +361,7 @@ class AttemptController
                     'attempt_id' => $attempt_id
                 ),
                 get_permalink(
-                    (int) get_option(
-                        'eas_attempt_page_id'
-                    )
+                    (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'))
                 )
             )
         );
@@ -405,7 +416,7 @@ class AttemptController
         wp_safe_redirect(
             add_query_arg(
                 array('attempt_id' => $attempt_id),
-                get_permalink((int) get_option('eas_attempt_page_id'))
+                get_permalink((int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id')))
             )
         );
         exit;
@@ -475,9 +486,7 @@ class AttemptController
                         'attempt_id' => $attempt_id
                     ),
                     get_permalink(
-                        (int) get_option(
-                            'eas_attempt_page_id'
-                        )
+                        (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'))
                     )
                 )
             );
@@ -496,9 +505,7 @@ class AttemptController
                     'attempt_id' => $attempt_id
                 ),
                 get_permalink(
-                    (int) get_option(
-                        'eas_attempt_page_id'
-                    )
+                    (int) get_option('examenanto_attempt_page_id', get_option('eas_attempt_page_id'))
                 )
             )
         );
@@ -898,9 +905,7 @@ class AttemptController
             $score
         );
 
-        $my_results_page_id = (int) get_option(
-    'eas_my_results_page_id'
-);
+        $my_results_page_id = (int) get_option('examenanto_my_results_page_id', get_option('eas_my_results_page_id'));
 
 if ($my_results_page_id <= 0) {
     $my_results_page = get_page_by_path(
@@ -912,10 +917,8 @@ if ($my_results_page_id <= 0) {
     if ($my_results_page instanceof \WP_Post) {
         $my_results_page_id = (int) $my_results_page->ID;
 
-        update_option(
-            'eas_my_results_page_id',
-            $my_results_page_id
-        );
+        update_option('examenanto_my_results_page_id', $my_results_page_id);
+        update_option('eas_my_results_page_id', $my_results_page_id);
     }
 }
 

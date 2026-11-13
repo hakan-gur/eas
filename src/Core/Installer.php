@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EAS\Core;
+namespace Examenanto\Core;
 
-use EAS\Database\Schema;
+use Examenanto\Database\Schema;
 
 if (!defined('ABSPATH')) {
     exit;

@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -25,7 +26,7 @@ if (isset($_GET['graded'])) : ?>
 
 <a class="button"
 href="<?php echo esc_url(admin_url(
-    'admin.php?page=eas-attempts'
+    'admin.php?page=examenanto-attempts'
 )); ?>">
 
 ← <?php esc_html_e('Back to Attempts', 'eas-quiz'); ?>
@@ -37,7 +38,7 @@ href="<?php echo esc_url(admin_url(
 
 <input type="hidden"
        name="action"
-       value="eas_save_grades">
+       value="examenanto_save_grades">
 
 
 <input type="hidden"

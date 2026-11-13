@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin;
+namespace Examenanto\Admin;
 
 
 if (!defined('ABSPATH')) {

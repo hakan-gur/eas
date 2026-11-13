@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace EAS\Admin\Question;
+namespace Examenanto\Admin\Question;
 
-use EAS\Question\QuestionRepository;
-use EAS\Page\PageRepository;
-use EAS\Quiz\QuizRepository;
+use Examenanto\Question\QuestionRepository;
+use Examenanto\Page\PageRepository;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -71,6 +71,15 @@ class QuestionController
             array($this, 'export_questions')
         );
 
+        add_action('admin_post_examenanto_save_question', array($this, 'save'));
+        add_action('admin_post_examenanto_delete_question', array($this, 'delete'));
+        add_action('admin_post_examenanto_add_existing_question', array($this, 'add_existing_question'));
+        add_action('admin_post_examenanto_move_question_up', array($this, 'move_up'));
+        add_action('admin_post_examenanto_move_question_down', array($this, 'move_down'));
+        add_action('admin_post_examenanto_import_questions', array($this, 'import_questions'));
+        add_action('admin_post_examenanto_export_questions', array($this, 'export_questions'));
+
+
         add_action(
             'admin_notices',
             array($this, 'import_success_notice')
@@ -79,10 +88,21 @@ class QuestionController
 
     public function register(): void
     {
+
         add_submenu_page(
             'options.php',
-            __('EAS Questions', 'eas-quiz'),
+            __('Examenanto Questions', 'eas-quiz'),
             __('Questions', 'eas-quiz'),
+            'manage_options',
+            'examenanto-questions',
+            array($this, 'index')
+        );
+
+        // Keep existing bookmarked EAS Questions URLs working.
+        add_submenu_page(
+            'options.php',
+            __('Legacy EAS Questions', 'eas-quiz'),
+            __('Legacy EAS Questions', 'eas-quiz'),
             'manage_options',
             'eas-questions',
             array($this, 'index')
@@ -1188,7 +1208,7 @@ class QuestionController
              */
 
             $redirect_url = admin_url(
-                'admin.php?page=eas-questions' .
+                'admin.php?page=examenanto-questions' .
                 '&page_id=' .
                 $page_id
             );
@@ -1201,7 +1221,7 @@ class QuestionController
              */
 
             $redirect_url = admin_url(
-                'admin.php?page=eas-questions' .
+                'admin.php?page=examenanto-questions' .
                 '&quiz_id=' .
                 $quiz_id .
                 '&action=bank'
@@ -1383,7 +1403,7 @@ class QuestionController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-questions&page_id=' .
+                'admin.php?page=examenanto-questions&page_id=' .
                 $page_id
             )
         );
@@ -1449,7 +1469,7 @@ class QuestionController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-questions&page_id='
+                'admin.php?page=examenanto-questions&page_id='
                 . $page_id
             )
         );
@@ -1525,7 +1545,7 @@ class QuestionController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-questions&page_id='
+                'admin.php?page=examenanto-questions&page_id='
                 . $page_id
             )
         );
@@ -1619,7 +1639,7 @@ class QuestionController
 
             wp_safe_redirect(
                 admin_url(
-                    'admin.php?page=eas-questions&page_id='
+                    'admin.php?page=examenanto-questions&page_id='
                     . $page_id
                 )
             );
@@ -1652,7 +1672,7 @@ class QuestionController
 
             wp_safe_redirect(
                 admin_url(
-                    'admin.php?page=eas-questions'
+                    'admin.php?page=examenanto-questions'
                     . '&quiz_id='
                     . $quiz_id
                     . '&action=bank'
@@ -1663,7 +1683,7 @@ class QuestionController
 
             wp_safe_redirect(
                 admin_url(
-                    'admin.php?page=eas-quizzes'
+                    'admin.php?page=examenanto-quizzes'
                 )
             );
         }
@@ -1702,7 +1722,7 @@ class QuestionController
         }
 
         $renderer =
-            new \EAS\Question\QuestionRenderer();
+            new \Examenanto\Question\QuestionRenderer();
 
         ?>
 
@@ -2400,7 +2420,7 @@ class QuestionController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-questions' .
+                'admin.php?page=examenanto-questions' .
                 '&quiz_id=' .
                 $quiz_id .
                 '&action=bank' .
@@ -2419,7 +2439,7 @@ class QuestionController
         if (
             !isset($_GET['page'])
             ||
-            $_GET['page'] !== 'eas-questions'
+            $_GET['page'] !== 'examenanto-questions' && $_GET['page'] !== 'eas-questions'
             ||
             empty($_GET['eas_imported'])
         ) {

@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -67,7 +68,7 @@ if (!defined('ABSPATH')) {
     <hr>
 
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-        <input type="hidden" name="action" value="eas_import_questions">
+        <input type="hidden" name="action" value="examenanto_import_questions">
         <input type="hidden" name="quiz_id" value="<?php echo esc_attr($quiz_id); ?>">
         <?php wp_nonce_field('eas_import_questions'); ?>
 

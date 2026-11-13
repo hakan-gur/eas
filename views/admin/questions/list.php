@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -167,7 +168,7 @@ $page_id .
         <a
             href="<?php echo esc_url(wp_nonce_url(
                 admin_url(
-                    'admin-post.php?action=eas_move_question_up'
+                    'admin-post.php?action=examenanto_move_question_up'
                     . '&id='
                     . $question['id']
                     . '&page_id='
@@ -184,7 +185,7 @@ $page_id .
     <a
         href="<?php echo esc_url(wp_nonce_url(
             admin_url(
-                'admin-post.php?action=eas_move_question_down'
+                'admin-post.php?action=examenanto_move_question_down'
                 . '&id='
                 . $question['id']
                 . '&page_id='
@@ -338,7 +339,7 @@ $question['id']
 |
 <a href="<?php echo esc_url(wp_nonce_url(
     admin_url(
-        'admin-post.php?action=eas_preview_question&id=' . (int) $question['id']
+        'admin-post.php?action=examenanto_preview_question&id=' . (int) $question['id']
     ),
     'eas_preview_question_' . (int) $question['id']
 )); ?>"
@@ -355,7 +356,7 @@ target="_blank">
 
 admin_url(
 
-'admin-post.php?action=eas_delete_question&id=' .
+'admin-post.php?action=examenanto_delete_question&id=' .
 $question['id'] .
 '&page_id=' .
 $page_id

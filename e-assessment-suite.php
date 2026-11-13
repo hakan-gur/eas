@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: e-Assessment Suite
+ * Plugin Name: Examenanto Assessment Suite
  * Plugin URI: https://test-of-english.com
  * Description: Test preparation and management platform for standardized tests like the TOEFL iBT and the TOEIC.
  * Version: 1.0
@@ -15,29 +15,43 @@ if (!defined('ABSPATH')) {
 }
 
 define(
-    'EAS_VERSION',
+    'EXAMENANTO_VERSION',
     '1.0'
 );
 
 define(
-    'EAS_DB_VERSION',
+    'EXAMENANTO_DB_VERSION',
     '1.5'
 );
 
 define(
-    'EAS_PLUGIN_DIR',
+    'EXAMENANTO_PLUGIN_DIR',
     plugin_dir_path(__FILE__)
 );
 
 define(
-    'EAS_PLUGIN_URL',
+    'EXAMENANTO_PLUGIN_URL',
     plugin_dir_url(__FILE__)
 );
 
-require_once EAS_PLUGIN_DIR .
+// Deprecated aliases retained for compatibility with existing EAS integrations.
+if (!defined('EAS_VERSION')) {
+    define('EAS_VERSION', EXAMENANTO_VERSION);
+}
+if (!defined('EAS_DB_VERSION')) {
+    define('EAS_DB_VERSION', EXAMENANTO_DB_VERSION);
+}
+if (!defined('EAS_PLUGIN_DIR')) {
+    define('EAS_PLUGIN_DIR', EXAMENANTO_PLUGIN_DIR);
+}
+if (!defined('EAS_PLUGIN_URL')) {
+    define('EAS_PLUGIN_URL', EXAMENANTO_PLUGIN_URL);
+}
+
+require_once EXAMENANTO_PLUGIN_DIR .
     'src/Core/Autoloader.php';
 
-\EAS\Core\Autoloader::register();
+\Examenanto\Core\Autoloader::register();
 
 /**
  * Apply database updates after plugin upgrades as well as activation.
@@ -46,29 +60,35 @@ require_once EAS_PLUGIN_DIR .
  * Do not reset it for the first WordPress.org release: existing installations
  * may already contain EAS data that must be upgraded in place.
  */
-function eas_maybe_upgrade_database(): void
+function examenanto_maybe_upgrade_database(): void
 {
-    $installed_version = (string) get_option('eas_db_version', '1.0');
+    $legacy_version = (string) get_option('eas_db_version', '1.0');
+    $installed_version = (string) get_option('examenanto_db_version', $legacy_version);
 
-    if (version_compare($installed_version, EAS_DB_VERSION, '>=')) {
+    if (get_option('examenanto_db_version', false) === false) {
+        update_option('examenanto_db_version', $installed_version);
+    }
+
+    if (version_compare($installed_version, EXAMENANTO_DB_VERSION, '>=')) {
         return;
     }
 
-    \EAS\Core\Installer::install();
-    \EAS\Database\Upgrade::run();
+    \Examenanto\Core\Installer::install();
+    \Examenanto\Database\Upgrade::run();
 
-    update_option('eas_db_version', EAS_DB_VERSION);
+    update_option('examenanto_db_version', EXAMENANTO_DB_VERSION);
+    update_option('eas_db_version', EXAMENANTO_DB_VERSION); // Keep the legacy option synchronized for compatibility.
 }
 
 add_action(
     'plugins_loaded',
-    'eas_maybe_upgrade_database',
+    'examenanto_maybe_upgrade_database',
     5
 );
 
-function eas_initialize_plugin(): void
+function examenanto_initialize_plugin(): void
 {
-    $app = new \EAS\Core\Application();
+    $app = new \Examenanto\Core\Application();
     $app->run();
 
     /*
@@ -77,13 +97,13 @@ function eas_initialize_plugin(): void
      * replaces the old bare admin-post presentation without touching the
      * question renderer, scoring, or answer storage.
      */
-    new \EAS\Admin\Question\QuestionPreviewController();
+    new \Examenanto\Admin\Question\QuestionPreviewController();
 }
 
 register_activation_hook(
     __FILE__,
     array(
-        'EAS\\Core\\Activator',
+        'Examenanto\\Core\\Activator',
         'activate'
     )
 );
@@ -91,12 +111,12 @@ register_activation_hook(
 register_deactivation_hook(
     __FILE__,
     array(
-        'EAS\\Core\\Deactivator',
+        'Examenanto\\Core\\Deactivator',
         'deactivate'
     )
 );
 
 add_action(
     'plugins_loaded',
-    'eas_initialize_plugin'
+    'examenanto_initialize_plugin'
 );

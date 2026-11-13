@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EAS\Frontend;
+namespace Examenanto\Frontend;
 
 
-use EAS\Frontend\QuizRenderer;
+use Examenanto\Frontend\QuizRenderer;
 
 
 if (!defined('ABSPATH')) {
@@ -37,6 +37,15 @@ class QuizShortcode
 
         add_shortcode(
 
+            'examenanto_quiz',
+            array(
+                $this,
+                'render'
+            )
+        );
+
+        // Backward-compatible shortcode for existing pages.
+        add_shortcode(
             'eas_quiz',
 
             array(

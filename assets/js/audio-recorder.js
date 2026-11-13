@@ -83,18 +83,18 @@ document.addEventListener(
                                     'block';
 
                                 status.textContent =
-                                    easAudio.strings.recordingReady;
+                                    examenantoAudio.strings.recordingReady;
 
                                 const formData = new FormData();
 
                                 formData.append(
                                     'action',
-                                    'eas_upload_audio'
+                                    'examenanto_upload_audio'
                                 );
 
                                 formData.append(
                                     'nonce',
-                                    easAudio.nonce
+                                    examenantoAudio.nonce
                                 );
 
                                 formData.append(
@@ -104,7 +104,7 @@ document.addEventListener(
                                 );
 
                                 fetch(
-                                    easAudio.uploadUrl,
+                                    examenantoAudio.uploadUrl,
                                     {
                                         method: 'POST',
                                         body: formData
@@ -119,12 +119,12 @@ document.addEventListener(
                                             data.data.file;
 
                                         status.textContent =
-                                            easAudio.strings.recordingUploaded;
+                                            examenantoAudio.strings.recordingUploaded;
 
                                     } else {
 
                                         status.textContent =
-                                            easAudio.strings.uploadFailed;
+                                            examenantoAudio.strings.uploadFailed;
 
                                         console.log(data);
                                     }
@@ -132,7 +132,7 @@ document.addEventListener(
                                 .catch(error => {
 
                                     status.textContent =
-                                        easAudio.strings.uploadError;
+                                        examenantoAudio.strings.uploadError;
 
                                     console.error(error);
                                 });
@@ -141,7 +141,7 @@ document.addEventListener(
                         recorder.start();
 
                         status.textContent =
-                            easAudio.strings.recording;
+                            examenantoAudio.strings.recording;
 
                         startButton.disabled =
                             true;

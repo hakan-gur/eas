@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -212,7 +213,7 @@ class="eas-confirm-delete"
 href="<?php echo esc_url(
     wp_nonce_url(
         admin_url(
-            'admin-post.php?action=eas_delete_page&id=' .
+            'admin-post.php?action=examenanto_delete_page&id=' .
             $page_id .
             '&quiz_id=' .
             $quiz_id

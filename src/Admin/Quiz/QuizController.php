@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin\Quiz;
+namespace Examenanto\Admin\Quiz;
 
-use EAS\Quiz\QuizRepository;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -16,6 +16,10 @@ class QuizController
 
     public function __construct()
     {
+        add_action('admin_post_examenanto_save_quiz', array($this, 'save'));
+        add_action('admin_post_examenanto_delete_quiz', array($this, 'delete'));
+        add_action('admin_post_examenanto_duplicate_quiz', array($this, 'duplicate'));
+
         $this->repository = new QuizRepository();
 
         add_action(
@@ -320,7 +324,7 @@ class QuizController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-quizzes'
+                'admin.php?page=examenanto-quizzes'
             )
         );
 
@@ -352,7 +356,7 @@ class QuizController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-quizzes'
+                'admin.php?page=examenanto-quizzes'
             )
         );
 
@@ -378,7 +382,7 @@ class QuizController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-quizzes'
+                'admin.php?page=examenanto-quizzes'
             )
         );
 

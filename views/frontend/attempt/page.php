@@ -1,4 +1,6 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -35,7 +37,7 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
       data-go-to-page-nonce="<?php echo esc_attr($go_to_page_nonce); ?>"
       <?php if (!empty($page_time_limit)) : ?>
       data-page-time-remaining="<?php echo esc_attr((int) $page_time_remaining); ?>"
-      data-page-expiry-action="<?php echo esc_attr($next_page ? 'eas_next_page' : 'eas_submit_attempt'); ?>"
+      data-page-expiry-action="<?php echo esc_attr($next_page ? 'examenanto_next_page' : 'examenanto_submit_attempt'); ?>"
       data-page-expiry-nonce="<?php echo esc_attr($next_page ? $next_page_nonce : wp_create_nonce('eas_submit_attempt')); ?>"
       <?php endif; ?>
       <?php if (isset($remaining_seconds) && $remaining_seconds !== null && empty($page_time_limit)) : ?>
@@ -81,7 +83,7 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
                     <button
                         type="button"
                         class="button eas-attempt-navigation-submit"
-                        data-eas-action="eas_previous_page"
+                        data-eas-action="examenanto_previous_page"
                         data-eas-nonce="<?php echo esc_attr($previous_page_nonce); ?>"
                     >
                         <?php esc_html_e('Previous Page', 'eas-quiz'); ?>
@@ -91,7 +93,7 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
                     <button
                         type="button"
                         class="button button-primary eas-attempt-navigation-submit"
-                        data-eas-action="eas_next_page"
+                        data-eas-action="examenanto_next_page"
                         data-eas-nonce="<?php echo esc_attr($next_page_nonce); ?>"
                     >
                         <?php esc_html_e('Next Page', 'eas-quiz'); ?>
@@ -167,10 +169,10 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
 
     <?php if (!empty($page_time_limit)) : ?>
         <?php if ($next_page) : ?>
-            <input type="hidden" name="action" value="eas_next_page">
+            <input type="hidden" name="action" value="examenanto_next_page">
             <?php wp_nonce_field('eas_next_page'); ?>
         <?php else : ?>
-            <input type="hidden" name="action" value="eas_submit_attempt">
+            <input type="hidden" name="action" value="examenanto_submit_attempt">
             <?php wp_nonce_field('eas_submit_attempt'); ?>
             <p>
                 <button type="submit" class="button button-primary">
@@ -179,10 +181,10 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
             </p>
         <?php endif; ?>
     <?php elseif ($next_page) : ?>
-        <input type="hidden" name="action" value="eas_next_page">
+        <input type="hidden" name="action" value="examenanto_next_page">
         <?php wp_nonce_field('eas_next_page'); ?>
     <?php else : ?>
-        <input type="hidden" name="action" value="eas_submit_attempt">
+        <input type="hidden" name="action" value="examenanto_submit_attempt">
         <?php wp_nonce_field('eas_submit_attempt'); ?>
         <p>
             <button type="submit" class="button button-primary">

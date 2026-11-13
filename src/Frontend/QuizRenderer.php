@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace EAS\Frontend;
+namespace Examenanto\Frontend;
 
 
-use EAS\Quiz\QuizRepository;
-use EAS\Attempt\AttemptRepository;
-use EAS\Core\View;
+use Examenanto\Quiz\QuizRepository;
+use Examenanto\Attempt\AttemptRepository;
+use Examenanto\Core\View;
 
 
 if (!defined('ABSPATH')) {

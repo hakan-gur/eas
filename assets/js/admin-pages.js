@@ -74,7 +74,7 @@
 
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = window.easAdminPages.uploadUrl;
+        form.action = window.examenantoAdminPages.uploadUrl;
 
         function addHiddenField(name, value) {
             const input = document.createElement('input');
@@ -84,9 +84,9 @@
             form.appendChild(input);
         }
 
-        addHiddenField('action', 'eas_reorder_pages');
-        addHiddenField('quiz_id', window.easAdminPages.quizId);
-        addHiddenField('_wpnonce', window.easAdminPages.nonce);
+        addHiddenField('action', 'examenanto_reorder_pages');
+        addHiddenField('quiz_id', window.examenantoAdminPages.quizId);
+        addHiddenField('_wpnonce', window.examenantoAdminPages.nonce);
 
         pageIds.forEach(function (pageId) {
             addHiddenField('page_ids[]', pageId);

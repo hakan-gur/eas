@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin\Attempt;
+namespace Examenanto\Admin\Attempt;
 
-use EAS\Attempt\AttemptRepository;
-use EAS\Response\ResponseRepository;
-use EAS\Quiz\QuizRepository;
+use Examenanto\Attempt\AttemptRepository;
+use Examenanto\Response\ResponseRepository;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -20,6 +20,8 @@ class GradeController
 
     public function __construct()
     {
+        add_action('admin_post_examenanto_save_grades', array($this, 'save'));
+
         $this->attempts = new AttemptRepository();
         $this->quizzes = new QuizRepository();
         $this->responses = new ResponseRepository();
@@ -174,7 +176,7 @@ class GradeController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-attempt-grade&attempt_id='
+                'admin.php?page=examenanto-attempt-grade&attempt_id='
                 . $attempt_id
                 . '&graded=1'
             )

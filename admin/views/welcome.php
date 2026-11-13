@@ -20,7 +20,7 @@ Version <?php echo esc_html(EAS_VERSION); ?>
 
 <p>
 Database version:
-<?php echo esc_html(get_option('eas_db_version')); ?>
+<?php echo esc_html(get_option('examenanto_db_version', get_option('eas_db_version'))); ?>
 </p>
 
 

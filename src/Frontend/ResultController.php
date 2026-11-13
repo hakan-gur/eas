@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace EAS\Frontend;
+namespace Examenanto\Frontend;
 
-use EAS\Result\ResultRenderer;
-use EAS\Attempt\AttemptRepository;
+use Examenanto\Result\ResultRenderer;
+use Examenanto\Attempt\AttemptRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -26,6 +26,15 @@ class ResultController
 
     public function register(): void
     {
+        add_shortcode(
+            'examenanto_results',
+            array(
+                $this,
+                'render'
+            )
+        );
+
+        // Backward-compatible shortcode for existing result pages.
         add_shortcode(
             'eas_results',
             array(

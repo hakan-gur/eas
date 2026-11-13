@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EAS\Core;
+namespace Examenanto\Core;
 
 
 if (!defined('ABSPATH')) {
@@ -29,7 +29,20 @@ class Autoloader
     private static function load(string $class): void
     {
 
-        $prefix = 'EAS\\';
+        $legacy_prefix = 'EAS\\';
+
+        if (strpos($class, $legacy_prefix) === 0) {
+            $relative = substr($class, strlen($legacy_prefix));
+            $new_class = 'Examenanto\\' . $relative;
+
+            if (class_exists($new_class)) {
+                class_alias($new_class, $class);
+            }
+
+            return;
+        }
+
+        $prefix = 'Examenanto\\';
 
 
         if (strpos($class, $prefix) !== 0) {
@@ -43,7 +56,7 @@ class Autoloader
         );
 
 
-        $file = EAS_PLUGIN_DIR .
+        $file = EXAMENANTO_PLUGIN_DIR .
             'src/' .
             str_replace(
                 '\\',

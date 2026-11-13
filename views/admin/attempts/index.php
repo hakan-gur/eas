@@ -1,5 +1,6 @@
 <?php
-
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// These variables are supplied by the renderer in the include scope.
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -10,7 +11,7 @@ if (!defined('ABSPATH')) {
 
 <a class="button"
 href="<?php echo esc_url(admin_url(
-    'admin.php?page=eas-quizzes'
+    'admin.php?page=examenanto-quizzes'
 )); ?>">
 
 ← <?php esc_html_e('Back to Quizzes', 'eas-quiz'); ?>
@@ -35,7 +36,7 @@ href="<?php echo esc_url(admin_url(
 
 <input type="hidden"
        name="page"
-       value="eas-attempts">
+       value="examenanto-attempts">
 
 <label style="margin-left:20px;">
 
@@ -235,14 +236,14 @@ number_format_i18n(
 <?php if ($attempt['grading_status'] === 'Needs grading') : ?>
 <a class="button button-primary"
    href="<?php echo esc_url(admin_url(
-'admin.php?page=eas-attempt-grade&attempt_id=' . $attempt['id']
+'admin.php?page=examenanto-attempt-grade&attempt_id=' . $attempt['id']
 )); ?>">
 📝 <?php esc_html_e('Grade', 'eas-quiz'); ?>
 </a>
 <?php else : ?>
 <a class="button"
    href="<?php echo esc_url(admin_url(
-'admin.php?page=eas-attempt-grade&attempt_id=' . $attempt['id']
+'admin.php?page=examenanto-attempt-grade&attempt_id=' . $attempt['id']
 )); ?>">
 👁 <?php esc_html_e('Review', 'eas-quiz'); ?>
 </a>
@@ -251,7 +252,7 @@ number_format_i18n(
 <?php
 $delete_url = wp_nonce_url(
     admin_url(
-        'admin-post.php?action=eas_delete_attempt&id='
+        'admin-post.php?action=examenanto_delete_attempt&id='
         . (int) $attempt['id']
     ),
     'eas_delete_attempt_' . (int) $attempt['id']

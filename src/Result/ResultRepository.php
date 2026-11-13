@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace EAS\Result;
+namespace Examenanto\Result;
 if (!defined('ABSPATH')) {
     exit;
 }

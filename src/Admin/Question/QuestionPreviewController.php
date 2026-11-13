@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin\Question;
+namespace Examenanto\Admin\Question;
 
-use EAS\Question\QuestionRenderer;
-use EAS\Question\QuestionRepository;
+use Examenanto\Question\QuestionRenderer;
+use Examenanto\Question\QuestionRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -17,6 +17,8 @@ class QuestionPreviewController
 
     public function __construct()
     {
+        add_action('admin_post_examenanto_preview_question', array($this, 'preview'));
+
         $this->repository = new QuestionRepository();
 
         remove_all_actions('admin_post_eas_preview_question');
@@ -80,19 +82,19 @@ class QuestionPreviewController
         $preview_js = EAS_PLUGIN_URL . 'assets/js/question-preview.js';
 
         wp_enqueue_style(
-            'eas-question-preview-frontend',
+            'examenanto-question-preview-frontend',
             $frontend_css,
             array(),
             EAS_VERSION
         );
         wp_enqueue_style(
-            'eas-question-preview',
+            'examenanto-question-preview',
             $preview_css,
-            array('eas-question-preview-frontend'),
+            array('examenanto-question-preview-frontend'),
             EAS_VERSION
         );
         wp_enqueue_script(
-            'eas-question-preview',
+            'examenanto-question-preview',
             $preview_js,
             array(),
             EAS_VERSION,
@@ -112,7 +114,7 @@ class QuestionPreviewController
         <div class="eas-question-preview__shell">
             <header class="eas-question-preview__header">
                 <div>
-                    <p class="eas-question-preview__eyebrow"><?php esc_html_e('EAS', 'eas-quiz'); ?></p>
+                    <p class="eas-question-preview__eyebrow"><?php esc_html_e('Examenanto', 'eas-quiz'); ?></p>
                     <h1 class="eas-question-preview__title"><?php esc_html_e('Question Preview', 'eas-quiz'); ?></h1>
                 </div>
                 <a class="eas-question-preview__close" href="javascript:window.close();">

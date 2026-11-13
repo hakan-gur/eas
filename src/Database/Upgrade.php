@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EAS\Database;
+namespace Examenanto\Database;
 
 
 if (!defined('ABSPATH')) {
@@ -18,10 +18,7 @@ class Upgrade
     {
 
 
-$current = (string) get_option(
-    'eas_db_version',
-    '1.0'
-);
+$current = (string) get_option('examenanto_db_version', get_option('eas_db_version', '1.0'));
 
 
 
@@ -32,10 +29,8 @@ $current = (string) get_option(
 
 
 
-            update_option(
-                'eas_db_version',
-                '1.1'
-            );
+            update_option('examenanto_db_version', '1.1');
+            update_option('eas_db_version', '1.1');
 
 
             $current = '1.1';
@@ -52,10 +47,8 @@ $current = (string) get_option(
 
 
 
-            update_option(
-                'eas_db_version',
-                '1.2'
-            );
+            update_option('examenanto_db_version', '1.2');
+            update_option('eas_db_version', '1.2');
 
 
             $current = '1.2';
@@ -72,10 +65,8 @@ $current = (string) get_option(
 
 
 
-    update_option(
-        'eas_db_version',
-        '1.3'
-    );
+    update_option('examenanto_db_version', '1.3');
+    update_option('eas_db_version', '1.3');
 
 
     $current = '1.3';
@@ -89,10 +80,8 @@ if (version_compare($current, '1.4', '<')) {
 
 
 
-    update_option(
-        'eas_db_version',
-        '1.4'
-    );
+    update_option('examenanto_db_version', '1.4');
+    update_option('eas_db_version', '1.4');
 
 
 }
@@ -100,10 +89,8 @@ if (version_compare($current, '1.5', '<')) {
 
     self::upgrade_1_5();
 
-    update_option(
-        'eas_db_version',
-        '1.5'
-    );
+    update_option('examenanto_db_version', '1.5');
+    update_option('eas_db_version', '1.5');
 
 }
 
@@ -225,56 +212,33 @@ if (version_compare($current, '1.5', '<')) {
 
     private static function upgrade_1_3(): void
     {
+        global $wpdb;
 
-
-global $wpdb;
-
-
-        require_once ABSPATH .
-            'wp-admin/includes/upgrade.php';
-
-
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
         $table = $wpdb->prefix . 'eas_answers';
-
-
-
         $charset_collate = $wpdb->get_charset_collate();
 
-
-
+        // Keep each schema field on its own non-empty line. dbDelta() parses
+        // blank lines as malformed field definitions and may generate
+        // invalid ALTER TABLE statements such as ADD `` (``).
         $sql = "CREATE TABLE {$table} (
-
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-
             question_id bigint(20) unsigned NOT NULL,
-
             answer_text text NOT NULL,
-
             feedback longtext NULL,
-
             is_correct tinyint(1) NOT NULL DEFAULT 0,
-
             sort_order int(11) NOT NULL DEFAULT 0,
-
             created_at datetime NULL,
-
             updated_at datetime NULL,
-
-            PRIMARY KEY (id),
-
+            PRIMARY KEY  (id),
             KEY question_id (question_id)
-
         ) {$charset_collate};";
 
+        dbDelta($sql);
+    }
 
-
-        $result = dbDelta($sql);
-
-
-
-}
-private static function upgrade_1_4(): void
+    private static function upgrade_1_4(): void
 {
 
     global $wpdb;

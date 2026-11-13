@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EAS\Answer;
+namespace Examenanto\Answer;
 
 
 if (!defined('ABSPATH')) {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EAS\Frontend;
+namespace Examenanto\Frontend;
 
-use EAS\Attempt\AttemptRepository;
-use EAS\Quiz\QuizRepository;
+use Examenanto\Attempt\AttemptRepository;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -26,6 +26,15 @@ class MyResultsController
 
     public function register(): void
     {
+        add_shortcode(
+            'examenanto_my_results',
+            array(
+                $this,
+                'render'
+            )
+        );
+
+        // Backward-compatible shortcode for existing results pages.
         add_shortcode(
             'eas_my_quizresults',
             array(
@@ -457,9 +466,7 @@ class MyResultsController
     private function get_results_page_url(): string
     {
         $my_results_page_id =
-            (int) get_option(
-                'eas_my_results_page_id'
-            );
+            (int) get_option('examenanto_my_results_page_id', get_option('eas_my_results_page_id'));
 
         if ($my_results_page_id <= 0) {
             return '';

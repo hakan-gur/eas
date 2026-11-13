@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin;
+namespace Examenanto\Admin;
 
-use EAS\Admin\Attempt\GradeController;
-use EAS\Admin\Attempt\AttemptController;
-use EAS\Attempt\AttemptRepository;
-use EAS\Admin\Quiz\QuizController;
-use EAS\Admin\Page\PageController;
-use EAS\Admin\Question\QuestionController;
-use EAS\Quiz\QuizRepository;
+use Examenanto\Admin\Attempt\GradeController;
+use Examenanto\Admin\Attempt\AttemptController;
+use Examenanto\Attempt\AttemptRepository;
+use Examenanto\Admin\Quiz\QuizController;
+use Examenanto\Admin\Page\PageController;
+use Examenanto\Admin\Question\QuestionController;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -59,10 +59,10 @@ class AdminController
     public function register_menu(): void
     {
         add_menu_page(
-            __('e-Assessment Suite', 'eas-quiz'),
-            'EAS',
+            __('Examenanto Assessment Suite', 'eas-quiz'),
+            'Examenanto',
             'manage_options',
-            'eas-dashboard',
+            'examenanto-dashboard',
             array(
                 $this,
                 'dashboard'
@@ -72,11 +72,11 @@ class AdminController
         );
 
         add_submenu_page(
-            'eas-dashboard',
-            __('EAS Quizzes', 'eas-quiz'),
+            'examenanto-dashboard',
+            __('Examenanto Quizzes', 'eas-quiz'),
             __('Quizzes', 'eas-quiz'),
             'manage_options',
-            'eas-quizzes',
+            'examenanto-quizzes',
             array(
                 $this,
                 'quizzes_page'
@@ -84,11 +84,11 @@ class AdminController
         );
 
         add_submenu_page(
-            'eas-dashboard',
-            __('EAS Attempts', 'eas-quiz'),
+            'examenanto-dashboard',
+            __('Examenanto Attempts', 'eas-quiz'),
             __('Attempts', 'eas-quiz'),
             'manage_options',
-            'eas-attempts',
+            'examenanto-attempts',
             array(
                 $this,
                 'attempts_page'
@@ -103,11 +103,45 @@ class AdminController
             __('Grade Attempt', 'eas-quiz'),
             __('Grade Attempt', 'eas-quiz'),
             'manage_options',
-            'eas-attempt-grade',
+            'examenanto-attempt-grade',
             array(
                 $this,
                 'grade_page'
             )
+        );
+
+        // Hidden legacy slugs keep previously bookmarked EAS admin URLs working.
+        add_submenu_page(
+            'options.php',
+            __('Legacy EAS Dashboard', 'eas-quiz'),
+            __('Legacy EAS Dashboard', 'eas-quiz'),
+            'manage_options',
+            'eas-dashboard',
+            array($this, 'dashboard')
+        );
+        add_submenu_page(
+            'options.php',
+            __('Legacy EAS Quizzes', 'eas-quiz'),
+            __('Legacy EAS Quizzes', 'eas-quiz'),
+            'manage_options',
+            'eas-quizzes',
+            array($this, 'quizzes_page')
+        );
+        add_submenu_page(
+            'options.php',
+            __('Legacy EAS Attempts', 'eas-quiz'),
+            __('Legacy EAS Attempts', 'eas-quiz'),
+            'manage_options',
+            'eas-attempts',
+            array($this, 'attempts_page')
+        );
+        add_submenu_page(
+            'options.php',
+            __('Legacy EAS Grade Attempt', 'eas-quiz'),
+            __('Legacy EAS Grade Attempt', 'eas-quiz'),
+            'manage_options',
+            'eas-attempt-grade',
+            array($this, 'grade_page')
         );
     }
 
@@ -119,13 +153,24 @@ class AdminController
             ? sanitize_key(wp_unslash($_GET['page']))
             : '';
 
-        if (!in_array($page, array('eas-quizzes', 'eas-pages', 'eas-questions', 'eas-attempts'), true)) {
+        $plugin_pages = array(
+            'examenanto-quizzes',
+            'examenanto-pages',
+            'examenanto-questions',
+            'examenanto-attempts',
+            'eas-quizzes',
+            'eas-pages',
+            'eas-questions',
+            'eas-attempts'
+        );
+
+        if (!in_array($page, $plugin_pages, true)) {
             return;
         }
 
-        if (in_array($page, array('eas-quizzes', 'eas-pages'), true)) {
+        if (in_array($page, array('examenanto-quizzes', 'examenanto-pages', 'eas-quizzes', 'eas-pages'), true)) {
             wp_enqueue_style(
-                'eas-admin',
+                'examenanto-admin',
                 EAS_PLUGIN_URL . 'assets/css/admin.css',
                 array(),
                 EAS_VERSION
@@ -133,16 +178,16 @@ class AdminController
         }
 
         wp_enqueue_script(
-            'eas-admin',
+            'examenanto-admin',
             EAS_PLUGIN_URL . 'assets/js/admin.js',
             array(),
             EAS_VERSION,
             true
         );
 
-        if ($page === 'eas-questions') {
+        if (in_array($page, array('examenanto-questions', 'eas-questions'), true)) {
             wp_enqueue_script(
-                'eas-admin-question-form',
+                'examenanto-admin-question-form',
                 EAS_PLUGIN_URL . 'assets/js/admin-question-form.js',
                 array(),
                 EAS_VERSION,
@@ -150,9 +195,9 @@ class AdminController
             );
         }
 
-        if ($page === 'eas-pages') {
+        if (in_array($page, array('examenanto-pages', 'eas-pages'), true)) {
             wp_enqueue_script(
-                'eas-admin-pages',
+                'examenanto-admin-pages',
                 EAS_PLUGIN_URL . 'assets/js/admin-pages.js',
                 array(),
                 EAS_VERSION,
@@ -179,8 +224,8 @@ class AdminController
             // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
             wp_localize_script(
-                'eas-admin-pages',
-                'easAdminPages',
+                'examenanto-admin-pages',
+                'examenantoAdminPages',
                 array(
                     'uploadUrl' => admin_url('admin-post.php'),
                     'quizId' => $quiz_id,
@@ -232,7 +277,7 @@ class AdminController
 
         $question_count = wp_cache_get(
             'question_count',
-            'eas_dashboard'
+            'examenanto_dashboard'
         );
 
         if ($question_count === false) {
@@ -245,7 +290,7 @@ class AdminController
             wp_cache_set(
                 'question_count',
                 $question_count,
-                'eas_dashboard',
+                'examenanto_dashboard',
                 60
             );
         }
@@ -253,13 +298,13 @@ class AdminController
         $user_counts = count_users();
         $student_count = (int) ($user_counts['total_users'] ?? 0);
 
-        $attemptRepository = new \EAS\Attempt\AttemptRepository();
+        $attemptRepository = new \Examenanto\Attempt\AttemptRepository();
 
         $pending_grading = $attemptRepository->count_pending_grading();
 
         $recent_attempts = wp_cache_get(
             'recent_attempts',
-            'eas_dashboard'
+            'examenanto_dashboard'
         );
 
         if ($recent_attempts === false) {
@@ -293,7 +338,7 @@ class AdminController
             wp_cache_set(
                 'recent_attempts',
                 $recent_attempts,
-                'eas_dashboard',
+                'examenanto_dashboard',
                 60
             );
         }

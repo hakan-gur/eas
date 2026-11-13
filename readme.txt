@@ -1,4 +1,4 @@
-=== e-Assessment Suite ===
+=== Examenanto Assessment Suite ===
 
 Contributors: hakangur
 Tags: quiz, education, test, assessment
@@ -13,11 +13,11 @@ Create and manage online assessments for standardized language tests covering re
 
 == Description ==
 
-e-Assessment Suite (EAS) is a WordPress plugin for creating and managing online assessments.
+Examenanto Assessment Suite is a WordPress plugin for creating and managing online assessments.
 
 It is designed for standardized language tests and other educational assessments in which reading, listening, speaking, and writing skills are assessed.
 
-EAS provides a structured assessment system in which teachers can create quizzes, organize them into pages, add questions, and review student results.
+Examenanto provides a structured assessment system in which teachers can create quizzes, organize them into pages, add questions, and review student results.
 
 = Features =
 
@@ -44,7 +44,7 @@ EAS provides a structured assessment system in which teachers can create quizzes
 
 = Designed for Standardized Language Assessment =
 
-EAS is intended to support the development of online assessment activities for standardized language tests.
+Examenanto is intended to support the development of online assessment activities for standardized language tests.
 
 It can be used for assessments that evaluate reading, listening, speaking, and writing skills, including the TOEFL iBT preparation and other language assessment programs.
 
@@ -60,7 +60,7 @@ The plugin is designed to provide a foundation for online assessment rather than
 
 = Usage =
 
-After installation, administrators and authorized teachers can create assessments from the EAS administration area.
+After installation, administrators and authorized teachers can create assessments from the Examenanto administration area.
 
 An assessment can contain multiple pages, and each page can contain questions. Teachers can configure the assessment settings and assign points to questions.
 
@@ -68,19 +68,19 @@ Students must be registered users to take assessments. After completing an asses
 
 = Shortcodes =
 
-EAS provides a shortcode for displaying the results of the currently logged-in user.
+Examenanto provides a shortcode for displaying the results of the currently logged-in user.
 
 The results page should be configured according to the instructions provided with the plugin.
 
 = Privacy =
 
-EAS stores assessment attempts, responses, and results in the WordPress database.
+Examenanto stores assessment attempts, responses, and results in the WordPress database.
 
 Website administrators are responsible for informing users about the collection and storage of assessment data and for configuring their website's privacy practices appropriately.
 
 = Development =
 
-e-Assessment Suite is developed as an open-source WordPress plugin. Work on EAS started on 28 August 2026 and the first Version was completed on 11 September 2026.
+Examenanto Assessment Suite is developed as an open-source WordPress plugin. Work on Examenanto started on 28 August 2026 and the first Version was completed on 11 September 2026.
 
 The source code is available on GitHub:
 
@@ -88,17 +88,17 @@ https://github.com/hakan-gur/EAS
 
 == Frequently Asked Questions ==
 
-= Who can use EAS? =
+= Who can use Examenanto? =
 
-EAS is designed for teachers and educational institutions that provide standardized language tests and other educational assessments.
+Examenanto is designed for teachers and educational institutions that provide standardized language tests and other educational assessments.
 
-= Can EAS be used for tests other than the TOEFL iBT? =
+= Can Examenanto be used for tests other than the TOEFL iBT? =
 
-Yes. EAS is designed for a range of standardized language assessments. It can be used for tests that assess reading, listening, speaking, and writing skills.
+Yes. Examenanto is designed for a range of standardized language assessments. It can be used for tests that assess reading, listening, speaking, and writing skills.
 
 = Do students need to register? =
 
-Yes. EAS is designed for registered users. Students must be logged in to take assessments.
+Yes. Examenanto is designed for registered users. Students must be logged in to take assessments.
 
 = Can I create assessments with multiple pages? =
 
@@ -120,13 +120,13 @@ Yes. An assessment can be configured with a maximum number of attempts.
 
 Yes. An assessment can be configured with a time limit.
 
-= Does EAS provide certificates? =
+= Does Examenanto provide certificates? =
 
-No. EAS is an online assessment system. It does not currently provide certificates.
+No. Examenanto is an online assessment system. It does not currently provide certificates.
 
 == Screenshots ==
 
-1. The EAS administration area.
+1. The Examenanto administration area.
 2. The quiz management interface.
 3. The page management interface.
 4. The question management interface.
@@ -138,7 +138,7 @@ No. EAS is an online assessment system. It does not currently provide certificat
 
 = 1.0 =
 
-* Released e-Assessment Suite as a stable version.
+* Released Examenanto Assessment Suite as a stable version.
 * Added and improved assessment administration features.
 * Added and improved page management.
 * Added and improved question management.
@@ -152,12 +152,12 @@ No. EAS is an online assessment system. It does not currently provide certificat
 == Upgrade Notice ==
 
 = 1.0 =
-This is the first stable release of e-Assessment Suite. Please ensure that your website meets the minimum requirements before installation.
+This is the first stable release of Examenanto Assessment Suite. Please ensure that your website meets the minimum requirements before installation.
 
 == License ==
 
-e-Assessment Suite is free software, licensed under the GNU General Public License version 2 or later.
+Examenanto Assessment Suite is free software, licensed under the GNU General Public License version 2 or later.
 
 You may redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation.
 
-e-Assessment Suite is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Examenanto Assessment Suite is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
