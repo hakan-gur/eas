@@ -14,7 +14,8 @@ New externally visible WordPress identifiers use the distinctive `examenanto` pr
 
 ## WordPress identifiers
 
-- New shortcodes: `[examenanto_quiz]`, `[examenanto_attempt]`, `[examenanto_my_results]`, `[examenanto_results]`, and the legacy public test shortcode `[examenanto_test]`.
+- Active shortcodes: `[examenanto_quiz]`, `[examenanto_attempt]`, `[examenanto_my_results]`, and `[examenanto_results]`.
+- The separate legacy public test class is namespaced and is not loaded by the current application bootstrap.
 - Existing `[eas_*]` shortcodes remain registered as aliases for pages already published by earlier versions.
 - New admin-post hooks use `admin_post_examenanto_*`; the old `admin_post_eas_*` hooks remain registered as compatibility aliases.
 - Admin forms and frontend scripts now submit the new action names. Existing nonce action strings are intentionally retained so the security checks remain compatible and consistent.
