@@ -31,6 +31,12 @@ class Activator
             $existing = get_page_by_path($page['slug']);
 
             if ($existing) {
+                if ($page['slug'] === 'attempt') {
+                    update_option('examenanto_attempt_page_id', (int) $existing->ID);
+                } elseif ($page['slug'] === 'my-results') {
+                    update_option('examenanto_my_results_page_id', (int) $existing->ID);
+                }
+
                 continue;
             }
 
