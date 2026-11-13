@@ -78,7 +78,7 @@ href="<?php echo esc_url(admin_url('admin.php?page=eas-attempts')); ?>">
 <tbody>
 <tr>
 <th><?php esc_html_e('Version', 'eas-quiz'); ?></th>
-<td><?php echo esc_html('Examenanto ' . Examenanto_VERSION); ?></td>
+<td><?php echo esc_html('Examenanto ' . EXAMENANTO_VERSION); ?></td>
 </tr>
 
 <tr>
