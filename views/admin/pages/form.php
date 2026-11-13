@@ -34,7 +34,7 @@ if ($page) {
 
 <input type="hidden"
        name="action"
-       value="eas_save_page">
+       value="examenanto_save_page">
 
 <input type="hidden"
        name="quiz_id"
@@ -50,7 +50,7 @@ if ($page) {
 
 <?php
 wp_nonce_field(
-    'eas_save_page'
+    'examenanto_save_page'
 );
 ?>
 
