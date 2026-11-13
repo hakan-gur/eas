@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
-namespace EAS\Core;
-use EAS\Admin\AdminController;
-use EAS\Frontend\QuizShortcode;
-use EAS\Frontend\AttemptController;
-use EAS\Frontend\ResultController;
-use EAS\Frontend\FrontendAssets;
+namespace Examenanto\Core;
+use Examenanto\Admin\AdminController;
+use Examenanto\Frontend\QuizShortcode;
+use Examenanto\Frontend\AttemptController;
+use Examenanto\Frontend\ResultController;
+use Examenanto\Frontend\FrontendAssets;
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -20,7 +20,7 @@ class Application
         $attemptController->register();
         $resultController = new ResultController();
         $resultController->register();
-        $myResultsController = new \EAS\Frontend\MyResultsController();
+        $myResultsController = new \Examenanto\Frontend\MyResultsController();
         $myResultsController->register();
 new FrontendAssets();
     }
