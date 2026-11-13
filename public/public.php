@@ -1,6 +1,6 @@
 <?php
 
-namespace EAS\Legacy;
+namespace Examenanto\Legacy;
 
 if (!defined('ABSPATH')) {
     exit;
