@@ -84,7 +84,7 @@
             form.appendChild(input);
         }
 
-        addHiddenField('action', 'eas_reorder_pages');
+        addHiddenField('action', 'examenanto_reorder_pages');
         addHiddenField('quiz_id', window.examenantoAdminPages.quizId);
         addHiddenField('_wpnonce', window.examenantoAdminPages.nonce);
 
