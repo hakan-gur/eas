@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace EAS\Admin\Question;
+namespace Examenanto\Admin\Question;
 
-use EAS\Question\QuestionRepository;
-use EAS\Page\PageRepository;
-use EAS\Quiz\QuizRepository;
+use Examenanto\Question\QuestionRepository;
+use Examenanto\Page\PageRepository;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -1722,7 +1722,7 @@ class QuestionController
         }
 
         $renderer =
-            new \EAS\Question\QuestionRenderer();
+            new \Examenanto\Question\QuestionRenderer();
 
         ?>
 
