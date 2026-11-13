@@ -1,5 +1,7 @@
 <?php
 
+namespace EAS\Legacy;
+
 if (!defined('ABSPATH')) {
     exit;
 }
