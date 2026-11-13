@@ -18,10 +18,7 @@ class Upgrade
     {
 
 
-$current = (string) get_option(
-    'eas_db_version',
-    '1.0'
-);
+$current = (string) get_option('examenanto_db_version', get_option('eas_db_version', '1.0'));
 
 
 
