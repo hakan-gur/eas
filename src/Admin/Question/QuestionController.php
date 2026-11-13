@@ -91,7 +91,7 @@ class QuestionController
 
         add_submenu_page(
             'options.php',
-            __('EAS Questions', 'eas-quiz'),
+            __('Examenanto Questions', 'eas-quiz'),
             __('Questions', 'eas-quiz'),
             'manage_options',
             'examenanto-questions',
