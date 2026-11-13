@@ -5,4 +5,6 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 }
 
 
+delete_option('examenanto_db_version');
+delete_option('eas_db_version');
 delete_option('eas_version');
