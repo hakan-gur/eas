@@ -167,7 +167,7 @@ $page_id .
         <a
             href="<?php echo esc_url(wp_nonce_url(
                 admin_url(
-                    'admin-post.php?action=eas_move_question_up'
+                    'admin-post.php?action=examenanto_move_question_up'
                     . '&id='
                     . $question['id']
                     . '&page_id='
@@ -184,7 +184,7 @@ $page_id .
     <a
         href="<?php echo esc_url(wp_nonce_url(
             admin_url(
-                'admin-post.php?action=eas_move_question_down'
+                'admin-post.php?action=examenanto_move_question_down'
                 . '&id='
                 . $question['id']
                 . '&page_id='
@@ -355,7 +355,7 @@ target="_blank">
 
 admin_url(
 
-'admin-post.php?action=eas_delete_question&id=' .
+'admin-post.php?action=examenanto_delete_question&id=' .
 $question['id'] .
 '&page_id=' .
 $page_id
