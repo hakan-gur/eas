@@ -141,7 +141,7 @@ class AttemptController
         $this->attempts->delete($attempt_id);
 
         wp_safe_redirect(
-            admin_url('admin.php?page=eas-attempts')
+            admin_url('admin.php?page=examenanto-attempts')
         );
 
         exit;
