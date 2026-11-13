@@ -46,7 +46,7 @@ class PageController
         );
 
         // Keep existing bookmarked EAS Pages URLs working.
-        add_submenu_page('options.php', __('Legacy EAS Pages', 'eas-quiz'), '', 'manage_options', 'eas-pages', array($this, 'index'));
+        add_submenu_page('options.php', __('Legacy EAS Pages', 'eas-quiz'), __('Legacy EAS Pages', 'eas-quiz'), 'manage_options', 'eas-pages', array($this, 'index'));
     }
 
     public function index(): void
