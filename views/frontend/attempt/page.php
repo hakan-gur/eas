@@ -16,8 +16,8 @@ if ($quiz_allows_backward) {
     );
 }
 $show_header_navigation = empty($page_time_limit) && ($previous_page || $next_page);
-$next_page_nonce = wp_create_nonce('eas_next_page');
-$previous_page_nonce = wp_create_nonce('eas_previous_page');
+$next_page_nonce = wp_create_nonce('examenanto_next_page');
+$previous_page_nonce = wp_create_nonce('examenanto_previous_page');
 $go_to_page_nonce = wp_create_nonce('eas_go_to_page');
 $all_pages = $pages->all_by_quiz((int) $page['quiz_id']);
 $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
@@ -35,12 +35,12 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
       data-go-to-page-nonce="<?php echo esc_attr($go_to_page_nonce); ?>"
       <?php if (!empty($page_time_limit)) : ?>
       data-page-time-remaining="<?php echo esc_attr((int) $page_time_remaining); ?>"
-      data-page-expiry-action="<?php echo esc_attr($next_page ? 'eas_next_page' : 'eas_submit_attempt'); ?>"
-      data-page-expiry-nonce="<?php echo esc_attr($next_page ? $next_page_nonce : wp_create_nonce('eas_submit_attempt')); ?>"
+      data-page-expiry-action="<?php echo esc_attr($next_page ? 'examenanto_next_page' : 'examenanto_submit_attempt'); ?>"
+      data-page-expiry-nonce="<?php echo esc_attr($next_page ? $next_page_nonce : wp_create_nonce('examenanto_submit_attempt')); ?>"
       <?php endif; ?>
       <?php if (isset($remaining_seconds) && $remaining_seconds !== null && empty($page_time_limit)) : ?>
       data-quiz-time-remaining="<?php echo esc_attr((int) $remaining_seconds); ?>"
-      data-quiz-expiry-nonce="<?php echo esc_attr(wp_create_nonce('eas_submit_attempt')); ?>"
+      data-quiz-expiry-nonce="<?php echo esc_attr(wp_create_nonce('examenanto_submit_attempt')); ?>"
       <?php endif; ?>>
     <input type="hidden" name="attempt_id" value="<?php echo esc_attr($attempt['id']); ?>">
 
@@ -167,11 +167,11 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
 
     <?php if (!empty($page_time_limit)) : ?>
         <?php if ($next_page) : ?>
-            <input type="hidden" name="action" value="eas_next_page">
-            <?php wp_nonce_field('eas_next_page'); ?>
+            <input type="hidden" name="action" value="examenanto_next_page">
+            <?php wp_nonce_field('examenanto_next_page'); ?>
         <?php else : ?>
-            <input type="hidden" name="action" value="eas_submit_attempt">
-            <?php wp_nonce_field('eas_submit_attempt'); ?>
+            <input type="hidden" name="action" value="examenanto_submit_attempt">
+            <?php wp_nonce_field('examenanto_submit_attempt'); ?>
             <p>
                 <button type="submit" class="button button-primary">
                     <?php esc_html_e('Submit Quiz', 'eas-quiz'); ?>
@@ -179,11 +179,11 @@ $show_navigation_panel = $quiz_allows_backward && count($all_pages) > 1;
             </p>
         <?php endif; ?>
     <?php elseif ($next_page) : ?>
-        <input type="hidden" name="action" value="eas_next_page">
-        <?php wp_nonce_field('eas_next_page'); ?>
+        <input type="hidden" name="action" value="examenanto_next_page">
+        <?php wp_nonce_field('examenanto_next_page'); ?>
     <?php else : ?>
-        <input type="hidden" name="action" value="eas_submit_attempt">
-        <?php wp_nonce_field('eas_submit_attempt'); ?>
+        <input type="hidden" name="action" value="examenanto_submit_attempt">
+        <?php wp_nonce_field('examenanto_submit_attempt'); ?>
         <p>
             <button type="submit" class="button button-primary">
                 <?php esc_html_e('Submit Quiz', 'eas-quiz'); ?>
