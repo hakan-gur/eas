@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EAS\Admin\Quiz;
+namespace Examenanto\Admin\Quiz;
 
-use EAS\Quiz\QuizRepository;
+use Examenanto\Quiz\QuizRepository;
 
 if (!defined('ABSPATH')) {
     exit;
