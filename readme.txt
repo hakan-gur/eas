@@ -80,7 +80,7 @@ Website administrators are responsible for informing users about the collection 
 
 = Development =
 
-Examenanto Assessment Suite is developed as an open-source WordPress plugin. Work on EAS started on 28 August 2026 and the first Version was completed on 11 September 2026.
+Examenanto Assessment Suite is developed as an open-source WordPress plugin. Work on Examenanto started on 28 August 2026 and the first Version was completed on 11 September 2026.
 
 The source code is available on GitHub:
 
@@ -88,17 +88,17 @@ https://github.com/hakan-gur/EAS
 
 == Frequently Asked Questions ==
 
-= Who can use EAS? =
+= Who can use Examenanto? =
 
-EAS is designed for teachers and educational institutions that provide standardized language tests and other educational assessments.
+Examenanto is designed for teachers and educational institutions that provide standardized language tests and other educational assessments.
 
-= Can EAS be used for tests other than the TOEFL iBT? =
+= Can Examenanto be used for tests other than the TOEFL iBT? =
 
-Yes. EAS is designed for a range of standardized language assessments. It can be used for tests that assess reading, listening, speaking, and writing skills.
+Yes. Examenanto is designed for a range of standardized language assessments. It can be used for tests that assess reading, listening, speaking, and writing skills.
 
 = Do students need to register? =
 
-Yes. EAS is designed for registered users. Students must be logged in to take assessments.
+Yes. Examenanto is designed for registered users. Students must be logged in to take assessments.
 
 = Can I create assessments with multiple pages? =
 
@@ -120,7 +120,7 @@ Yes. An assessment can be configured with a maximum number of attempts.
 
 Yes. An assessment can be configured with a time limit.
 
-= Does EAS provide certificates? =
+= Does Examenanto provide certificates? =
 
 No. Examenanto is an online assessment system. It does not currently provide certificates.
 
