@@ -29,10 +29,8 @@ $current = (string) get_option('examenanto_db_version', get_option('eas_db_versi
 
 
 
-            update_option(
-                'eas_db_version',
-                '1.1'
-            );
+            update_option('examenanto_db_version', '1.1');
+            update_option('eas_db_version', '1.1');
 
 
             $current = '1.1';
@@ -49,10 +47,8 @@ $current = (string) get_option('examenanto_db_version', get_option('eas_db_versi
 
 
 
-            update_option(
-                'eas_db_version',
-                '1.2'
-            );
+            update_option('examenanto_db_version', '1.2');
+            update_option('eas_db_version', '1.2');
 
 
             $current = '1.2';
@@ -69,10 +65,8 @@ $current = (string) get_option('examenanto_db_version', get_option('eas_db_versi
 
 
 
-    update_option(
-        'eas_db_version',
-        '1.3'
-    );
+    update_option('examenanto_db_version', '1.3');
+            update_option('eas_db_version', '1.3');
 
 
     $current = '1.3';
@@ -86,10 +80,8 @@ if (version_compare($current, '1.4', '<')) {
 
 
 
-    update_option(
-        'eas_db_version',
-        '1.4'
-    );
+    update_option('examenanto_db_version', '1.4');
+            update_option('eas_db_version', '1.4');
 
 
 }
@@ -97,10 +89,8 @@ if (version_compare($current, '1.5', '<')) {
 
     self::upgrade_1_5();
 
-    update_option(
-        'eas_db_version',
-        '1.5'
-    );
+    update_option('examenanto_db_version', '1.5');
+            update_option('eas_db_version', '1.5');
 
 }
 
