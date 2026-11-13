@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EAS\Audio;
+namespace Examenanto\Audio;
 
 
 if (!defined('ABSPATH')) {
