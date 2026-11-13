@@ -28,7 +28,7 @@ printf(
 
 <input type="hidden"
        name="action"
-       value="eas_save_quiz">
+       value="examenanto_save_quiz">
 
 <?php if ($is_edit): ?>
 
