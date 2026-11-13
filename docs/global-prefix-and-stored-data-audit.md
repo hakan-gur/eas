@@ -13,6 +13,10 @@ New externally visible WordPress identifiers use the distinctive `examenanto` pr
 - Application classes use the `Examenanto\\...` namespace and are loaded by the Examenanto autoloader.
 - The autoloader provides a compatibility alias from legacy `EAS\\...` class references to their `Examenanto\\...` equivalents, so existing integrations can transition without retaining non-prefixed namespace declarations.
 
+## Template-local variables
+
+- Variables passed into included view templates are local rendering data, not WordPress globals. The affected templates contain a narrowly scoped PHPCS disable for `WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound`; the adjacent comment documents the include-scope rationale. This avoids renaming every controller-to-view variable while keeping the global-prefix rule active elsewhere.
+
 ## WordPress identifiers
 
 - Active shortcodes: `[examenanto_quiz]`, `[examenanto_attempt]`, `[examenanto_my_results]`, and `[examenanto_results]`.
