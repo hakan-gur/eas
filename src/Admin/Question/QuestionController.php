@@ -94,9 +94,12 @@ class QuestionController
             __('EAS Questions', 'eas-quiz'),
             __('Questions', 'eas-quiz'),
             'manage_options',
-            'eas-questions',
+            'examenanto-questions',
             array($this, 'index')
         );
+
+        // Keep existing bookmarked EAS Questions URLs working.
+        add_submenu_page('options.php', __('Legacy EAS Questions', 'eas-quiz'), '', 'manage_options', 'eas-questions', array($this, 'index'));
     }
 
     public function index(): void
@@ -2429,7 +2432,7 @@ class QuestionController
         if (
             !isset($_GET['page'])
             ||
-            $_GET['page'] !== 'eas-questions'
+            $_GET['page'] !== 'examenanto-questions' && $_GET['page'] !== 'eas-questions'
             ||
             empty($_GET['eas_imported'])
         ) {
