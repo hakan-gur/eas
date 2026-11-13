@@ -30,6 +30,11 @@ class PageController
 
     public function register(): void
     {
+        add_action('admin_post_examenanto_save_page', array($this, 'save'));
+        add_action('admin_post_examenanto_delete_page', array($this, 'delete'));
+        add_action('admin_post_examenanto_move_page', array($this, 'move'));
+        add_action('admin_post_examenanto_reorder_pages', array($this, 'reorder'));
+
         add_submenu_page(
             'options.php',
             __('EAS Pages', 'eas-quiz'),
