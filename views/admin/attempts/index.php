@@ -251,7 +251,7 @@ number_format_i18n(
 <?php
 $delete_url = wp_nonce_url(
     admin_url(
-        'admin-post.php?action=eas_delete_attempt&id='
+        'admin-post.php?action=examenanto_delete_attempt&id='
         . (int) $attempt['id']
     ),
     'eas_delete_attempt_' . (int) $attempt['id']
