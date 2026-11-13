@@ -181,7 +181,7 @@ if (!defined('ABSPATH')) {
 
                                     <?php
                                     wp_nonce_field(
-                                        'examenanto_add_existing_question'
+                                        'eas_add_existing_question'
                                     );
                                     ?>
 
