@@ -143,7 +143,7 @@ class QuizMenu
 
             wp_safe_redirect(
                 admin_url(
-                    'admin.php?page=eas-quizzes'
+                    'admin.php?page=examenanto-quizzes'
                 )
             );
 
@@ -165,7 +165,7 @@ class QuizMenu
 
 
 
-        echo '<a href="?page=eas-quizzes&action=add" class="button button-primary">';
+        echo '<a href="?page=examenanto-quizzes&action=add" class="button button-primary">';
         echo esc_html__('Add New Quiz', 'eas-quiz');
         echo '</a>';
 
@@ -246,7 +246,7 @@ class QuizMenu
 
                 echo '<td>';
 
-                echo '<a href="?page=eas-quizzes&action=edit&id='
+                echo '<a href="?page=examenanto-quizzes&action=edit&id='
                     . esc_attr($quiz['id'])
                     . '">' . esc_html__('Edit', 'eas-quiz') . '</a>';
 
