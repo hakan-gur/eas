@@ -62,7 +62,7 @@ class AdminController
             __('e-Assessment Suite', 'eas-quiz'),
             'EAS',
             'manage_options',
-            'eas-dashboard',
+            'examenanto-dashboard',
             array(
                 $this,
                 'dashboard'
@@ -72,11 +72,11 @@ class AdminController
         );
 
         add_submenu_page(
-            'eas-dashboard',
+            'examenanto-dashboard',
             __('EAS Quizzes', 'eas-quiz'),
             __('Quizzes', 'eas-quiz'),
             'manage_options',
-            'eas-quizzes',
+            'examenanto-quizzes',
             array(
                 $this,
                 'quizzes_page'
@@ -84,11 +84,11 @@ class AdminController
         );
 
         add_submenu_page(
-            'eas-dashboard',
+            'examenanto-dashboard',
             __('EAS Attempts', 'eas-quiz'),
             __('Attempts', 'eas-quiz'),
             'manage_options',
-            'eas-attempts',
+            'examenanto-attempts',
             array(
                 $this,
                 'attempts_page'
@@ -103,12 +103,18 @@ class AdminController
             __('Grade Attempt', 'eas-quiz'),
             __('Grade Attempt', 'eas-quiz'),
             'manage_options',
-            'eas-attempt-grade',
+            'examenanto-attempt-grade',
             array(
                 $this,
                 'grade_page'
             )
         );
+
+        // Hidden legacy slugs keep previously bookmarked EAS admin URLs working.
+        add_submenu_page('options.php', __('Legacy EAS Dashboard', 'eas-quiz'), '', 'manage_options', 'eas-dashboard', array($this, 'dashboard'));
+        add_submenu_page('options.php', __('Legacy EAS Quizzes', 'eas-quiz'), '', 'manage_options', 'eas-quizzes', array($this, 'quizzes_page'));
+        add_submenu_page('options.php', __('Legacy EAS Attempts', 'eas-quiz'), '', 'manage_options', 'eas-attempts', array($this, 'attempts_page'));
+        add_submenu_page('options.php', __('Legacy EAS Grade Attempt', 'eas-quiz'), '', 'manage_options', 'eas-attempt-grade', array($this, 'grade_page'));
     }
 
     public function enqueue_admin_assets(string $hook_suffix): void
@@ -119,11 +125,11 @@ class AdminController
             ? sanitize_key(wp_unslash($_GET['page']))
             : '';
 
-        if (!in_array($page, array('eas-quizzes', 'eas-pages', 'eas-questions', 'eas-attempts'), true)) {
+        if (!in_array($page, array('examenanto-quizzes', 'examenanto-pages', 'examenanto-questions', 'examenanto-attempts', 'eas-quizzes', 'eas-pages', 'eas-questions', 'eas-attempts'), true)) {
             return;
         }
 
-        if (in_array($page, array('eas-quizzes', 'eas-pages'), true)) {
+        if (in_array($page, array('examenanto-quizzes', 'examenanto-pages', 'eas-quizzes', 'eas-pages'), true)) {
             wp_enqueue_style(
                 'examenanto-admin',
                 EAS_PLUGIN_URL . 'assets/css/admin.css',
@@ -140,7 +146,7 @@ class AdminController
             true
         );
 
-        if ($page === 'eas-questions') {
+        if (in_array($page, array('examenanto-questions', 'eas-questions'), true)) {
             wp_enqueue_script(
                 'examenanto-admin-question-form',
                 EAS_PLUGIN_URL . 'assets/js/admin-question-form.js',
@@ -150,7 +156,7 @@ class AdminController
             );
         }
 
-        if ($page === 'eas-pages') {
+        if (in_array($page, array('examenanto-pages', 'eas-pages'), true)) {
             wp_enqueue_script(
                 'examenanto-admin-pages',
                 EAS_PLUGIN_URL . 'assets/js/admin-pages.js',
