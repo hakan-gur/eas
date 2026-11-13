@@ -17,6 +17,8 @@ class QuestionPreviewController
 
     public function __construct()
     {
+        add_action('admin_post_examenanto_preview_question', array($this, 'preview'));
+
         $this->repository = new QuestionRepository();
 
         remove_all_actions('admin_post_eas_preview_question');
