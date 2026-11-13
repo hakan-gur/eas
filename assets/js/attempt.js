@@ -13,7 +13,7 @@
 
         function submitExpiredPage() {
             if (actionField) {
-                actionField.value = form.dataset.pageExpiryAction || 'eas_submit_attempt';
+                actionField.value = form.dataset.pageExpiryAction || 'examenanto_submit_attempt';
             }
 
             if (nonceField && form.dataset.pageExpiryNonce) {
@@ -73,7 +73,7 @@
                 'eas-countdown',
                 function () {
                     if (actionField) {
-                        actionField.value = 'eas_submit_attempt';
+                        actionField.value = 'examenanto_submit_attempt';
                     }
                     if (nonceField && form.dataset.quizExpiryNonce) {
                         nonceField.value = form.dataset.quizExpiryNonce;
@@ -86,7 +86,7 @@
         form.addEventListener('submit', function (event) {
             if (
                 actionField
-                && actionField.value === 'eas_submit_attempt'
+                && actionField.value === 'examenanto_submit_attempt'
                 && form.dataset.submitConfirm
                 && !window.confirm(form.dataset.submitConfirm)
             ) {
@@ -157,7 +157,7 @@
                     return;
                 }
 
-                actionField.value = 'eas_go_to_page';
+                actionField.value = 'examenanto_go_to_page';
                 nonceField.value = form.dataset.goToPageNonce || '';
                 target.value = pageId;
                 form.submit();
