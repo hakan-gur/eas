@@ -89,7 +89,7 @@ document.addEventListener(
 
                                 formData.append(
                                     'action',
-                                    'eas_upload_audio'
+                                    'examenanto_upload_audio'
                                 );
 
                                 formData.append(
