@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: e-Assessment Suite
+ * Plugin Name: Examenanto Assessment Suite
  * Plugin URI: https://test-of-english.com
  * Description: Test preparation and management platform for standardized tests like the TOEFL iBT and the TOEIC.
  * Version: 1.0
