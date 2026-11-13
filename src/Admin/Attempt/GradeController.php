@@ -176,7 +176,7 @@ class GradeController
 
         wp_safe_redirect(
             admin_url(
-                'admin.php?page=eas-attempt-grade&attempt_id='
+                'admin.php?page=examenanto-attempt-grade&attempt_id='
                 . $attempt_id
                 . '&graded=1'
             )
