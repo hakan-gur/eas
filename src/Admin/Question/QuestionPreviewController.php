@@ -114,7 +114,7 @@ class QuestionPreviewController
         <div class="eas-question-preview__shell">
             <header class="eas-question-preview__header">
                 <div>
-                    <p class="eas-question-preview__eyebrow"><?php esc_html_e('EAS', 'eas-quiz'); ?></p>
+                    <p class="eas-question-preview__eyebrow"><?php esc_html_e('Examenanto', 'eas-quiz'); ?></p>
                     <h1 class="eas-question-preview__title"><?php esc_html_e('Question Preview', 'eas-quiz'); ?></h1>
                 </div>
                 <a class="eas-question-preview__close" href="javascript:window.close();">
