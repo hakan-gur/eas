@@ -46,7 +46,7 @@ href="<?php echo esc_url(admin_url(
 
 
 <?php wp_nonce_field(
-    'examenanto_save_grades'
+    'eas_save_grades'
 ); ?>
 
 <h1>
