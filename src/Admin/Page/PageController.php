@@ -41,9 +41,12 @@ class PageController
             __('EAS Pages', 'eas-quiz'),
             __('Pages', 'eas-quiz'),
             'manage_options',
-            'eas-pages',
+            'examenanto-pages',
             array($this, 'index')
         );
+
+        // Keep existing bookmarked EAS Pages URLs working.
+        add_submenu_page('options.php', __('Legacy EAS Pages', 'eas-quiz'), '', 'manage_options', 'eas-pages', array($this, 'index'));
     }
 
     public function index(): void
